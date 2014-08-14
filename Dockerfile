@@ -7,7 +7,7 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 36A1D78692
 RUN echo deb https://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list
 RUN apt-get update && apt-get install -yq lxc-docker-1.1.1
 RUN apt-get install -y --no-install-recommends lxc=1.0.* cgmanager libcgmanager0
-RUN curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias >> ~/.bashrc && source ~/.bashrc
+RUN curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias >> ~/.bashrc
 # download git
 RUN git clone https://github.com/creationix/nvm.git
 RUN git clone https://github.com/ajaxorg/cloud9.git
