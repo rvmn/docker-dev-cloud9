@@ -55,6 +55,5 @@ RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN npm cache clean
 VOLUME /workspace
 # copy from kennethkl/cloud9
-ENTRYPOINT ["/dind"]
 
 
