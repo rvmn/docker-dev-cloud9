@@ -25,7 +25,7 @@ docker build -t docker-dev .
 # postinstall
 rm -rf Dockerfile
 rm -rf dind
-( grep '#c9dev docker aliases' ~/.bashrc | wc -l ; )>0 && curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias >> ~/.bashrc && source ~/.bashrc
+( grep '#c9dev docker aliases' ~/.bashrc | wc -l ; )>0 || curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias >> ~/.bashrc && source ~/.bashrc
 wget https://rawgit.com/rvmn/docker-dev-cloud9/master/QuickStart.md
 wget https://rawgit.com/rvmn/docker-dev-cloud9/master/metbp.sh
 wget https://rawgit.com/rvmn/docker-dev-cloud9/master/README.md
