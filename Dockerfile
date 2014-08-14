@@ -40,7 +40,7 @@ RUN if [ -z "$1" ]; then\
 else\
   echo "Changing sudoers"\
   echo "c9dev ALL=(root) NOPASSWD:/cloud9/*" >> $1\
-fi
+fi\
 USER c9dev 
 RUN cd /cloud9 && sudo sm install && sudo make ace && sudo make worker
 # meteor install
