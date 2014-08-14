@@ -38,8 +38,8 @@ ADD ./dind /dind
 RUN chmod +x /dind
 
 # alias and extra function
-RUN curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias >> ~/.bashrc
-RUN echo 'source ~/.bashrc' | bash -l
+#RUN curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias >> ~/.bashrc
+#RUN echo 'source ~/.bashrc' | bash -l
 
 # clean cache
 RUN apt-get autoremove -y
