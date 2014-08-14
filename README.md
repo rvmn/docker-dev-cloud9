@@ -1,14 +1,18 @@
 docker-dev-cloud9
 =================
 
-Docker-in-docker Developer install with preinstalled Cloud9 IDE container with Nodejs & Rails support
+Docker Developer container with preinstalled Cloud9 IDE with Docker tools, Meteor, Nodejs & Ruby and alll necessities preinstalled.
+It uses the installation directory where you run the installscript as default storage volume
 
 Pre-requisites:
 ----
   - Docker  - see [docker]
   - wget/curl
   - a linux-box/vm/cygwin
-
+  - an install directory for your developing creations, like: 
+  ```sh
+  echo '~/devel'| mkdir && cd 
+```
 Install:
 ----
 ```sh
@@ -20,31 +24,35 @@ curl https://rawgit.com/rvmn/docker-dev-cloud9/master/install.sh && chmod +x ins
 ```
 Optionally after previous commands add either:
 ```sh
-<port> 
-<user> <pass>
-<user> <pass> <port>
+./install.sh <user> <pass>
+./install.sh <user> <pass> <port>
+./install.sh <port> 
 
 f.e. ./install.sh 88 or ./install.sh usrname usrpass 88
 ```
 Otherwise defaults will be used:
-- default port = 3030
+- default port = 1337
 - default user = c9dev
 - default pass = pass
 
 
 After installation
 ------
-Run the 
-Open C9 IDE by going to your servers-ip:port, you may want to refresh the page upon first load, this fixes the session.
+Run the server using the newly created drun command, and try dalias to see the docker aliases. Start C9 IDE by going to your server-ip:port.
+If you need to run the server using different settings, do:
+```sh
+druns user pass port (all needed)
+``` 
+And you may want to refresh the page upon first load, this fixes the session problem and loads the files.
 Then you can start a new meteor app:
 ```sh
 meteor create appname
 ```
 alternatively a meteor boilerplate app (jade,stylus,coffeescript,msx/jsx):
 ```sh
-metbp appname
+/metbp.sh appname
 ```
-A new rails app after rails setup finalization:
+A new rails app after rails setup finalization (not working yet):
 ```sh
 /rails-install.sh
 rails new appname
@@ -56,7 +64,7 @@ express new appname
 ```
 or read QuickStart.md for more info
 
-Credits go to:
+Credits to:
 ----
 Nitrous-io - [ubuntu-dind]
 
@@ -65,6 +73,8 @@ gai00  - [docker-cloud9]
 Cloud9 - [c9]
 
 Docker - [docker]
+
+Dean-Shi - [meteor-bp]
 
 And a lot of enthusiast builders
 
@@ -78,3 +88,4 @@ MIT
 [mongohq]:https://www.mongohq.com/
 [c9]:http://cloud9.io
 [docker]:http://docker.io
+[meteor-bp]:https://github.com/Dean-Shi/Meteor-Boilerplate.git

@@ -1,3 +1,4 @@
+#c9dev docker aliases
 ### dl ## = get latest container ID
 alias dl="docker ps -l -q"
 
@@ -13,29 +14,38 @@ alias di="docker images"
 ### dip ## = get container IP
 alias dip="docker inspect --format '{{ .NetworkSettings.IPAddress }}'"
 
+### dipl ## = get last container's IP
+alias dipl="docker inspect --format '{{ .NetworkSettings.IPAddress }} $(dl)'"
+
 ### dkd ## = run daemonized container, e.g., $dkd base /bin/echo hello
 alias dkd="docker run -d -P"
 
 ### dki ## = run interactive container, e.g., $dki base /bin/bash
 alias dki="docker run -i -t -P"
 
-### dsh ## = run shell in a container or image, e.g., dsh tcnksm/test 
-dsh() { docker run -i -t $1 /bin/bash; }
+### dshl ## = run shell in a container or image, e.g., dsh tcnksm/test 
+dshl() { docker run -i -t $1 /bin/bash; }
 
 ### dish ## = run shell in a subcontainer, e.g., dsh tcnksm/test 
-dish() { docker run --privileged -t -i $1 /bin/bash; }
+dish() { docker run -i --entrypoint /bin/bash -t $1; }
 
-### dind ## = run docker command inside a dind-container, e.g., dind tcnksm/test 
-dind() { docker run --privileged -t -i $1 S2; }
+### dind ## = run docker command inside a dind-container, e.g., dind tcnksm/test /bin/command
+dind() { docker run -i --entrypoint $2 -t $1}
 
 ### dcm ## = commit a container to an image, e.g., dcm some-cont-id tcnksm/test 
 dcm() { docker commit $1 $2; }
 
-### dstart ## = start a container, e.g. dstart name/contnr
-alias dstart="docker start"
+### ds ## = start a container, e.g. dstart name/contnr
+alias ds="docker start"
 
-### dstop ## = stop all containers
-dstop() { docker stop $(docker ps -a -q);}
+### dst ## = stop a container, e.g. dstop name/contnr
+alias dst="docker stop"
+
+### dsta ## = stop all containers
+dsta() { docker stop $(docker ps -a -q);}
+
+### dsa ## = start all containers
+dsa() { docker start $(docker ps -a -q);}
 
 ### drm ## = remove all containers, except running ones!!
 drm() { docker rm $(docker ps -a -q); }

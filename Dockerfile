@@ -7,9 +7,9 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 36A1D78692
 RUN echo deb https://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list
 RUN apt-get update && apt-get install -yq lxc-docker-1.1.1
 RUN apt-get install -y --no-install-recommends lxc=1.0.* cgmanager libcgmanager0
-RUN useradd -u 12345 -g users -d /home/c9dev -s /bin/bash -p $(echo pass | openssl passwd -1 -stdin) c9dev
-RUN sudo gpasswd -a c9dev docker
-RUN usermod -G docker,sudo c9dev
+#RUN useradd -u 12345 -g users -d /home/c9dev -s /bin/bash -p $(echo pass | openssl passwd -1 -stdin) c9dev
+#RUN sudo gpasswd -a c9dev docker
+#RUN usermod -G docker,sudo c9dev
 RUN curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias >> ~/.bashrc
 RUN echo ";metbp() { git clone https://github.com/Dean-Shi/Meteor-Boilerplate.git && mv Meteor-Boilerplate $1 && cd $1 && mrt install && mrt update && mrt add npm && npm install msx && echo '\
 Done!! \
@@ -43,8 +43,6 @@ RUN cd ~ && curl http://c9install.meteor.com | sh && npm install -g meteorite
 RUN git clone git://github.com/sstephenson/rbenv.git /.rbenv/
 ENV PATH /.rbenv/bin:/.rbenv/shims:${PATH}
 RUN cd /.rbenv && mkdir plugins && cd plugins && git clone git://github.com/sstephenson/ruby-build.git
-RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/QuickStart.md
-RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/rails-install.sh && chmod +x rails-install.sh
 # clean cache
 RUN apt-get autoremove -y
 RUN apt-get autoclean -y
