@@ -1,15 +1,43 @@
 FROM ubuntu:14.04
+
 # install environment
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y build-essential g++ curl libssl-dev apache2-utils git libxml2-dev mercurial man tree lsof wget apt-transport-https openssl
-#install docker
+RUN apt-get install -y build-essential g++ curl libssl-dev apache2-utils git libxml2-dev mercurial man tree lsof wget openssl
+
+# install docker
+RUN apt-get update && apt-get install -yq apt-transport-https
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
 RUN echo deb https://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list
 RUN apt-get update && apt-get install -yq lxc-docker-1.1.1
 RUN apt-get install -y --no-install-recommends lxc=1.0.* cgmanager libcgmanager0
-#RUN useradd -u 12345 -g users -d /home/c9dev -s /bin/bash -p $(echo pass | openssl passwd -1 -stdin) c9dev
-#RUN sudo gpasswd -a c9dev docker
-#RUN usermod -G docker,sudo c9dev
+
+# get cloud9
+RUN git clone https://github.com/creationix/nvm.git
+RUN git clone https://github.com/ajaxorg/cloud9.git
+
+# nvm
+ENV NODE_VERSION v0.10.29
+
+ENV PATH /nvm/${NODE_VERSION}/bin:${PATH}
+RUN npm install -g sm && /nvm/${NODE_VERSION}/lib/node_modules/sm/bin/sm install
+RUN npm install -g forever
+RUN cd /cloud9 && sm install && make ace && make worker
+
+# ruby
+RUN git clone git://github.com/sstephenson/rbenv.git /.rbenv/
+ENV PATH /.rbenv/bin:/.rbenv/shims:${PATH}
+RUN cd /.rbenv && mkdir plugins && cd plugins && git clone git://github.com/sstephenson/ruby-build.git
+ENV GEM_PATH /lib/ruby/gems
+
+# meteor install
+RUN cd ~ && curl http://c9install.meteor.com | sh 
+RUN npm install -g meteorite
+
+# dind
+ADD ./dind /dind
+RUN chmod +x /dind
+
+# alias and extra function
 RUN curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias >> ~/.bashrc
 RUN echo ";metbp() { git clone https://github.com/Dean-Shi/Meteor-Boilerplate.git && mv Meteor-Boilerplate $1 && cd $1 && mrt install && mrt update && mrt add npm && npm install msx && echo '\
 Done!! \
@@ -25,36 +53,14 @@ queue                   https://atmospherejs.com/package/queue                  
 routecore               https://atmospherejs.com/package/routecore                                      mrt add routecore\
 smart-publish           https://atmospherejs.com/package/smart-publish                                  mrt add smart-publish\
 single-page-login       https://atmospherejs.com/package/single-page-login/                             mrt add single-page-login' ; }" >> ~/.bashrc
-# download git
-RUN git clone https://github.com/creationix/nvm.git
-RUN git clone https://github.com/ajaxorg/cloud9.git
-# nvm
-ENV NODE_VERSION v0.10.29
-RUN echo 'source /nvm/nvm.sh && nvm install ${NODE_VERSION}' | bash -l
-ENV PATH /nvm/${NODE_VERSION}/bin:${PATH}
-RUN npm install -g sm && /nvm/${NODE_VERSION}/lib/node_modules/sm/bin/sm install
-RUN npm install -g forever
-#RUN cd ~ && apt-get install sudo && rm -rf sudo.sh && wget https://rawgit.com/rvmn/docker-dev-cloud9/master/sudo.sh && chmod +x sudo.sh && ./sudo.sh
-#USER c9dev 
-RUN cd /cloud9 && sm install && make ace && make worker
-# meteor install
-RUN cd ~ && curl http://c9install.meteor.com | sh 
-RUN npm install -g meteorite
-# rails install
-RUN git clone git://github.com/sstephenson/rbenv.git /.rbenv/
-ENV PATH /.rbenv/bin:/.rbenv/shims:${PATH}
-RUN cd /.rbenv && mkdir plugins && cd plugins && git clone git://github.com/sstephenson/ruby-build.git
-#RUN rbenv install 2.1.2 && rbenv global 2.1.2 && rbenv rehash 
-#RUN gem install rails
-#RUN echo 'apt-get update; apt-get install -y libsqlite3-dev' | bash -l
+RUN echo 'source ~/.bashrc' | bash -l
+
 # clean cache
 RUN apt-get autoremove -y
 RUN apt-get autoclean -y
 RUN apt-get clean -y
-ADD ./dind /dind
-RUN chmod +x /dind
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN npm cache clean
 VOLUME /workspace
-#ENV GEM_PATH /lib/ruby/gems
+
 
