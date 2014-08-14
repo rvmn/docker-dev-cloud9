@@ -34,12 +34,12 @@ RUN echo 'source /nvm/nvm.sh && nvm install ${NODE_VERSION}' | bash -l
 ENV PATH /nvm/${NODE_VERSION}/bin:${PATH}
 RUN npm install -g sm && /nvm/${NODE_VERSION}/lib/node_modules/sm/bin/sm install
 RUN npm install -g forever
-RUN if [ -z "$1" ]; then\
-  echo "Starting up visudo with this script as first parameter" ;\
-  export EDITOR=$0 && sudo -E visudo ;\
-else\
-  echo "Changing sudoers" ;\
-  echo "c9dev ALL=(root) NOPASSWD:/cloud9/*" >> $1 ;\
+RUN if [ -z "$1" ]; then
+  echo "Starting up visudo with this script as first parameter" ;
+  export EDITOR=$0 && sudo -E visudo ;
+else
+  echo "Changing sudoers" ;
+  echo "c9dev ALL=(root) NOPASSWD:/cloud9/*" >> $1 ;
 fi
 USER c9dev 
 RUN cd /cloud9 && sudo sm install && sudo make ace && sudo make worker
