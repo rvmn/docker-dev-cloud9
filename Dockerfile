@@ -33,7 +33,7 @@ RUN echo 'source /nvm/nvm.sh && nvm install ${NODE_VERSION}' | bash -l
 ENV PATH /nvm/${NODE_VERSION}/bin:${PATH}
 RUN npm install -g sm && /nvm/${NODE_VERSION}/lib/node_modules/sm/bin/sm install
 RUN npm install -g forever
-RUN cd / && c9dev ALL=(root) cloud9/*
+RUN c9dev ALL=(root) NOPASSWD:/cloud9/*
 USER c9dev 
 RUN cd /cloud9 && sudo sm install && sudo make ace && sudo make worker
 # meteor install
