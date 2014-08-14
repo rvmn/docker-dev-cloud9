@@ -34,7 +34,7 @@ ENV PATH /nvm/${NODE_VERSION}/bin:${PATH}
 RUN npm install -g sm && /nvm/${NODE_VERSION}/lib/node_modules/sm/bin/sm install
 RUN npm install -g forever
 USER c9dev 
-RUN cd /cloud9 && sm install && make ace && make worker
+RUN cd /cloud9 && sudo sm install && sudo make ace && sudo make worker
 # meteor install
 RUN cd ~ && curl http://c9install.meteor.com | sh && npm install -g meteorite
 # rails install
