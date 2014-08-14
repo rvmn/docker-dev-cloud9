@@ -23,43 +23,42 @@ OR
 ```sh
 curl https://rawgit.com/rvmn/docker-dev-cloud9/master/install.sh && chmod +x install.sh && ./install.sh
 ```
-Optionally after previous commands add either:
+Optionally, recommended for sure, after previous command copy-paste add either:
 ```sh
-./install.sh <user> <pass>
-./install.sh <user> <pass> <port>
-./install.sh <port> 
+<user> <pass>
+<user> <pass> <port>
+<port> 
 
-f.e. ./install.sh 88 or ./install.sh usrname usrpass 88
 ```
 Otherwise defaults will be used:
-- default port = 1337
+- default port = 1337,3000
 - default user = c9dev
 - default pass = pass
 
 
 After installation
 ------
-Run the server using the newly created ```sh drun ``` command, and try dalias to see the docker aliases. Start C9 IDE by going to your server-ip:port.
+Run the server using the newly created ``` drun ``` command, and try dalias to see the docker aliases. Start C9 IDE by going to your server-ip:port.
 If you need to run the server using different settings, do:
-```sh
+```js
 druns user pass port (all needed)
 ``` 
 And you may want to refresh the page upon first load, this fixes the session problem and loads the files.
 Then you can start a new meteor app:
-```sh
+```js
 meteor create appname
 ```
 alternatively a meteor boilerplate app (jade,stylus,coffeescript,msx/jsx):
-```sh
+```js
 /metbp.sh appname
 ```
 A new rails app after rails setup finalization (not working yet):
-```sh
+```js
 /rails-install.sh
 rails new appname
 ```
 A new node app:
-```sh
+```js
 npm install express -g
 express new appname
 ```
