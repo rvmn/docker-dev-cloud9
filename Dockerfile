@@ -9,14 +9,7 @@ RUN apt-get update && apt-get install -yq lxc-docker-1.1.1
 RUN apt-get install -y --no-install-recommends lxc=1.0.* cgmanager libcgmanager0
 RUN useradd -u 12345 -g users -d /home/c9dev -s /bin/bash -p $(echo pass | openssl passwd -1 -stdin) c9dev
 RUN sudo gpasswd -a c9dev docker
-# nvm
-ENV NODE_VERSION v0.10.29
-RUN echo 'source /nvm/nvm.sh && nvm install ${NODE_VERSION}' | bash -l
-ENV PATH /nvm/${NODE_VERSION}/bin:${PATH}
-RUN npm install -g sm && /nvm/${NODE_VERSION}/lib/node_modules/sm/bin/sm install
-RUN npm install -g forever
-# meteor install
-RUN cd ~ && curl http://c9install.meteor.com | sh && npm install -g meteorite
+RUN curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias >> ~/.bashrc
 RUN echo ";metbp() { git clone https://github.com/Dean-Shi/Meteor-Boilerplate.git && mv Meteor-Boilerplate $1 && cd $1 && mrt install && mrt update && mrt add npm && npm install msx && echo '\
 Done!! \
 Some good packages to include in your project:\
@@ -31,18 +24,25 @@ queue                   https://atmospherejs.com/package/queue                  
 routecore               https://atmospherejs.com/package/routecore                                      mrt add routecore\
 smart-publish           https://atmospherejs.com/package/smart-publish                                  mrt add smart-publish\
 single-page-login       https://atmospherejs.com/package/single-page-login/                             mrt add single-page-login' ; }" >> ~/.bashrc
+USER c9dev 
+# download c9 gits
+RUN git clone https://github.com/creationix/nvm.git
+RUN git clone https://github.com/ajaxorg/cloud9.git
+# nvm
+ENV NODE_VERSION v0.10.29
+RUN echo 'source /nvm/nvm.sh && nvm install ${NODE_VERSION}' | bash -l
+ENV PATH /nvm/${NODE_VERSION}/bin:${PATH}
+RUN npm install -g sm && /nvm/${NODE_VERSION}/lib/node_modules/sm/bin/sm install
+RUN npm install -g forever
+RUN cd /cloud9 && sm install && make ace && make worker
+# meteor install
+RUN cd ~ && curl http://c9install.meteor.com | sh && npm install -g meteorite
 # rails install
 RUN git clone git://github.com/sstephenson/rbenv.git /.rbenv/
 ENV PATH /.rbenv/bin:/.rbenv/shims:${PATH}
 RUN cd /.rbenv && mkdir plugins && cd plugins && git clone git://github.com/sstephenson/ruby-build.git
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/QuickStart.md
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/rails-install.sh && chmod +x rails-install.sh
-RUN curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias >> ~/.bashrc
-USER c9dev 
-# cloud9 install
-RUN git clone https://github.com/creationix/nvm.git
-RUN git clone https://github.com/ajaxorg/cloud9.git
-RUN cd /cloud9 && sm install && make ace && make worker
 # clean cache
 RUN apt-get autoremove -y
 RUN apt-get autoclean -y
