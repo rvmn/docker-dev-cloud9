@@ -38,12 +38,12 @@ single-page-login       https://atmospherejs.com/package/single-page-login/     
 RUN git clone git://github.com/sstephenson/rbenv.git /.rbenv/
 ENV PATH /.rbenv/bin:/.rbenv/shims:${PATH}
 RUN cd /.rbenv && mkdir plugins && cd plugins && git clone git://github.com/sstephenson/ruby-build.git
+RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/QuickStart.md
 RUN rbenv install 2.1.2
 RUN rbenv global 2.1.2
 RUN rbenv rehash
 RUN gem install rails
 RUN echo 'apt-get update; apt-get install -y libsqlite3-dev' | bash -l
-RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/QuickStart.md
 # clean cache
 RUN apt-get autoremove -y
 RUN apt-get autoclean -y
