@@ -9,10 +9,11 @@ Pre-requisites:
   - Docker  - see [docker]
   - wget/curl
   - a linux-box/vm/cygwin
-  - an install directory for your developing creations, like: 
-  ```sh
-  echo '~/devel'| mkdir && cd 
+  - an install directory for your developing creations, name it like, wooorkspaaacee: 
+```sh
+wd='workspace' && mkdir $wd && cd $wd
 ```
+
 Install:
 ----
 ```sh
@@ -38,7 +39,7 @@ Otherwise defaults will be used:
 
 After installation
 ------
-Run the server using the newly created drun command, and try dalias to see the docker aliases. Start C9 IDE by going to your server-ip:port.
+Run the server using the newly created ```sh drun ``` command, and try dalias to see the docker aliases. Start C9 IDE by going to your server-ip:port.
 If you need to run the server using different settings, do:
 ```sh
 druns user pass port (all needed)
