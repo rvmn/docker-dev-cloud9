@@ -6,12 +6,12 @@ echo 'EXPOSE '$3'
 ENTRYPOINT ["forever", "/cloud9/server.js", "-w", "/workspace", "-l", "0.0.0.0"]' >> Dockerfile
 grep -q "dcrun()" ~/.bashrc && sed "s/dcrun()/dcrun(){ dcruns $1 $2 $3; }/" -i ~/.bashrc || sed "$ a\dcrun(){ dcruns $1 $2 $3; }" -i ~/.bashrc
 fi
-if [! -z "$1" ] && [! -z "$2" ] && [ -z "$3" ]; then
+if [ ! -z "$1" ] && [ ! -z "$2" ] && [ -z "$3" ]; then
 echo 'EXPOSE 1337
 ENTRYPOINT ["forever", "/cloud9/server.js", "-w", "/workspace", "-l", "0.0.0.0"]'  >> Dockerfile
 grep -q "dcrun()" ~/.bashrc && sed "s/dcrun()/dcrun(){ dcruns $1 $2 3000; }/" -i ~/.bashrc || sed "$ a\dcrun(){ dcruns $1 $2 3000; }" -i ~/.bashrc
 fi
-if [! -z "$1" ] && [ -z "$2" ]; then
+if [ ! -z "$1" ] && [ -z "$2" ]; then
 echo 'EXPOSE '$1'
 ENTRYPOINT ["forever", "/cloud9/server.js", "-w", "/workspace", "-l", "0.0.0.0"]' >> Dockerfile
 grep -q "dcrun()" ~/.bashrc && sed "s/dcrun()/dcrun(){ dcruns dvr pass $1; }/" -i ~/.bashrc || sed "$ a\dcrun(){ dcruns dvr pass $1; }" -i ~/.bashrc
@@ -34,7 +34,5 @@ wget https://rawgit.com/rvmn/docker-dev-cloud9/master/rails-install.sh && chmod 
 rm -rf dind
 #rm -rf Dockerfile
 #rm -rf install.sh
-echo '
-Done!! fingers crossed all is installed well
-'
+echo 'Done!! fingers crossed all is installed well'
 exit
