@@ -30,7 +30,7 @@ curl https://rawgit.com/rvmn/docker-dev-cloud9/master/install.sh && chmod +x ins
 Optionally, recommended for sure, after previous command copy-paste add either:
 ```html
 <user> <pass>
-<user> <pass> <port>
+<user> <pass> <port>                                                    
 <port> 
 
 ```
@@ -46,29 +46,38 @@ Run the server using the newly created ``` drun ``` command, and try dalias to s
 If you need to run the server using different settings, do:
 ```js
 druns user pass port (all needed)
-``` 
+```
 And you may want to refresh the page upon first load, this fixes the session problem and loads the files.
 Then you can start a new meteor app:
 ```js
-meteor create appname
-```
-alternatively a meteor boilerplate app (jade,stylus,coffeescript,msx/jsx):
-```js
-/metbp.sh appname
-```
-A new rails app after rails setup finalization (not working yet):
-```js
-/rails-install.sh
-rails new appname
-```
-A new node app:
-```js
-npm install express -g
-express new appname
-```
+meteor create appname                                                                      ( | )/_/
+																						__( >O< )
+alternatively a meteor boilerplate app (jade,stylus,coffeescript,msx/jsx):  			\_\(_|_)   
+/metbp.sh appname																						
+A new rails app after rails setup finalization (not working yet):	 					    _,-._
+																						   / \_/ \
+/rails-install.sh																		   >-(_)-<    
+rails new appname																		   \_/ \_/
+																						     `-'
+A new node app:																						
+																						
+npm install express -g																						
+express new appname																						
+																						
+																		         _ _
+																		       _{ ' }_
+																		      { `.!.` }
+																		      ',_/Y\_,'
+																		        {_,_}
+																		          |
+																			    (\|  /)
+																			     \| //
+																				  |//
+																		       \\ |/  //
+																	        ^^^^^^^^^^^^^^^```
 or read QuickStart.md for more info
 
-Credits to:
+Credits:
 ----
 Nitrous-io - [ubuntu-dind]
 
