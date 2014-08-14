@@ -27,7 +27,6 @@ ENTRYPOINT ["forever", "/cloud9/server.js", "-w", "/workspace", "-l", "0.0.0.0"]
 fi
 cat Dockerfile
 read -t 7 -p "Starting upon key press or after 7 seconds"
-source ~/.bashrc
 docker build -t docker-dev
 # workspace setup
 ( grep '#c9dev docker aliases' ~/.bashrc | wc -l ; )>0 || curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias >> ~/.bashrc && source ~/.bashrc
@@ -38,5 +37,5 @@ mkdir meteor-apps && mkdir rails-apps
 # postinstall clean
 wget https://rawgit.com/rvmn/docker-dev-cloud9/master/rails-install.sh && chmod +x rails-install.sh
 rm -rf dind && rm -rf Dockerfile && rm -rf install.sh
-echo 'Done!! Hopefully all went right, otherwise just rerun, contact me if needed'
+echo 'Done!! Hopefully all went right, otherwise try rerunning or '
 exit
