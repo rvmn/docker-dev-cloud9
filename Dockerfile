@@ -32,17 +32,20 @@ RUN git clone https://github.com/ajaxorg/cloud9.git
 ENV NODE_VERSION v0.10.29
 RUN echo 'source /nvm/nvm.sh && nvm install ${NODE_VERSION}' | bash -l
 ENV PATH /nvm/${NODE_VERSION}/bin:${PATH}
+ENV GEM_PATH=$HOME/lib/ruby/gems
 RUN npm install -g sm && /nvm/${NODE_VERSION}/lib/node_modules/sm/bin/sm install
 RUN npm install -g forever
 #RUN cd ~ && apt-get install sudo && rm -rf sudo.sh && wget https://rawgit.com/rvmn/docker-dev-cloud9/master/sudo.sh && chmod +x sudo.sh && ./sudo.sh
 #USER c9dev 
 RUN cd /cloud9 && sm install && make ace && make worker
 # meteor install
-RUN cd ~ && curl http://c9install.meteor.com | sh && npm install -g meteorite
+RUN cd ~ && curl http://c9install.meteor.com | sh 
+RUN npm install -g meteorite
 # rails install
 RUN git clone git://github.com/sstephenson/rbenv.git /.rbenv/
 ENV PATH /.rbenv/bin:/.rbenv/shims:${PATH}
 RUN cd /.rbenv && mkdir plugins && cd plugins && git clone git://github.com/sstephenson/ruby-build.git
+RUN rbenv install 2.1.2 && rbenv global 2.1.2 && rbenv rehash && gem install rails && bundle install && echo 'apt-get update; apt-get install -y libsqlite3-dev' | bash -l
 # clean cache
 RUN apt-get autoremove -y
 RUN apt-get autoclean -y

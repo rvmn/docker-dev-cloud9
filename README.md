@@ -1,8 +1,10 @@
 docker-dev-cloud9
 =================
 
-Docker Developer container with preinstalled Cloud9 IDE with Docker tools, Meteor, Nodejs & Ruby and alll necessities preinstalled.
-It uses the installation directory where you run the installscript as default storage volume
+Docker Developer container with preinstalled Cloud9 IDE with Docker tools, Meteor, Nodejs & Ruby and all necessities preinstalled.
+It uses the installation directory where you run the installscript as default storage volume. It is installs an Ubuntu 14.04 base image and
+also installs Docker so you can relax and install docker containers from within Cloud9, fill them with your apps. Or push them to another container,
+the production container.  
 
 Pre-requisites:
 ----
@@ -12,8 +14,10 @@ Pre-requisites:
   - an install directory for your developing creations, name it like, wooorkspaaacee: 
 ```sh
 wd='workspace' && mkdir $wd && cd $wd
+``` OR
+```sh
+mc(){ mkdir $1 && cd $1 } && mc workspace
 ```
-
 Install:
 ----
 ```js

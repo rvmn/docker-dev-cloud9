@@ -51,17 +51,16 @@ druns   =   run server with options
 -------
 ##Meteor
 Meteor and meteorite (it's package manager) come preinstalled.
+For meteor you just need to have a mongoDB database, you can create one
+for free at f.e. [mongohq](http://mongohq.com), or get a docker. Make a db and run:
+``` echo 'export MONGO_URL=mongodb://<user>:<password>@kahana.mongohq.com:10007/<your-db-name>' >> /.bashrc ```
 To start a meteor boilerplate run:
-```sh
-/metbp.sh myapp
-```
+``` /metbp.sh myapp ```
 or a default meteor app:
-```sh
-meteor create myapp
-```
+``` meteor create myapp ```
 
 ##Ruby on Rails
-Install Ruby 2.1.2 and rails using:
+Install Ruby 2.1.2 and rails using (rails not running yet, installs but bash and aliasing is problematic, maybe ln to bin):
 ```sh
 /rails-install.sh
 ```
