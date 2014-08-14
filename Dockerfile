@@ -44,7 +44,8 @@ RUN npm install -g meteorite
 RUN git clone git://github.com/sstephenson/rbenv.git /.rbenv/
 ENV PATH /.rbenv/bin:/.rbenv/shims:${PATH}
 RUN cd /.rbenv && mkdir plugins && cd plugins && git clone git://github.com/sstephenson/ruby-build.git
-RUN rbenv install 2.1.2 && rbenv global 2.1.2 && rbenv rehash && gem install rails 
+RUN rbenv install 2.1.2 && rbenv global 2.1.2 && rbenv rehash 
+RUN gem install rails 
 RUN bundle install 
 RUN echo 'apt-get update; apt-get install -y libsqlite3-dev' | bash -l
 # clean cache
@@ -56,6 +57,6 @@ RUN chmod +x /dind
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN npm cache clean
 VOLUME /workspace
-ENV GEM_PATH=$HOME/lib/ruby/gems
+ENV GEM_PATH ${HOME}/lib/ruby/gems
 
 
