@@ -75,7 +75,8 @@ or read the QuickStart.md for more info				     \| //
 													   	  |//
 													   \\ |/  //
 												 ^^^^^^^^^^^^^^^```
-
+P.S In case of a partial install just restart the whole thing and download the install script again, docker will continue
+where it left.
 
 Credits:
 ----
