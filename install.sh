@@ -27,7 +27,7 @@ ENTRYPOINT ["forever", "/cloud9/server.js", "-w", "/workspace", "-l", "0.0.0.0"]
 fi
 cat Dockerfile
 read -t 7 -p "Starting upon key press or after 7 seconds"
-docker build -t docker-dev
+docker build -t docker-dev .
 # workspace setup
 ( grep '#c9dev docker aliases' ~/.bashrc | wc -l ; )>0 || curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias >> ~/.bashrc && source ~/.bashrc
 wget https://rawgit.com/rvmn/docker-dev-cloud9/master/QuickStart.md
