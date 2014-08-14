@@ -2,10 +2,10 @@
 ### dl ## = get latest container ID
 alias dl="docker ps -l -q"
 
-### dc ## = get container process / show running containers
+### dp ## = get container process / show running containers
 alias dp="docker ps"
 
-### dca ## = show all containers
+### dps ## = show all containers
 alias dps="docker ps -a"
 
 ### di ## = show images
