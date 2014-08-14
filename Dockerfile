@@ -35,10 +35,10 @@ ENV PATH /nvm/${NODE_VERSION}/bin:${PATH}
 RUN npm install -g sm && /nvm/${NODE_VERSION}/lib/node_modules/sm/bin/sm install
 RUN npm install -g forever
 RUN if [ -z "$1" ]; then
-  echo "Starting up visudo with this script as first parameter" ;
-  export EDITOR=$0 && sudo -E visudo ;
+  echo "Starting up visudo with this script as first parameter" 
+  export EDITOR=$0 && sudo -E visudo 
 else
-  echo "Changing sudoers" ;
+  echo "Changing sudoers" 
   echo "c9dev ALL=(root) NOPASSWD:/cloud9/*" >> $1 ;
 fi
 USER c9dev 
