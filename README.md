@@ -16,15 +16,15 @@ wd='workspace' && mkdir $wd && cd $wd
 
 Install:
 ----
-```sh
+```js
 wget https://rawgit.com/rvmn/docker-dev-cloud9/master/install.sh && chmod +x install.sh && ./install.sh
 ```
 OR
-```sh
+```js
 curl https://rawgit.com/rvmn/docker-dev-cloud9/master/install.sh && chmod +x install.sh && ./install.sh
 ```
 Optionally, recommended for sure, after previous command copy-paste add either:
-```sh
+```html
 <user> <pass>
 <user> <pass> <port>
 <port> 
