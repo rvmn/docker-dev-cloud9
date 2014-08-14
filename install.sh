@@ -19,17 +19,20 @@ fi
 if [ -z "$1" ]; then
 echo 'EXPOSE 1337
 ENTRYPOINT ["forever", "/cloud9/server.js", "-w", "/workspace", "-l", "0.0.0.0"]' >> Dockerfile
-grep -q "dcrun()" ~/.bashrc && sed "s/dcrun()/dcrun(){ dcruns c9dev pass 3000; }/" -i ~/.bashrc || sed "$ a\dcrun(){ dcruns c9dev pass 3000; }" -i ~/.bashrcfi
+grep -q "dcrun()" ~/.bashrc && sed "s/dcrun()/dcrun(){ dcruns c9dev pass 3000; }/" -i ~/.bashrc || sed "$ a\dcrun(){ dcruns c9dev pass 3000; }" -i ~/.bashrc
+fi
 source ~/.bashrc
 docker build -t docker-dev
-# postinstall
+# workspace setup
 ( grep '#c9dev docker aliases' ~/.bashrc | wc -l ; )>0 || curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias >> ~/.bashrc && source ~/.bashrc
 wget https://rawgit.com/rvmn/docker-dev-cloud9/master/QuickStart.md
 wget https://rawgit.com/rvmn/docker-dev-cloud9/master/metbp.sh
 wget https://rawgit.com/rvmn/docker-dev-cloud9/master/README.md
-mkdir meteor-apps
-mkdir rails-apps
+mkdir meteor-apps && mkdir rails-apps
+# postinstall clean
 wget https://rawgit.com/rvmn/docker-dev-cloud9/master/rails-install.sh && chmod +x rails-install.sh
-rm -rf dind
-rm -rf Dockerfile
-rm -rf install.sh
+rm -rf dind && rm -rf Dockerfile && rm -rf install.sh
+echo '
+Done!! Hopefully all went right, otherwise just rerun, contact me if needed
+'
+exit
