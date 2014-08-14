@@ -9,11 +9,6 @@ RUN apt-get update && apt-get install -yq lxc-docker-1.1.1
 RUN apt-get install -y --no-install-recommends lxc=1.0.* cgmanager libcgmanager0
 RUN useradd -u 12345 -g users -d /home/c9dev -s /bin/bash -p $(echo pass | openssl passwd -1 -stdin) c9dev
 RUN sudo gpasswd -a c9dev docker
-USER c9dev 
-RUN curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias >> ~/.bashrc
-# download git
-RUN git clone https://github.com/creationix/nvm.git
-RUN git clone https://github.com/ajaxorg/cloud9.git
 # nvm
 ENV NODE_VERSION v0.10.29
 RUN echo 'source /nvm/nvm.sh && nvm install ${NODE_VERSION}' | bash -l
@@ -43,6 +38,11 @@ ENV PATH /.rbenv/bin:/.rbenv/shims:${PATH}
 RUN cd /.rbenv && mkdir plugins && cd plugins && git clone git://github.com/sstephenson/ruby-build.git
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/QuickStart.md
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/rails-install.sh && chmod +x rails-install.sh
+RUN curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias >> ~/.bashrc
+USER c9dev 
+# cloud9 install
+RUN git clone https://github.com/creationix/nvm.git
+RUN git clone https://github.com/ajaxorg/cloud9.git
 # clean cache
 RUN apt-get autoremove -y
 RUN apt-get autoclean -y
