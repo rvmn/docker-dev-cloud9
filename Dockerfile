@@ -32,9 +32,10 @@ ENV NODE_VERSION v0.10.29
 RUN echo 'source /nvm/nvm.sh && nvm install ${NODE_VERSION}' | bash -l
 ENV PATH /nvm/${NODE_VERSION}/bin:${PATH}
 RUN npm install -g sm && /nvm/${NODE_VERSION}/lib/node_modules/sm/bin/sm install
-RUN npm install -g forever
-USER c9dev 
-RUN cd /cloud9 && sm install && make ace && make worker
+RUN npm install -g forever 
+RUN cd /cloud9 && sm install 
+USER c9dev
+RUN make ace && make worker
 # meteor install
 RUN cd ~ && curl http://c9install.meteor.com | sh && npm install -g meteorite
 # rails install
