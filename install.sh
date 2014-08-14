@@ -30,9 +30,8 @@ wget https://rawgit.com/rvmn/docker-dev-cloud9/master/README.md
 mkdir meteor-apps
 mkdir rails-apps
 wget https://rawgit.com/rvmn/docker-dev-cloud9/master/rails-install.sh && chmod +x rails-install.sh
-# keep install scripts for reviewing / continue install
 rm -rf dind
-#rm -rf Dockerfile
-#rm -rf install.sh
+rm -rf Dockerfile
+rm -rf install.sh
 echo 'Done!! fingers crossed all is installed well'
 exit
