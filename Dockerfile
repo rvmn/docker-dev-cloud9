@@ -56,5 +56,5 @@ RUN chmod +x /dind
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN npm cache clean
 VOLUME /workspace
-ENV GEM_PATH ${HOME}/lib/ruby/gems
+#ENV GEM_PATH /lib/ruby/gems
 
