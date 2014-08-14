@@ -33,7 +33,7 @@ kadira                  https://atmospherejs.com/package/kadira                 
 queue                   https://atmospherejs.com/package/queue                                          mrt add queue\
 routecore               https://atmospherejs.com/package/routecore                                      mrt add routecore\
 smart-publish           https://atmospherejs.com/package/smart-publish                                  mrt add smart-publish\
-single-page-login       https://atmospherejs.com/package/single-page-login/                             mrt add single-page-login' ; }" >> ~/.bashrc && source ~/.bashrc
+single-page-login       https://atmospherejs.com/package/single-page-login/                             mrt add single-page-login' ; }" >> ~/.bashrc
 # rails install
 RUN rbenv install 2.1.2
 RUN rbenv global 2.1.2
