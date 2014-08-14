@@ -21,7 +21,7 @@ echo 'EXPOSE 1337
 ENTRYPOINT ["forever", "/cloud9/server.js", "-w", "/workspace", "-l", "0.0.0.0"]' >> Dockerfile
 grep -q "dcrun()" ~/.bashrc && sed "s/dcrun()/dcrun(){ dcruns c9dev pass 3000; }/" -i ~/.bashrc || sed "$ a\dcrun(){ dcruns c9dev pass 3000; }" -i ~/.bashrcfi
 source ~/.bashrc
-docker build -t docker-dev .
+docker build -t docker-dev
 # postinstall
 ( grep '#c9dev docker aliases' ~/.bashrc | wc -l ; )>0 || curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias >> ~/.bashrc && source ~/.bashrc
 wget https://rawgit.com/rvmn/docker-dev-cloud9/master/QuickStart.md
