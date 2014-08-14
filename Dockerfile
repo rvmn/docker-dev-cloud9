@@ -35,6 +35,9 @@ routecore               https://atmospherejs.com/package/routecore              
 smart-publish           https://atmospherejs.com/package/smart-publish                                  mrt add smart-publish\
 single-page-login       https://atmospherejs.com/package/single-page-login/                             mrt add single-page-login' ; }" >> ~/.bashrc
 # rails install
+RUN git clone git://github.com/sstephenson/rbenv.git /.rbenv/
+ENV PATH /.rbenv/bin:/.rbenv/shims:${PATH}
+RUN cd /.rbenv && mkdir plugins && cd plugins && git clone git://github.com/sstephenson/ruby-build.git
 RUN rbenv install 2.1.2
 RUN rbenv global 2.1.2
 RUN rbenv rehash
@@ -47,9 +50,6 @@ RUN apt-get autoclean -y
 RUN apt-get clean -y
 ADD ./dind /dind
 RUN chmod +x /dind
-RUN git clone git://github.com/sstephenson/rbenv.git /.rbenv/
-ENV PATH /.rbenv/bin:/.rbenv/shims:${PATH}
-RUN cd /.rbenv && mkdir plugins && cd plugins && git clone git://github.com/sstephenson/ruby-build.git
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN npm cache clean
 VOLUME /workspace
