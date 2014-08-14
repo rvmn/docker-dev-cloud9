@@ -43,8 +43,9 @@ alternatively a meteor boilerplate app (jade,stylus,coffeescript,msx/jsx):
 ```sh
 metbp appname
 ```
-A new rails app:
+A new rails app after rails setup finalization:
 ```sh
+/rails-install.sh
 rails new appname
 ```
 A new node app:

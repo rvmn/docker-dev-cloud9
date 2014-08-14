@@ -57,7 +57,11 @@ meteor create myapp
 ```
 
 ##Ruby on Rails
-Rails is also preinstalled, as well as Ruby 2.1.2 and rbenv and gem. Start a project with:
+Ruby 2.1.2, rbenv and gem are preinstalled. Install rails using:
+```sh
+/rails-install.sh
+```
+Start a project with:
 ```sh
 mkdir rails-apps && cd rails-apps
 rails new myapp
