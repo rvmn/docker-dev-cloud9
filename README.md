@@ -34,6 +34,7 @@ Otherwise defaults will be used:
 
 After installation
 ------
+Run the 
 Open C9 IDE by going to your servers-ip:port, you may want to refresh the page upon first load, this fixes the session.
 Then you can start a new meteor app:
 ```sh
