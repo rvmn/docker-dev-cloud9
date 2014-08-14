@@ -3,10 +3,10 @@
 alias dl="docker ps -l -q"
 
 ### dc ## = get container process / show running containers
-alias dc="docker ps"
+alias dp="docker ps"
 
 ### dca ## = show all containers
-alias dca="docker ps -a"
+alias dps="docker ps -a"
 
 ### di ## = show images
 alias di="docker images"
@@ -29,8 +29,8 @@ dshl() { docker run -i -t $1 /bin/bash; }
 ### dish ## = run shell in a subcontainer, e.g., dsh tcnksm/test 
 dish() { docker run -i --entrypoint /bin/bash -t $1; }
 
-### dind ## = run docker command inside a dind-container, e.g., dind tcnksm/test /bin/command
-dind() { docker run -i --entrypoint $2 -t $1}
+### dind ## = run docker command inside a dind subcontainer, e.g., dind tcnksm/test /bin/command
+dind() { docker run -i --entrypoint $2 -t $1; }
 
 ### dcm ## = commit a container to an image, e.g., dcm some-cont-id tcnksm/test 
 dcm() { docker commit $1 $2; }
@@ -42,10 +42,10 @@ alias ds="docker start"
 alias dst="docker stop"
 
 ### dsta ## = stop all containers
-dsta() { docker stop $(docker ps -a -q);}
+dsta() { docker stop $(docker ps -a -q); }
 
 ### dsa ## = start all containers
-dsa() { docker start $(docker ps -a -q);}
+dsa() { docker start $(docker ps -a -q); }
 
 ### drm ## = remove all containers, except running ones!!
 drm() { docker rm $(docker ps -a -q); }
@@ -57,7 +57,12 @@ alias drmrf='docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)'
 dri() { docker rmi $(docker images -q); }
 
 ### dbu ## = dockerfile build, e.g., $dbu tcnksm/test 
-dbu() { docker build -t=$1 ; }
+dbu() { docker build -t=$1; }
+
+### dalias ## = show all aliases
+dalias() { alias | grep 'docker' | sed "s/^\([^=]*\)=\(.*\)/\1 => \2/"| sed "s/['|\']//g" | sort; }
+### dbu ## = dockerfile build, e.g., $dbu tcnksm/test
+dbu() { docker build -t=$1; }
 
 ### dalias ## = show all aliases
 dalias() { alias | grep 'docker' | sed "s/^\([^=]*\)=\(.*\)/\1 => \2/"| sed "s/['|\']//g" | sort; }
