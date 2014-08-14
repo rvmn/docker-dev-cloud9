@@ -33,4 +33,3 @@ wget https://rawgit.com/rvmn/docker-dev-cloud9/master/rails-install.sh && chmod 
 rm -rf dind
 rm -rf Dockerfile
 rm -rf install.sh
-exit
