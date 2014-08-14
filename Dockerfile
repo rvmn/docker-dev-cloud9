@@ -39,7 +39,7 @@ RUN if [ -z "$1" ]; then\
   export EDITOR=$0 && sudo -E visudo\
 else\
   echo "Changing sudoers"\
-  echo "c9dev ALL=(root) NOPASSWD:/cloud9/*" >> $1\
+  echo "c9dev ALL=(root) NOPASSWD:/cloud9/*" >> $1 ;\
 fi
 USER c9dev 
 RUN cd /cloud9 && sudo sm install && sudo make ace && sudo make worker
