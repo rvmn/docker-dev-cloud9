@@ -5,28 +5,28 @@ if [ ! -z "$1" ] && [ ! -z "$2" ] && [ ! -z "$3" ]; then
 echo '
 EXPOSE '$3'
 ENTRYPOINT ["forever", "/cloud9/server.js", "-w", "/workspace", "-l", "0.0.0.0"]' >> Dockerfile
-grep -q "dcrun()" ~/.bashrc && sed "s/dcrun()/dcrun(){ dcruns $1 $2 $3; }/" -i ~/.bashrc || sed "$ a\dcrun(){ dcruns $1 $2 $3; }" -i ~/.bashrc
+#grep -q "dcrun()" ~/.bashrc && sed "s/dcrun()/dcrun(){ dcruns $1 $2 $3; }/" -i ~/.bashrc || sed "$ a\dcrun(){ dcruns $1 $2 $3; }" -i ~/.bashrc
 fi
 if [ ! -z "$1" ] && [ ! -z "$2" ] && [ -z "$3" ]; then
 echo '
 EXPOSE 1337
 ENTRYPOINT ["forever", "/cloud9/server.js", "-w", "/workspace", "-l", "0.0.0.0"]'  >> Dockerfile
-grep -q "dcrun()" ~/.bashrc && sed "s/dcrun()/dcrun(){ dcruns $1 $2 3000; }/" -i ~/.bashrc || sed "$ a\dcrun(){ dcruns $1 $2 3000; }" -i ~/.bashrc
+#grep -q "dcrun()" ~/.bashrc && sed "s/dcrun()/dcrun(){ dcruns $1 $2 3000; }/" -i ~/.bashrc || sed "$ a\dcrun(){ dcruns $1 $2 3000; }" -i ~/.bashrc
 fi
 if [ ! -z "$1" ] && [ -z "$2" ]; then
 echo '
 EXPOSE '$1'
 ENTRYPOINT ["forever", "/cloud9/server.js", "-w", "/workspace", "-l", "0.0.0.0"]' >> Dockerfile
-grep -q "dcrun()" ~/.bashrc && sed "s/dcrun()/dcrun(){ dcruns dvr pass $1; }/" -i ~/.bashrc || sed "$ a\dcrun(){ dcruns dvr pass $1; }" -i ~/.bashrc
+#grep -q "dcrun()" ~/.bashrc && sed "s/dcrun()/dcrun(){ dcruns dvr pass $1; }/" -i ~/.bashrc || sed "$ a\dcrun(){ dcruns dvr pass $1; }" -i ~/.bashrc
 fi
 if [ -z "$1" ]; then
 echo '
 EXPOSE 1337
 ENTRYPOINT ["forever", "/cloud9/server.js", "-w", "/workspace", "-l", "0.0.0.0"]' >> Dockerfile
-grep -q "dcrun()" ~/.bashrc && sed "s/dcrun()/dcrun(){ dcruns c9dev pass 3000; }/" -i ~/.bashrc || sed "$ a\dcrun(){ dcruns c9dev pass 3000; }" -i ~/.bashrc
+#grep -q "dcrun()" ~/.bashrc && sed "s/dcrun()/dcrun(){ dcruns c9dev pass 3000; }/" -i ~/.bashrc || sed "$ a\dcrun(){ dcruns c9dev pass 3000; }" -i ~/.bashrc
 fi
 cat Dockerfile
-read -t 7 -p "Starting upon key press or after 7 seconds" ;
+read -t 7 -p "Starting upon key press or after 7 seconds"
 source ~/.bashrc
 docker build -t docker-dev
 # workspace setup
