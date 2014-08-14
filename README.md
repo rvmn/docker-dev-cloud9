@@ -52,14 +52,18 @@ A new node app:
 npm install express -g
 express new appname
 ```
-or read the QuickStart.md for more info
+or read QuickStart.md for more info
 
 Credits go to:
 ----
 Nitrous-io - [ubuntu-dind]
+
 gai00  - [docker-cloud9]
+
 Cloud9 - [c9]
+
 Docker - [docker]
+
 And a lot of enthusiast builders
 
 License
