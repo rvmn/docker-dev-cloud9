@@ -37,5 +37,5 @@ mkdir meteor-apps && mkdir rails-apps
 # postinstall clean
 wget https://rawgit.com/rvmn/docker-dev-cloud9/master/rails-install.sh && chmod +x rails-install.sh
 rm -rf dind && rm -rf Dockerfile && rm -rf install.sh
-echo 'Done!! Hopefully all went right, otherwise try rerunning or '
+echo 'Done!! Hopefully all went right, otherwise try rerunning directly or remove the docker-dev image and rerun'
 exit
