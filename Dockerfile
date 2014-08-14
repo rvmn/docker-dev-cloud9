@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -yq lxc-docker-1.1.1
 RUN apt-get install -y --no-install-recommends lxc=1.0.* cgmanager libcgmanager0
 RUN useradd -u 12345 -g users -d /home/c9dev -s /bin/bash -p $(echo pass | openssl passwd -1 -stdin) c9dev
 RUN sudo gpasswd -a c9dev docker
-#RUN usermod -G docker,sudo c9dev
+RUN usermod -G docker,sudo c9dev
 RUN curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias >> ~/.bashrc
 RUN echo ";metbp() { git clone https://github.com/Dean-Shi/Meteor-Boilerplate.git && mv Meteor-Boilerplate $1 && cd $1 && mrt install && mrt update && mrt add npm && npm install msx && echo '\
 Done!! \
