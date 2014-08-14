@@ -36,7 +36,7 @@ RUN npm install -g sm && /nvm/${NODE_VERSION}/lib/node_modules/sm/bin/sm install
 RUN npm install -g forever
 RUN cd ~ && wget https://rawgit.com/rvmn/docker-dev-cloud9/master/sudo.sh && chmod +x sudo.sh && ./sudo.sh
 USER c9dev 
-RUN cd /cloud9 && sudo sm install && sudo make ace && sudo make worker
+RUN cd /cloud9 && sm install && make ace && make worker
 # meteor install
 RUN cd ~ && curl http://c9install.meteor.com | sh && npm install -g meteorite
 # rails install
