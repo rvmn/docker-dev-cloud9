@@ -43,7 +43,6 @@ RUN npm install -g meteorite
 # rails install
 RUN git clone git://github.com/sstephenson/rbenv.git /.rbenv/
 ENV PATH /.rbenv/bin:/.rbenv/shims:${PATH}
-ENV GEM_PATH=$HOME/lib/ruby/gems
 RUN cd /.rbenv && mkdir plugins && cd plugins && git clone git://github.com/sstephenson/ruby-build.git
 RUN rbenv install 2.1.2 && rbenv global 2.1.2 && rbenv rehash && gem install rails 
 RUN bundle install 
@@ -57,5 +56,6 @@ RUN chmod +x /dind
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN npm cache clean
 VOLUME /workspace
+ENV GEM_PATH=$HOME/lib/ruby/gems
 
 
