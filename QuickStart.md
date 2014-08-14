@@ -72,6 +72,9 @@ rails new myapp
 
 
 TODO:
-- emmet custom snippet plugin - https://github.com/sergeche/emmet-sublime
+- fix rails
+- make docker aliases work in c9 & install using non-root user
+- emmet snippet adding plugin - https://github.com/sergeche/emmet-sublime
 - make nicer intro (autostart html)
 - mithril integration and jade-mithril plugin
+- code-sharing plugin(s) (plunkr,mdn css,clker-scg,colourlovers)
