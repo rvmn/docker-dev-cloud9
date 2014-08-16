@@ -11,7 +11,7 @@ Pre-requisites:
   - Docker  - see [docker]
   - wget/curl
   - a linux-box/vm/cygwin
-  - an install directory for your developing creations, name it like, wooorkspaaacee: 
+  - an install directory for your developing creations, name it nice, like boulder-builder, flower: 
 ```sh
 wd='workspace' && mkdir $wd && cd $wd
 ``` OR
@@ -49,12 +49,12 @@ druns user pass port (all needed)
 ```
 And you may want to refresh the page upon first load, this fixes the session problem and loads the files.
 Then you can start a new meteor app:
-```js
+```js																				___
 meteor create appname                                                              ( | )/_/
 																			    __( >O< )
 alternatively a meteor boilerplate app (jade,stylus,coffeescript,msx/jsx): 		\_\(_|_) recursive  
-/metbp.sh appname																						
-																	 	    _,-._
+/metbp.sh appname																	 |					
+																	 	    _,-._	 
 A new rails app after rails setup finalization (not working yet):		   / \_/ \
 /rails-install.sh														   >-(_)-<    
 rails new appname														   \_/ \_/

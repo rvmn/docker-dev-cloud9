@@ -1,70 +1,107 @@
 #c9dev docker aliases
+
+### dq ## = search docker ecosystem
+alias dq='docker search;echo "comment">0'
+
 ### dl ## = get latest container ID
-alias dl="docker ps -l -q"
+alias dl='docker ps -l -q;echo "comment">0'
 
 ### dp ## = show running containers
-alias dp="docker ps"
+alias dp='docker ps;echo "comment">0'
 
 ### dpa ## = show all containers
-alias dpa="docker ps -a"
+alias dpa='docker ps -a;echo "comment">0'
 
 ### di ## = show all images
-alias di="docker images"
+alias di='docker images;echo "comment">0'
 
-### dip ## = get container IP
-alias dip="docker inspect --format '{{ .NetworkSettings.IPAddress }}'"
+### din ## = inspect a container
+alias din='docker inspect;echo "comment">0'
+
+### din ## = inspect a container
+alias din='docker attach;echo "comment">0'
+
+### dms ## = start monitoring container (ctrl-c to stop)
+alias dms='docker attach;echo "comment">0'
+
+### dii ## = get a container's image
+alias dii='docker inspect --format "{{ .Config.Image }} ";echo "comment">0'
+
+### dip ## = get a container's IP
+alias dip='docker inspect --format "{{ .NetworkSettings.IPAddress }} ";echo "comment">0'
 
 ### dipl ## = get last run container's IP
-alias dipl="docker inspect --format '{{ .NetworkSettings.IPAddress }} $(dl)'"
+alias dipl='docker inspect --format "{{ .NetworkSettings.IPAddress }} $(dl)";echo "comment">0'
 
 ### dkd ## = run daemonized container, e.g., $dkd base /bin/echo hello
-alias dkd="docker run -d -P"
+alias dkd='docker run -d -P;echo "comment">0'
 
 ### dki ## = run interactive container, e.g., $dki base /bin/bash
-alias dki="docker run -i -t -P"
+alias dki='docker run -i -t -P;echo "comment">0'
 
 ### dsh ## = run shell in a container or image, e.g., dsh tcnksm/test 
 dsh() { docker run -i -t $1 /bin/bash; }
 
-### dish ## = run shell in a subcontainer, e.g., dsh tcnksm/test 
-dish() { docker run -i --entrypoint /bin/bash -t $1; }
+### dish ## = run shell in a dind subcontainer, e.g., dsh tcnksm/test 
+dish() { docker run -it --entrypoint=/bin/bash $1 -i; }
 
 ### dind ## = run docker command inside a dind subcontainer, e.g., dind tcnksm/test /bin/command
-dind() { docker run -i --entrypoint $2 -t $1; }
+dind() { docker run -it --entrypoint=$2 $1; }
 
 ### dcm ## = commit a container to image, e.g., dcm some-cont-id tcnksm/test 
 dcm() { docker commit $1 $2; }
 
-### dps ## = start a container, e.g. dstart name/contnr
-alias dps="docker start"
+### ds ## = start a container, e.g. dstart name/contnr
+alias ds='docker start;echo "comment">0'
 
-### dpst ## = stop a container, e.g. dstop name/contnr
-alias dst="docker stop"
+### dst ## = stop a container, e.g. dstop name/contnr
+alias dst='docker stop;echo "comment">0'
 
-### dpsa ## = start all containers
+### dsa ## = start all containers
 dsa() { docker start $(docker ps -a -q); }
 
-### dpsta ## = stop all containers
+### dsta ## = stop all containers
 dsta() { docker stop $(docker ps -a -q); }
 
-### dpr ## = remove a container
-alias dir='docker rm'
+### dsav ## = stop and save a container to an image, e.g., dsav 45t2j imagex 
+dsav() { dst $([ -z $2 ] && echo $(dl) || echo $1); dcm $([ -z $2 ] && echo $(dl) || echo $1) $2; }
 
-### dprm ## = remove all containers, except running ones!!
+### dsavs ## = stop, save a container to an image, and start it again e.g., dsava 45t2j imagex 
+dsavs() { dsav $([ -z $2 ] && echo $(dl) || echo $1) $2; ds $([ -z $2 ] && echo $(dl) || echo $1); }
+
+### dsavi ## = stop and save a container to its own image, e.g., dsav 45t2j
+dsavi() { dst $1; dcm $(dl) $(din $()) ; }
+
+### drc ## = remove a container
+alias dpr='docker rm;echo "comment">0'
+
+### drmc ## = remove all containers, except running ones!!
 dprm() { docker rm $(docker ps -a -q); }
 
-### dprmf ## = stop and remove all containers
-alias dprmf='docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)'
+### drmcf ## = stop and remove all containers
+alias dprmf='docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q);echo "comment">0'
 
-### dir ## = remove an image
-alias dir='docker rmi'
+### dri ## = remove an image
+alias dri='docker rmi;echo "comment">0'
 
-### dirm ## = remove all images, except ones used by running containers!!
-dirm() { docker rmi $(docker images -q); }
+### drmi ## = remove all images, except ones used by running containers!!
+drmi() { docker rmi $(docker images -q); }
 
 ### dbu ## = dockerfile build, e.g., $dbu tcnksm/test 
-dbu() { docker build -t=$1; }
+dbu() { docker build -t=$1; } # build image using a Dockerfile, e.g., $dbu tcnksm/test
 
 ### dalias ## = show all aliases
-dalias() { alias | grep 'docker' | sed "s/^\([^=]*\)=\(.*\)/\1 => \2/"| sed "s/['|\']//g" | sort; }
+fdalias() { alias | grep 'docker' | sed 's/^\([^=]*\)=[^"]*"\([^"]*\)">0/\1                =>                \2/'| sed "s/['|\']//g" | sort; }
+alias dalias='fdalias;echo "comment">0'
+
+# make all fns with [ -z $1 ] && echo '$(dl)' +  make chainable d - for args, last = id or imagenm, run each with name
+# make aliases for all with echo 'comment'>0
+
+
+
+
+
+
+
+
 

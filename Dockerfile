@@ -29,10 +29,6 @@ ENV PATH /.rbenv/bin:/.rbenv/shims:${PATH}
 RUN cd /.rbenv && mkdir plugins && cd plugins && git clone git://github.com/sstephenson/ruby-build.git
 ENV GEM_PATH /lib/ruby/gems
 
-# meteor install
-RUN cd ~ && curl http://c9install.meteor.com | sh 
-RUN npm install -g meteorite
-
 # dind
 ADD ./dind /dind
 RUN chmod +x /dind
@@ -47,6 +43,18 @@ RUN apt-get autoclean -y
 RUN apt-get clean -y
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN npm cache clean
-VOLUME /workspace
 
+VOLUME /var/lib/docker
+RUN mkdir workspace && cd workspace
+ADD ./QuickStart.md QuickStart.md
+ADD ./meteor-install.sh meteor-install.sh
+ADD ./metbp.sh metbp.sh
+ADD ./README.md README.md
+ADD ./docker-alias.sh docker-alias.sh
+RUN chmod +x metbp.sh && chmod +x meteor-install.sh && chmod +x docker-alias.sh
+RUN cat docker-alias.sh >> /cloud9/bin/cloud9.sh
+RUN mkdir meteor-apps && mkdir rails-apps 
+EXPOSE 1337
+ENTRYPOINT ["forever", "/cloud9/server.js", "-w", "/var/lib/docker/workspace", "-l", "0.0.0.0","/dind"]
+# OR OPTIONALLY REPLACE THAT LAST LINE BY: CMD /cloud9/bin/cloud9.sh -l 0.0.0.0 -p 5000 -w /var/lib/docker/workspace
 
