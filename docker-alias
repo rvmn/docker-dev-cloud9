@@ -43,10 +43,10 @@ alias dki='docker run -i -t -P'
 dsh() { docker run -i -t $1 /bin/bash; }
 
 ### dish ## = run shell in a dind subcontainer, e.g., dsh tcnksm/test 
-dish() { docker run -it --entrypoint=/bin/bash $1 -i; }
+dish() { docker run -privileged -it --entrypoint=/bin/bash $1 -i; }
 
 ### dind ## = run docker command inside a dind subcontainer, e.g., dind tcnksm/test /bin/command
-dind() { docker run -it --entrypoint=$2 $1; }
+dind() { docker run -privileged -it --entrypoint=$2 $1; }
 
 ### dcm ## = commit a container to image, e.g., dcm some-cont-id tcnksm/test 
 dcm() { docker commit $1 $2; }

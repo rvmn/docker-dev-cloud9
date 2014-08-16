@@ -25,7 +25,6 @@ curl https://rawgit.com/rvmn/docker-dev-cloud9/master/install.sh && chmod +x ins
 
 After installation
 ------
-RUby install takes long 
 Run the server using a newly created ``` dset ``` alias, giving at least a username, pw and port: ``` dset <user> <pass> <port> ```. Better also
 use env variable to set mongoDB like ``` dset <user> <pass> <port> MONGO_URL=<mongo-url>```, you can get free service at fe [mongohq.com](http://mongohq.com).
 Then run with ``` drun ```. Use ``` dhelp ``` to see all docker aliases. Open C9 IDE by going to your server-ip:port, and refresh the page after first time loading it.
@@ -33,7 +32,7 @@ Enjoy
 
 Read QuickStart.md for more info
 
-Postinstall script for meteor&rails:
+Postinstall script for meteor&rails&ruby (ruby install takes long):
 ```js											 	 ___
 cd / && ./install-c9.sh                             ( | )/_/
 												 __( >O< )
