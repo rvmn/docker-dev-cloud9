@@ -5,7 +5,7 @@ A Docker developering container with preinstalled Cloud9 IDE and Docker aliases,
 Setup uses an Ubuntu 14.04 (Trusty) base image and also installs Docker so you can relax and install docker containers from within Cloud9, 
 fill them with your apps and push them to ypur other production server later. 
 
-It works but is not tested extensively, rails and docker run, and meteor apps install fine. If all options already work completely I can't promise.
+It works but is not tested extensively, rails and meteor run, apps install fine. Docker is still a bit in progress. When it is fixed I can't promise.
 
 Pre-requisites:
 ----
@@ -35,7 +35,7 @@ Read QuickStart.md for more info
 
 Postinstall script for meteor&rails:
 ```js											 	 ___
-cd / && ./install-all.sh                            ( | )/_/
+cd / && ./install-c9.sh                             ( | )/_/
 												 __( >O< )
 Start a new meteor app:							 \_\(_|_) recursive  
 meteor create appname																	 |					
