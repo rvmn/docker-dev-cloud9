@@ -47,7 +47,6 @@ RUN npm cache clean
 
 # set up workspace
 VOLUME /workspace
-RUN mkdir workspace && cd workspace
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/QuickStart.md
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/install-meteor.sh 
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/install-rails.sh 
