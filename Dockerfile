@@ -44,16 +44,16 @@ RUN apt-get clean -y
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN npm cache clean
 
+
 # set up workspace
 VOLUME /var/lib/docker
 RUN mkdir workspace && cd workspace
-ADD ./QuickStart.md QuickStart.md
-ADD ./install-meteor.sh install-meteor.sh
-ADD ./install-rails.sh install-rails.sh
-ADD ./install-all.sh install-all.sh
-ADD ./metbp.sh metbp.sh
-ADD ./README.md README.md
-ADD ./docker-alias.sh docker-alias.sh
+RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/QuickStart.md
+RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/install-meteor.sh 
+RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/install-rails.sh 
+RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/install-all.sh 
+RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/metbp.sh 
+RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/README.md
 RUN chmod +x metbp.sh && chmod +x install-meteor.sh && chmod +x install-rails.sh && chmod +x install-all.sh && chmod +x docker-alias.sh
 RUN cat docker-alias.sh >> /cloud9/bin/cloud9.sh
 RUN mkdir meteor-apps && mkdir rails-apps 
