@@ -34,7 +34,7 @@ ADD ./dind /dind
 RUN chmod +x /dind
 
 # alias and extra function
-#RUN curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias >> ~/.bashrc
+RUN curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias.sh >> ~/.bashrc
 #RUN echo 'source ~/.bashrc' | bash -l
 
 # clean cache

@@ -41,7 +41,7 @@ fdsavi() { dst $1; dcm $(dl) $(din $()) ; }
 fdprm() { docker rm $(docker ps -a -q); }
 fdrmi() { docker rmi $(docker images -q); }
 fdbu() { docker build -t=$1; } # build image using a Dockerfile, e.g., $dbu tcnksm/test
-fdalias() { alias | grep 'docker' | sed 's/^\([^=]*\)=[^"]*"\([^"]*\)">0/\1                =>                \2/'| sed "s/['|\']//g" | sort; }
+fdalias() { alias | grep 'docker' | sed 's/^\([^=]*\)=[^"]*"\([^"]*\)">0.*/\1                =>                \2/'| sed "s/['|\']//g" | sort; }
 
 # make all fns with last container: [ -z $1 ] && echo '$(dl)' +  make chainable d - for args, last = id or imagenm, run each with name
 # add example commands to alias help
