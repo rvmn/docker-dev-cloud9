@@ -19,12 +19,12 @@ read -t 7
 
 # workspace files
 wget https://rawgit.com/rvmn/docker-dev-cloud9/master/QuickStart.md
-wget https://rawgit.com/rvmn/docker-dev-cloud9/master/meteor-install.sh && chmod +x meteor-install.sh
-wget https://rawgit.com/rvmn/docker-dev-cloud9/master/install-rails.sh && chmod +x install-rails.sh
-wget https://rawgit.com/rvmn/docker-dev-cloud9/master/install-all.sh && chmod +x install-all.sh
-wget https://rawgit.com/rvmn/docker-dev-cloud9/master/metbp.sh && chmod +x metbp.sh
+wget https://rawgit.com/rvmn/docker-dev-cloud9/master/install-meteor.sh 
+wget https://rawgit.com/rvmn/docker-dev-cloud9/master/install-rails.sh 
+wget https://rawgit.com/rvmn/docker-dev-cloud9/master/install-all.sh 
+wget https://rawgit.com/rvmn/docker-dev-cloud9/master/metbp.sh 
 wget https://rawgit.com/rvmn/docker-dev-cloud9/master/README.md
-wget https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias.sh
+wget https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias.sh && chmod -x docker-alias.sh
 
 #build!
 docker build -t docker-dev .
