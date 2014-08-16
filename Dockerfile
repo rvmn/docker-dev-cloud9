@@ -57,8 +57,7 @@ RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/install-rails.sh
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/install-all.sh 
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/metbp.sh 
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/README.md
-RUN chmod +x metbp.sh && chmod +x install-meteor.sh && chmod +x install-rails.sh && chmod +x install-all.sh && chmod +x docker-alias.sh
-RUN cat docker-alias.sh >> /cloud9/bin/cloud9.sh
+RUN chmod +x metbp.sh && chmod +x install-meteor.sh && chmod +x install-rails.sh && chmod +x install-all.sh
 RUN mkdir meteor-apps && mkdir rails-apps 
 EXPOSE 1337
 ENTRYPOINT ["forever", "/cloud9/server.js", "-w", "/workspace", "-l", "0.0.0.0"]
