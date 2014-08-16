@@ -20,6 +20,8 @@ read -t 7
 # workspace files
 wget https://rawgit.com/rvmn/docker-dev-cloud9/master/QuickStart.md
 wget https://rawgit.com/rvmn/docker-dev-cloud9/master/meteor-install.sh && chmod +x meteor-install.sh
+wget https://rawgit.com/rvmn/docker-dev-cloud9/master/install-rails.sh && chmod +x install-rails.sh
+wget https://rawgit.com/rvmn/docker-dev-cloud9/master/install-all.sh && chmod +x install-all.sh
 wget https://rawgit.com/rvmn/docker-dev-cloud9/master/metbp.sh && chmod +x metbp.sh
 wget https://rawgit.com/rvmn/docker-dev-cloud9/master/README.md
 wget https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias.sh
@@ -33,7 +35,6 @@ docker build -t docker-dev .
 brca dcset 'brca dcrun "docker run -d -v $(pwd):/workspace -e $4 -p $3:$3 docker-dev --username $1 --password $2 -p $3"'
 
 # postinstall clean
-wget https://rawgit.com/rvmn/docker-dev-cloud9/master/rails-install.sh && chmod +x rails-install.sh
 rm -rf dind && rm -rf Dockerfile && rm -rf install.sh
 echo 'Done!! Hopefully all went good, first run: dcset <user> <name> <port> MONGOENV=<mongolink>, then start with dcrun, if not installed, do di and check image, try rerunning install url or remove the image and then rerun'
 exit

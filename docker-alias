@@ -1,43 +1,43 @@
 #c9dev docker aliases
 
 ### dq ## = search docker ecosystem
-alias dq='docker search;echo "comment">0'
+alias dq='docker search'
 
 ### dl ## = get latest container ID
-alias dl='docker ps -l -q;echo "comment">0'
+alias dl='docker ps -l -q'
 
 ### dp ## = show running containers
-alias dp='docker ps;echo "comment">0'
+alias dp='docker ps'
 
 ### dpa ## = show all containers
-alias dpa='docker ps -a;echo "comment">0'
+alias dpa='docker ps -a'
 
 ### di ## = show all images
-alias di='docker images;echo "comment">0'
+alias di='docker images'
 
 ### din ## = inspect a container
-alias din='docker inspect;echo "comment">0'
+alias din='docker inspect'
 
 ### din ## = inspect a container
-alias din='docker attach;echo "comment">0'
+alias din='docker attach'
 
 ### dms ## = start monitoring container (ctrl-c to stop)
-alias dms='docker attach;echo "comment">0'
+alias dms='docker attach'
 
 ### dii ## = get a container's image
-alias dii='docker inspect --format "{{ .Config.Image }} ";echo "comment">0'
+alias dii='docker inspect --format "{{ .Config.Image }} "'
 
 ### dip ## = get a container's IP
-alias dip='docker inspect --format "{{ .NetworkSettings.IPAddress }} ";echo "comment">0'
+alias dip='docker inspect --format "{{ .NetworkSettings.IPAddress }} "'
 
 ### dipl ## = get last run container's IP
-alias dipl='docker inspect --format "{{ .NetworkSettings.IPAddress }} $(dl)";echo "comment">0'
+alias dipl='docker inspect --format "{{ .NetworkSettings.IPAddress }} $(dl)"'
 
 ### dkd ## = run daemonized container, e.g., $dkd base /bin/echo hello
-alias dkd='docker run -d -P;echo "comment">0'
+alias dkd='docker run -d -P'
 
 ### dki ## = run interactive container, e.g., $dki base /bin/bash
-alias dki='docker run -i -t -P;echo "comment">0'
+alias dki='docker run -i -t -P'
 
 ### dsh ## = run shell in a container or image, e.g., dsh tcnksm/test 
 dsh() { docker run -i -t $1 /bin/bash; }
@@ -52,10 +52,10 @@ dind() { docker run -it --entrypoint=$2 $1; }
 dcm() { docker commit $1 $2; }
 
 ### ds ## = start a container, e.g. dstart name/contnr
-alias ds='docker start;echo "comment">0'
+alias ds='docker start'
 
 ### dst ## = stop a container, e.g. dstop name/contnr
-alias dst='docker stop;echo "comment">0'
+alias dst='docker stop'
 
 ### dsa ## = start all containers
 dsa() { docker start $(docker ps -a -q); }
@@ -73,16 +73,16 @@ dsavs() { dsav $([ -z $2 ] && echo $(dl) || echo $1) $2; ds $([ -z $2 ] && echo 
 dsavi() { dst $1; dcm $(dl) $(din $()) ; }
 
 ### drc ## = remove a container
-alias dpr='docker rm;echo "comment">0'
+alias dpr='docker rm'
 
 ### drmc ## = remove all containers, except running ones!!
 dprm() { docker rm $(docker ps -a -q); }
 
 ### drmcf ## = stop and remove all containers
-alias dprmf='docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q);echo "comment">0'
+alias dprmf='docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)'
 
 ### dri ## = remove an image
-alias dri='docker rmi;echo "comment">0'
+alias dri='docker rmi'
 
 ### drmi ## = remove all images, except ones used by running containers!!
 drmi() { docker rmi $(docker images -q); }
@@ -92,7 +92,7 @@ dbu() { docker build -t=$1; } # build image using a Dockerfile, e.g., $dbu tcnks
 
 ### dalias ## = show all aliases
 fdalias() { alias | grep 'docker' | sed 's/^\([^=]*\)=[^"]*"\([^"]*\)">0/\1                =>                \2/'| sed "s/['|\']//g" | sort; }
-alias dalias='fdalias;echo "comment">0'
+alias dalias='fdalias'
 
 # make all fns with [ -z $1 ] && echo '$(dl)' +  make chainable d - for args, last = id or imagenm, run each with name
 # make aliases for all with echo 'comment'>0

@@ -44,17 +44,20 @@ RUN apt-get clean -y
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN npm cache clean
 
+# set up workspace
 VOLUME /var/lib/docker
 RUN mkdir workspace && cd workspace
 ADD ./QuickStart.md QuickStart.md
-ADD ./meteor-install.sh meteor-install.sh
+ADD ./install-meteor.sh install-meteor.sh
+ADD ./install-rails.sh install-rails.sh
+ADD ./install-all.sh install-all.sh
 ADD ./metbp.sh metbp.sh
 ADD ./README.md README.md
 ADD ./docker-alias.sh docker-alias.sh
-RUN chmod +x metbp.sh && chmod +x meteor-install.sh && chmod +x docker-alias.sh
+RUN chmod +x metbp.sh && chmod +x install-meteor.sh && chmod +x install-rails.sh && chmod +x install-all.sh && chmod +x docker-alias.sh
 RUN cat docker-alias.sh >> /cloud9/bin/cloud9.sh
 RUN mkdir meteor-apps && mkdir rails-apps 
 EXPOSE 1337
 ENTRYPOINT ["forever", "/cloud9/server.js", "-w", "/var/lib/docker/workspace", "-l", "0.0.0.0","/dind"]
-# OR OPTIONALLY REPLACE THAT LAST LINE BY: CMD /cloud9/bin/cloud9.sh -l 0.0.0.0 -p 5000 -w /var/lib/docker/workspace
+# OR optionally REPLACE that with: CMD /cloud9/bin/cloud9.sh -l 0.0.0.0 -p 5000 -w /var/lib/docker/workspace
 
