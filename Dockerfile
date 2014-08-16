@@ -46,7 +46,7 @@ RUN npm cache clean
 
 
 # set up workspace
-VOLUME /var/lib/docker
+VOLUME /workspace
 RUN mkdir workspace && cd workspace
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/QuickStart.md
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/install-meteor.sh 
@@ -58,6 +58,6 @@ RUN chmod +x metbp.sh && chmod +x install-meteor.sh && chmod +x install-rails.sh
 RUN cat docker-alias.sh >> /cloud9/bin/cloud9.sh
 RUN mkdir meteor-apps && mkdir rails-apps 
 EXPOSE 1337
-ENTRYPOINT ["forever", "/cloud9/server.js", "-w", "/var/lib/docker/workspace", "-l", "0.0.0.0","/dind"]
+ENTRYPOINT ["forever", "/cloud9/server.js", "-w", "/workspace", "-l", "0.0.0.0","/dind"]
 # OR optionally REPLACE that with: CMD /cloud9/bin/cloud9.sh -l 0.0.0.0 -p 5000 -w /var/lib/docker/workspace
 
