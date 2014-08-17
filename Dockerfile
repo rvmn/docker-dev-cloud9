@@ -34,7 +34,7 @@ ADD ./dind /dind
 RUN chmod +x /dind
 
 # alias and extra function
-RUN curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias.sh >> ~/.bashrc
+#RUN curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias >> ~/.bashrc
 #RUN echo 'source ~/.bashrc' | bash -l
 
 # clean cache
@@ -60,6 +60,7 @@ RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/README.md
 RUN chmod +x metbp.sh && chmod +x install-meteor.sh && chmod +x install-rails.sh && chmod +x install-all.sh 
 RUN mkdir meteor-apps && mkdir rails-apps 
 EXPOSE 3000
+CMD ["wrapdocker"]
 ENTRYPOINT ["forever", "/cloud9/server.js", "-w", "/workspace", "-l", "0.0.0.0"]
 # OR optionally REPLACE that with: CMD /cloud9/bin/cloud9.sh -l 0.0.0.0 -p 5000 -w /workspace
 
