@@ -16,7 +16,7 @@ alias dprmf='echo "stop and remove all containers">0;docker stop $(docker ps -a 
 alias dri='echo "remove an image">0;docker rmi'
 alias dpr='echo "remove a container">0;docker rm'
 alias ds='echo "start a container">0;docker start'
-alias dst='echo "stop a container">0;docker stop'
+alias dst='echo "stop a container">0;fdst'
 alias dsh='echo "run shell in a container or image">0;fdsh'   
 alias dish='echo "run shell in an entrypoint container">0;fdish'
 alias dind='echo "run command in an entrypoint container">0;fdind'
@@ -29,6 +29,7 @@ alias dprm='echo "remove all containers, except running ones">0;fdprm'
 alias drmi='echo "remove all images, except ones used">0;fdrmi'
 alias dbu='echo "dockerfile build">0;fdbu'
 alias dhelp='echo "show all aliases(this)">0;fdalias'
+fdst(){ docker stop [ -z $1 ] && echo '$(dl)'; }
 fdsh() { docker run -it $1 /bin/bash; }
 fdish() { docker run -privileged -it --entrypoint=/bin/bash $1 -i; }
 fdind() { docker run -privileged -it --entrypoint=$2 $1; }
@@ -42,6 +43,7 @@ fdprm() { docker rm $(docker ps -a -q); }
 fdrmi() { docker rmi $(docker images -q); }
 fdbu() { docker build -t=$1; } # build image using a Dockerfile, e.g., $dbu tcnksm/test
 fdalias() { alias | grep 'docker' | sed 's/^\([^=]*\)=[^"]*"\([^"]*\)">0.*/\1                =>                \2/'| sed "s/['|\']//g" | sort; }
+bradd(){ [ ! -z $( grep $1 ~/.bashrc ) ] && sed "s/$1()/$1(){ $2; }/" -i ~/.bashrc || echo "${1}(){ ${2}; }" >> ~/.bashrc; source ~/.bashrc; }
 
 # make all fns with last container: [ -z $1 ] && echo '$(dl)' +  make chainable d - for args, last = id or imagenm, run each with name
 # add example commands to alias help

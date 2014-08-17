@@ -1,5 +1,5 @@
 #!/bin/bash
-rm -rf Dockerfile && rm -rf dind && apt-get install curl wget && wget https://rawgit.com/rvmn/docker-dev-cloud9/master/Dockerfile && wget https://rawgit.com/rvmn/docker-dev-cloud9/master/dind
+rm -rf Dockerfile && apt-get install curl wget && wget https://rawgit.com/rvmn/docker-dev-cloud9/master/Dockerfile
 cat <<EOF  
 ---------------------------------------------------------------------------------------------
 
@@ -21,11 +21,10 @@ read -t 7
 docker build -t docker-c9 .
 
 # add aliases to bashrc of host
-( grep '#c9dev docker aliases' ~/.bashrc | wc -l ; )>0 || curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias >> ~/.bashrc && source ~/.bashrc
-[ -z $( grep 'brca()' ~/.bashrc) ] && echo 'brca(){ [ ! -z $( grep $1 ~/.bashrc) ] && sed "s/$1()/$1(){ $2; }/" -i ~/.bashrc || echo "${1}(){ ${2}; }" >> ~/.bashrc; source ~/.bashrc; }' >> ~/.bashrc $$ source ~/.bashrc
-brca dcset 'brca dcrun "docker run --privileged -d -v $(pwd):/workspace -p 3000:3000 -e $3 docker-c9 --username $1 --password $2 -p 3000 && /usr/local/bin/wrapdocker"'
+[ -z $( grep '#c9dev docker aliases' ~/.bashrc) ] && curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias >> ~/.bashrc && source ~/.bashrc
+bradd dcset 'bradd dcrun "docker run --privileged -d -v $(pwd):/workspace -p 3000:3000 -e $3 docker-c9 --username $1 --password $2 -p 3000"'
 
 # postinstall clean
-rm -rf dind && rm -rf Dockerfile && rm -rf install.sh
-echo 'Done!! Hopefully all went good, first run: dcset <user> <name> MONGO_URL=<mongolink>, then start with dcrun, if not installed, do di and check image, try rerunning install url or remove the image and then rerun'
+rm -rf Dockerfile && rm -rf install.sh
+echo 'Done!! Hopefully all went good, first run: dcset <user> <name> MONGO_URL=<mongolink>, then start with dcrun, if not installed try rerunning all or remove the image and rerun'
 exit

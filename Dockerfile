@@ -2,7 +2,7 @@ FROM ubuntu:14.04
 
 # install environment
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y build-essential g++ curl libssl-dev apache2-utils git libxml2-dev mercurial man tree lsof wget openssl
+RUN apt-get install -y build-essential g++ curl libssl-dev apache2-utils git libxml2-dev mercurial man tree lsof wget openssl supervisor nano
 
 # install docker
 RUN apt-get update && apt-get install -yq apt-transport-https
@@ -29,13 +29,16 @@ ENV PATH /.rbenv/bin:/.rbenv/shims:${PATH}
 RUN cd /.rbenv && mkdir plugins && cd plugins && git clone git://github.com/sstephenson/ruby-build.git
 ENV GEM_PATH /lib/ruby/gems
 
-# dind
-ADD ./dind /dind
-RUN chmod +x /dind
+# dind using supervisor
+RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/dind && chmod +x /dind
+RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/supervisord.conf
+RUN mv ./dind /usr/local/bin/
+RUN mv ./supervisord.conf /etc/supervisor/conf.d/
+RUN echo "var exec = require('child_process').exec,child=exec('/usr/bin/supervisord')" >> /cloud9/server.js
 
-# alias and extra function
-#RUN curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias >> ~/.bashrc
-#RUN echo 'source ~/.bashrc' | bash -l
+# alias and extra functions
+RUN curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias.sh >> ~/.bashrc
+RUN echo 'source ~/.bashrc' | bash -l
 
 # clean cache
 RUN apt-get autoremove -y
@@ -48,19 +51,13 @@ RUN npm cache clean
 # set up workspace
 VOLUME /workspace
 VOLUME /var/lib/docker
-ENV container docker
-ENV CGROUP /cgroup
-RUN mkdir /cgroup
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/QuickStart.md
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/install-meteor.sh 
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/install-rails.sh 
-RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/install-all.sh 
+RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/install-c9.sh 
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/metbp.sh 
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/README.md
-RUN chmod +x metbp.sh && chmod +x install-meteor.sh && chmod +x install-rails.sh && chmod +x install-all.sh 
+RUN chmod +x metbp.sh && chmod +x install-meteor.sh && chmod +x install-rails.sh && chmod +x install-c9.sh 
 RUN mkdir meteor-apps && mkdir rails-apps 
 EXPOSE 3000
-CMD ["wrapdocker"]
-ENTRYPOINT ["forever", "/cloud9/server.js", "-w", "/workspace", "-l", "0.0.0.0"]
-# OR optionally REPLACE that with: CMD /cloud9/bin/cloud9.sh -l 0.0.0.0 -p 5000 -w /workspace
-
+ENTRYPOINT ["forever","/cloud9/server.js","-w","/workspace -l","0.0.0.0"]

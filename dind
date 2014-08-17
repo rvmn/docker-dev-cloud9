@@ -1,35 +1,27 @@
 #!/bin/bash
-set -e
-# DinD: a wrapper script which allows docker to be run inside a docker container.
-# Original version by Jerome Petazzoni <jerome@dotcloud.com>
-# See the blog post: http://blog.docker.io/2013/09/docker-can-now-run-within-docker/
-#
-# This script should be executed inside a docker container in privilieged mode
-# ('docker run --privileged', introduced in docker 0.6).
-# Usage: dind CMD [ARG...]
-# apparmor sucks and Docker needs to know that it's in a container (c) @tianon
-export container=docker
 # First, make sure that cgroups are mounted correctly.
-CGROUP=/cgroup
-mkdir -p "$CGROUP"
-if ! mountpoint -q "$CGROUP"; then
-mount -n -t tmpfs -o uid=0,gid=0,mode=0755 cgroup $CGROUP || {
-echo >&2 'Could not make a tmpfs mount. Did you use --privileged?'
+CGROUP=/sys/fs/cgroup
+: {LOG:=stdio}
+[ -d $CGROUP ] || 
+	mkdir $CGROUP
+mountpoint -q $CGROUP || 
+	mount -n -t tmpfs -o uid=0,gid=0,mode=0755 cgroup $CGROUP || {
+echo "Could not make a tmpfs mount. Did you use -privileged?"
 exit 1
 }
-fi
-if [ -d /sys/kernel/security ] && ! mountpoint -q /sys/kernel/security; then
-mount -t securityfs none /sys/kernel/security || {
-echo >&2 'Could not mount /sys/kernel/security.'
-echo >&2 'AppArmor detection and -privileged mode might break.'
+if [ -d /sys/kernel/security ] && ! mountpoint -q /sys/kernel/security
+then
+    mount -t securityfs none /sys/kernel/security || {
+echo "Could not mount /sys/kernel/security."
+echo "AppArmor detection and -privileged mode might break."
 }
 fi
 # Mount the cgroup hierarchies exactly as they are in the parent system.
-for SUBSYS in $(cut -d: -f2 /proc/1/cgroup); do
-mkdir -p "$CGROUP/$SUBSYS"
-if ! mountpoint -q $CGROUP/$SUBSYS; then
-mount -n -t cgroup -o "$SUBSYS" cgroup "$CGROUP/$SUBSYS"
-fi
+for SUBSYS in $(cut -d: -f2 /proc/1/cgroup)
+do
+[ -d $CGROUP/$SUBSYS ] || mkdir $CGROUP/$SUBSYS
+        mountpoint -q $CGROUP/$SUBSYS || 
+                mount -n -t cgroup -o $SUBSYS cgroup $CGROUP/$SUBSYS
 # The two following sections address a bug which manifests itself
 # by a cryptic "lxc-start: no ns_cgroup option specified" when
 # trying to start containers withina container.
@@ -42,32 +34,53 @@ fi
 # Systemd and OpenRC (and possibly others) both create such a
 # cgroup. To avoid the aforementioned bug, we symlink "foo" to
 # "name=foo". This shouldn't have any adverse effect.
-name="${SUBSYS#name=}"
-if [ "$name" != "$SUBSYS" ]; then
-ln -s "$SUBSYS" "$CGROUP/$name"
-fi
+echo $SUBSYS | grep -q ^name= && {
+NAME=$(echo $SUBSYS | sed s/^name=//)
+                ln -s $SUBSYS $CGROUP/$NAME
+}
 # Likewise, on at least one system, it has been reported that
 # systemd would mount the CPU and CPU accounting controllers
 # (respectively "cpu" and "cpuacct") with "-o cpuacct,cpu"
 # but on a directory called "cpu,cpuacct" (note the inversion
 # in the order of the groups). This tries to work around it.
-if [ "$SUBSYS" = 'cpuacct,cpu' ]; then
-ln -s "$SUBSYS" "$CGROUP/cpu,cpuacct"
-fi
+[ $SUBSYS = cpuacct,cpu ] && ln -s $SUBSYS $CGROUP/cpu,cpuacct
 done
 # Note: as I write those lines, the LXC userland tools cannot setup
 # a "sub-container" properly if the "devices" cgroup is not in its
 # own hierarchy. Let's detect this and issue a warning.
-if ! grep -q :devices: /proc/1/cgroup; then
-echo >&2 'WARNING: the "devices" cgroup should be in its own hierarchy.'
+grep -q :devices: /proc/1/cgroup ||
+echo "WARNING: the 'devices' cgroup should be in its own hierarchy."
+grep -qw devices /proc/1/cgroup ||
+echo "WARNING: it looks like the 'devices' cgroup is not mounted."
+# Now, close extraneous file descriptors.
+pushd /proc/self/fd >/dev/null
+for FD in *
+do
+case "$FD" in
+# Keep stdin/stdout/stderr
+[012])
+;;
+# Nuke everything else
+	*)
+eval exec "$FD>&-"
+;;
+esac
+done
+popd >/dev/null
+# If a pidfile is still around (for example after a container restart),
+# delete it so that docker can start.
+rm -rf /var/run/docker.pid
+# If we were given a PORT environment variable, start as a simple daemon;
+# otherwise, spawn a shell as well
+if [ "$PORT" ]
+then
+exec docker -d -H 0.0.0.0:$PORT
+else
+if [ "$LOG" == "file" ]
+then
+		docker -d &>/var/log/docker.log &
+else
+		docker -d &
 fi
-if ! grep -qw devices /proc/1/cgroup; then
-echo >&2 'WARNING: it looks like the "devices" cgroup is not mounted.'
+exec bash
 fi
-# Mount /tmp
-mount -t tmpfs none /tmp
-if [ $# -gt 0 ]; then
-exec "$@"
-fi
-echo >&2 'ERROR: No command specified.'
-echo >&2 'You probably want to run hack/make.sh, or maybe a shell?'
