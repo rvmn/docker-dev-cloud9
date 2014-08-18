@@ -60,4 +60,4 @@ RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/README.md
 RUN chmod +x metbp.sh && chmod +x install-meteor.sh && chmod +x install-rails.sh && chmod +x install-c9.sh 
 RUN mkdir meteor-apps && mkdir rails-apps 
 EXPOSE 3000
-ENTRYPOINT ["forever","/cloud9/server.js","-w","/workspace -l","0.0.0.0"]
+ENTRYPOINT ["forever","/cloud9/server.js","-w","/workspace","-l","0.0.0.0"]
