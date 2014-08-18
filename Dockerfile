@@ -28,6 +28,16 @@ RUN git clone git://github.com/sstephenson/rbenv.git /.rbenv/
 ENV PATH /.rbenv/bin:/.rbenv/shims:${PATH}
 RUN cd /.rbenv && mkdir plugins && cd plugins && git clone git://github.com/sstephenson/ruby-build.git
 ENV GEM_PATH /lib/ruby/gems
+RUN rbenv install -l
+RUN rbenv install 2.1.2
+RUN rbenv global 2.1.2 && rbenv rehash
+RUN gem install rails
+RUN echo 'apt-get update; apt-get install -y libsqlite3-dev' | bash -l
+ENV PATH /.rbenv/versions/2.1.2/bin/:/bin:${PATH}
+# meteor
+RUN curl http://c9install.meteor.com | sh 
+RUN npm install -g meteorite
+ENV PATH ~/meteor/bin:/bin:${PATH}
 
 # dind using supervisor
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/dind && chmod +x /dind
@@ -46,7 +56,6 @@ RUN apt-get autoclean -y
 RUN apt-get clean -y
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN npm cache clean
-
 
 # set up workspace
 VOLUME /workspace

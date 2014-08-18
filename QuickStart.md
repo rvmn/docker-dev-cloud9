@@ -5,6 +5,10 @@ Under View you can pick a theme, set syntax highlighting and much more.
 Base shortcuts: alt-z opens Zen-mode, alt-space does autocomplete, 
 in the complete right bottom the small button toggles the console up and down. 
 
+Don't forget to run the Cloud installation script using:
+``` /install-c9.sh ```
+or run ``` /install-meteor.sh ``` or ``` install-rails.sh ``` seperately 
+
 Extensions
 ------
 To install extensions paste the URL into Tools > Extension Manager
