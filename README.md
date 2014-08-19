@@ -34,16 +34,16 @@ Enjoy and create nice stuff!
 
 Read QuickStart.md for more info
 
-Postinstall script for meteor&rails&ruby (ruby install takes long):
+Postinstall script are not needed anymore, meteor and rails are now installed during build! 
 ```js											 	 ___
-cd / && ./install-c9.sh                             ( | )/_/
+						                            ( | )/_/
 												 __( >O< )
 Start a new meteor app:							 \_\(_|_) recursive  
 meteor create appname								 					
 															_,-._	 
 a meteor boilerplate app (jade,stylus,coffeescript,msx ):  / \_/ \
 														   >-(_)-<    
-./metbp.sh meteor-apps/appname							   \_/ \_/
+/metbp.sh meteor-apps/appname							   \_/ \_/
 														     `-'
 																						
 																						

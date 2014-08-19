@@ -53,19 +53,16 @@ dhelp   =   show all aliases
 #Boilerplates
 -------
 ##Meteor
-Meteor and meteorite (it's package manager) can be installed using ``` /install-meteor.sh ```.
-For meteor apps you just need to have a mongoDB database, you can create one
-for free at f.e. [mongohq](http://mongohq.com), or get a docker. Make a db and run:
+For meteor apps you need to have a mongoDB database, you can create one
+for free at f.e. [mongohq](http://mongohq.com), or get a docker container (docker search mongodb). Make a db and run:
 ``` export MONGO_URL=mongodb://<user>:<password>@kahana.mongohq.com:10007/<your-db-name> ```
+and better yet run ``` dcset <user> <pass> MONGO_URL=<mongo-url> ``` from your host shell to rebuild the ```dcrun``` command
 To start a meteor boilerplate run:
 ``` /metbp.sh myapp ```
 or a default meteor app:
 ``` meteor create myapp ```
 
 ##Ruby on Rails
-Install Ruby 2.1.2 and rails using (rails not running yet, installs but bash and aliasing is problematic, maybe ln to bin):
-```sh
-/rails-install.sh
 ```
 Start a project with:
 ```sh
@@ -74,9 +71,8 @@ rails new myapp
 
 
 TODO:
-- fix rails
+- fix rails - done!
 - make docker aliases work in c9 & install using non-root user
 - emmet snippet adding plugin - https://github.com/sergeche/emmet-sublime
-- make nicer intro (autostart html)
 - mithril integration and jade-mithril plugin
 - code-sharing plugin(s) (plunkr,mdn css,clker-scg,colourlovers)

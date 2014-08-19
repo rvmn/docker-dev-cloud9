@@ -2,7 +2,7 @@ FROM ubuntu:14.04
 
 # install environment
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y build-essential g++ curl libssl-dev apache2-utils git libxml2-dev mercurial man tree lsof wget openssl supervisor nano
+RUN apt-get install -y build-essential g++ curl libssl-dev apache2-utils git libxml2-dev mercurial man tree lsof wget openssl supervisor nano python
 
 # install docker
 RUN apt-get update && apt-get install -yq apt-transport-https
@@ -29,15 +29,24 @@ ENV PATH /.rbenv/bin:/.rbenv/shims:${PATH}
 RUN cd /.rbenv && mkdir plugins && cd plugins && git clone git://github.com/sstephenson/ruby-build.git
 ENV GEM_PATH /lib/ruby/gems
 RUN rbenv install -l
-RUN rbenv install 2.1.2
+RUN rbenv install -v 2.1.2
 RUN rbenv global 2.1.2 && rbenv rehash
 RUN gem install rails
 RUN echo 'apt-get update; apt-get install -y libsqlite3-dev' | bash -l
 ENV PATH /.rbenv/versions/2.1.2/bin/:/bin:${PATH}
+
 # meteor
-RUN curl http://c9install.meteor.com | sh 
-RUN npm install -g meteorite
-ENV PATH ~/meteor/bin:/bin:${PATH}
+RUN curl https://install.meteor.com | /bin/sh
+RUN apt-get install git screen tmux
+RUN npm install -g meteorite bower grunt-cli yo demeteorizer
+ENV PATH ~/.meteor:/bin:${PATH}
+ENV BIND_IP $IP
+
+# python
+RUN curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+
+# julia
+RUN apt-get install julia 
 
 # dind using supervisor
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/dind && chmod +x /dind
@@ -68,5 +77,7 @@ RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/metbp.sh
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/README.md
 RUN chmod +x metbp.sh && chmod +x install-meteor.sh && chmod +x install-rails.sh && chmod +x install-c9.sh 
 RUN mkdir meteor-apps && mkdir rails-apps 
-EXPOSE 3000
+EXPOSE 80:80
+EXPOSE 443:443
+EXPOSE 3000:3000
 ENTRYPOINT ["forever","/cloud9/server.js","-w","/workspace","-l","0.0.0.0"]
