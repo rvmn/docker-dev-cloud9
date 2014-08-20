@@ -46,7 +46,7 @@ ENV BIND_IP $IP
 RUN curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
 
 # julia
-RUN apt-get install julia 
+RUN apt-get install -y julia 
 
 # dind using supervisor
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/dind && chmod +x /dind
@@ -77,7 +77,5 @@ RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/metbp.sh
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/README.md
 RUN chmod +x metbp.sh && chmod +x install-meteor.sh && chmod +x install-rails.sh && chmod +x install-c9.sh 
 RUN mkdir meteor-apps && mkdir rails-apps 
-EXPOSE 80:80
-EXPOSE 443:443
-EXPOSE 3000:3000
+EXPOSE 3131
 ENTRYPOINT ["forever","/cloud9/server.js","-w","/workspace","-l","0.0.0.0"]
