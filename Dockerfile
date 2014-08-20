@@ -43,6 +43,7 @@ RUN mv /meteor /.meteor
 RUN apt-get install git screen tmux
 RUN npm install -g meteorite bower grunt-cli yo demeteorizer
 ENV PATH /.meteor:/bin:${PATH}
+ENV BIND_IP $IP
 
 # python
 RUN curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
