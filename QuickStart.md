@@ -61,13 +61,27 @@ To start a meteor boilerplate run:
 ``` /metbp.sh myapp ```
 or a default meteor app:
 ``` meteor create myapp ```
-
+to install dependencies:
+``` mrt install ```
+to run:
+``` meteor ```
+or do both at the same time, simply:
+``` mrt ```
 ##Ruby on Rails
 ```
 Start a project with:
 ```sh
 rails new myapp
 ```
+install dependencies:
+```sh
+bundle
+```
+run server:
+```sh
+rails s
+```
+
 
 
 TODO:

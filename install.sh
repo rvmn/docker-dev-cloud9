@@ -1,5 +1,6 @@
 #!/bin/bash
 rm -rf Dockerfile && apt-get install curl wget && wget https://rawgit.com/rvmn/docker-dev-cloud9/master/Dockerfile
+[ ! -z $1 ] && echo $1 >> Dockerfile
 cat <<EOF  
 ---------------------------------------------------------------------------------------------
 
@@ -16,14 +17,13 @@ cat <<EOF
 ---------------------------------------------------------------------------------------------
 EOF
 read -t 7
-[ ! -z $1 ] && echo "ENV ${1}" >> Dockerfile
 
 #build!
 docker build -t docker-c9 .
 
 # add aliases to bashrc of host
 [ -z $( grep '#c9dev docker aliases' ~/.bashrc) ] && curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias >> ~/.bashrc && source ~/.bashrc
-bradd dcset 'bradd dcrun "docker run --privileged -d -v $(pwd):/workspace -p 3000:3000 -e $3 docker-c9 --username $1 --password $2"'
+bradd dcset 'bradd dcrun "docker run --privileged -d -v $(pwd):/workspace -p 3000:3000 -p 4000:4000 -p 5000:5000 -p 3131:3131 $3 docker-c9 --username $1 --password $2"'
 
 # postinstall clean
 rm -rf Dockerfile && rm -rf install.sh
