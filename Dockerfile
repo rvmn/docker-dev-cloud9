@@ -43,7 +43,7 @@ RUN mv /meteor /.meteor
 RUN apt-get install git screen tmux
 RUN npm install -g meteorite bower grunt-cli yo demeteorizer
 ENV PATH /.meteor:/bin:${PATH}
-ENV BIND_IP $IP
+ENV LC_ALL "en_US.UTF-8"
 RUN mkdir -p /data/db
 
 # python
