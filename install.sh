@@ -22,8 +22,8 @@ read -t 7
 docker build -t docker-c9 .
 
 # add aliases to bashrc of host
-[ -z $( grep '#c9dev docker aliases' ~/.bashrc) ] && curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias >> ~/.bashrc && source ~/.bashrc
-bradd dcset 'bradd dcrun "docker run --privileged -d -v $(pwd):/workspace -p 3000:3000 -p 4000:4000 -p 5000:5000 -p 3131:3131 $3 docker-c9 --username $1 --password $2"'
+[ -z $( grep '#c9dev docker aliases' ~/.bashrc) ] && curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias.sh >> ~/.bashrc && source ~/.bashrc
+brcadd dcset 'brcadd dcrun "docker run --privileged -d -v $(pwd):/workspace -p 3000:3000 -p 4000:4000 -p 5000:5000 -p 3131:3131 $3 $4 docker-c9 --username $1 --password $2"'
 
 # postinstall clean
 rm -rf Dockerfile && rm -rf install.sh
