@@ -5,9 +5,6 @@ Under View you can pick a theme, set syntax highlighting and much more.
 Base shortcuts: alt-z opens Zen-mode, alt-space does autocomplete, 
 in the complete right bottom the small button toggles the console up and down. 
 
-Don't forget to run the Cloud installation script using:
-``` /install-c9.sh ```
-or run ``` /install-meteor.sh ``` or ``` install-rails.sh ``` seperately 
 
 Extensions
 ------
@@ -54,9 +51,7 @@ dhelp   =   show all aliases
 -------
 ##Meteor
 For meteor apps you need to have a mongoDB database, you can create one
-for free at f.e. [mongohq](http://mongohq.com), or get a docker container (docker search mongodb). Make a db and run:
-``` export MONGO_URL=mongodb://<user>:<password>@kahana.mongohq.com:10007/<your-db-name> ```
-and better yet run ``` dcset <user> <pass> MONGO_URL=<mongo-url> ``` from your host shell to rebuild the ```dcrun``` command
+for free at f.e. [mongohq](http://mongohq.com), or get a docker container (docker search mongodb). 
 To start a meteor boilerplate run:
 ``` /metbp.sh myapp ```
 or a default meteor app:
