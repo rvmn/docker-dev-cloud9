@@ -1,6 +1,6 @@
 #!/bin/bash
 rm -rf Dockerfile && apt-get install curl wget && wget https://rawgit.com/rvmn/docker-dev-cloud9/master/Dockerfile
-[ ! -z $1 ] && echo $1 >> Dockerfile
+[ ! -z $1 ] && echo "ENV MONGO_URL $1" >> Dockerfile
 cat <<EOF  
 ---------------------------------------------------------------------------------------------
 
