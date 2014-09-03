@@ -48,7 +48,9 @@ Start a new meteor app:
 a meteor boilerplate app (jade,stylus,coffeescript,msx ):  
 ```/metbp.sh meteor-apps/appname```				
 
-A new rails app:														```rails new appname```					
+A new rails app:
+
+```rails new appname```					
 											        
 A new node app:									    
 ```												      
