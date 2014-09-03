@@ -43,9 +43,11 @@ Read QuickStart.md for more info, update meteor using ``` meteor update ```
 Postinstall script are not needed anymore, meteor and rails are now installed during build! 
 
 Start a new meteor app:
+
 ```meteor create appname```
 	
-a meteor boilerplate app (jade,stylus,coffeescript,msx ):  
+a meteor boilerplate app (jade,stylus,coffeescript,msx ): 
+
 ```/metbp.sh meteor-apps/appname```				
 
 A new rails app:
