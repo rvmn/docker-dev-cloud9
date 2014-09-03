@@ -41,35 +41,27 @@ Enjoy and create nice stuff!
 Read QuickStart.md for more info, update meteor using ``` meteor update ```
 
 Postinstall script are not needed anymore, meteor and rails are now installed during build! 
-```js											 	 ___
-						                            ( | )/_/
-												 __( >O< )
-Start a new meteor app:							 \_\(_|_) recursive  
-meteor create appname								 					
-															_,-._	 
-a meteor boilerplate app (jade,stylus,coffeescript,msx ):  / \_/ \
-														   >-(_)-<    
-/metbp.sh meteor-apps/appname							   \_/ \_/
-														     `-'
-																						
-																						
-A new rails app:																						
-rails new appname																					
-																							
-												         _ _
-A new node app:									       _{ ' }_
-												      { `.!.` }
-npm install express -g							      ',_/Y\_,'
-express new appname				     				    {_,_}
-												          |
-													    (\|  /)
-or read the QuickStart.md for more info				     \| //
-													   	  |//
-													   \\ |/  //
-												 ^^^^^^^^^^^^^^^
+
+Start a new meteor app:
+```js 
+meteor create appname								 				
+```
+	
+a meteor boilerplate app (jade,stylus,coffeescript,msx ):  
+```js													   
+/metbp.sh meteor-apps/appname													```						
+A new rails app:														```js								
+rails new appname														```					
+											        
+A new node app:									    
+```js												      
+npm install express -g							     
+express new appname				     				
+```													  
+or read the QuickStart.md for more info				   
 P.S In case of a partial install just download the install script again, docker will continue
 where it left.
-```
+
 Credits:
 ----
 Ajax.org and Docker for their awesome work!
