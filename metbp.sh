@@ -1,5 +1,5 @@
 #!/bin/bash
-git clone https://github.com/Dean-Shi/Meteor-Boilerplate.git && mv Meteor-Boilerplate $1 && cd $1 && mrt install && mrt update && mrt add npm && npm install msx && cat <<EOF
+git clone https://github.com/Dean-Shi/Meteor-Boilerplate.git && mv Meteor-Boilerplate $1 && cd $1 && meteor update && mrt add npm && npm install msx && cat <<EOF
 
 Done!! 
 
