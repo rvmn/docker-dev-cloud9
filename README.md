@@ -43,18 +43,15 @@ Read QuickStart.md for more info, update meteor using ``` meteor update ```
 Postinstall script are not needed anymore, meteor and rails are now installed during build! 
 
 Start a new meteor app:
-```js 
-meteor create appname								 				
-```
+```meteor create appname```
 	
 a meteor boilerplate app (jade,stylus,coffeescript,msx ):  
-```js													   
-/metbp.sh meteor-apps/appname													```						
-A new rails app:														```js								
-rails new appname														```					
+```/metbp.sh meteor-apps/appname```				
+
+A new rails app:														```rails new appname```					
 											        
 A new node app:									    
-```js												      
+```												      
 npm install express -g							     
 express new appname				     				
 ```													  
@@ -66,7 +63,7 @@ Credits:
 ----
 Ajax.org and Docker for their awesome work!
 
-Nitrous-io/jpetazzi - [ubuntu-dind]
+Nitrous-io/jpetazzi - [dind]
 
 gai00  - [docker-cloud9]
 
