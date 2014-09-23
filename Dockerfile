@@ -24,12 +24,11 @@ RUN npm install -g forever
 RUN cd /cloud9 && sm install && make ace && make worker
 
 # ruby
-RUN curl https://raw.githubusercontent.com/fesplugas/rbenv-installer/master/bin/rbenv-installer | bash
+apt-get install rbenv ruby-build
 ENV RBENV_ROOT ${HOME}/.rbenv
 ENV PATH ${RBENV_ROOT}/bin:${PATH}
-RUN eval "$(rbenv init -)"
-RUN /root/.rbenv/bin/rbenv install 2.1.2
-RUN /root/.rbenv/bin/rbenv global 2.1.2 && rbenv rehash
+RUN rbenv install 2.1.2
+RUN rbenv global 2.1.2 && rbenv rehash
 ENV GEM_PATH /lib/ruby/gems
 RUN gem install rails
 RUN echo 'apt-get update; apt-get install -y libsqlite3-dev' | bash -l
