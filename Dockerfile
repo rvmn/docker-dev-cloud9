@@ -28,8 +28,8 @@ RUN git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
 RUN git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 ENV RBENV_ROOT ${HOME}/.rbenv
 ENV PATH ${RBENV_ROOT}/bin:${PATH}
-RUN rbenv install 2.1.2
-RUN rbenv global 2.1.2 && rbenv rehash
+RUN ~/.rbenv/bin/rbenv install 2.1.2
+RUN ~/.rbenv/bin/rbenv global 2.1.2 && ~/.rbenv/bin/rbenv rehash
 ENV GEM_PATH /lib/ruby/gems
 RUN gem install rails
 RUN echo 'apt-get update; apt-get install -y libsqlite3-dev' | bash -l
