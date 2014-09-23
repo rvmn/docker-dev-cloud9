@@ -36,13 +36,17 @@ RUN echo 'apt-get update; apt-get install -y libsqlite3-dev' | bash -l
 ENV PATH /.rbenv/versions/2.1.2/bin/:/bin:${PATH}
 
 # meteor
+ruby -e "$(curl -fsSL https://raw.github.com/nitrous-io/autoparts/master/setup.rb)"
+RUN echo "alias parts='/.parts/autoparts/bin/parts'" > ~/.bashrc
+RUN source ~/.bashrc
+RUN parts install meteor
 #RUN curl https://install.meteor.com | /bin/sh
-RUN cd ~ && wget https://rawgit.com/rvmn/docker-dev-cloud9/master/c9-meteor.tar.gz
-RUN tar -zxvf c9-meteor.tar.gz
-RUN mv /meteor /.meteor
-RUN apt-get install git screen tmux
-RUN npm install -g meteorite bower grunt-cli yo demeteorizer
-ENV PATH /.meteor:/bin:${PATH}
+#RUN cd ~ && wget https://rawgit.com/rvmn/docker-dev-cloud9/master/c9-meteor.tar.gz
+#RUN tar -zxvf c9-meteor.tar.gz
+#RUN mv /meteor /.meteor
+#RUN apt-get install git screen tmux
+#RUN npm install -g meteorite bower grunt-cli yo demeteorizer
+#ENV PATH /.meteor:/bin:${PATH}
 ENV BIND_IP $IP
 RUN mkdir -p /data/db && chmod -R 775 /data
 
