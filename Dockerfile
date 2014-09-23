@@ -24,29 +24,19 @@ RUN npm install -g forever
 RUN cd /cloud9 && sm install && make ace && make worker
 
 # ruby
-RUN git clone git://github.com/sstephenson/rbenv.git /.rbenv/
-ENV PATH /.rbenv/bin:/.rbenv/shims:${PATH}
-RUN cd /.rbenv && mkdir plugins && cd plugins && git clone git://github.com/sstephenson/ruby-build.git
-ENV GEM_PATH /lib/ruby/gems
-RUN rbenv install -l
-RUN rbenv install -v 2.1.2
+RUN curl https://raw.githubusercontent.com/fesplugas/rbenv-installer/master/bin/rbenv-installer | bash
+RUN rbenv install 2.1.2
 RUN rbenv global 2.1.2 && rbenv rehash
+ENV PATH /.rbenv/bin:/.rbenv/shims:${PATH}
+ENV PATH /.rbenv/versions/2.1.2/bin/:/bin:${PATH}
+ENV GEM_PATH /lib/ruby/gems
 RUN gem install rails
 RUN echo 'apt-get update; apt-get install -y libsqlite3-dev' | bash -l
-ENV PATH /.rbenv/versions/2.1.2/bin/:/bin:${PATH}
 RUN echo 'source' | bash -l
 
-#RUN curl https://install.meteor.com | /bin/sh
-#RUN cd ~ && wget https://rawgit.com/rvmn/docker-dev-cloud9/master/c9-meteor.tar.gz
-#RUN tar -zxvf c9-meteor.tar.gz
-#RUN mv /meteor /.meteor
-#RUN apt-get install git screen tmux
-#RUN npm install -g meteorite bower grunt-cli yo demeteorizer
-#ENV PATH /.meteor:/bin:${PATH}
+# meteor
 ENV BIND_IP $IP
 RUN mkdir -p /data/db && chmod -R 775 /data
-
-# meteor
 ruby -e "$(curl -fsSL https://raw.github.com/nitrous-io/autoparts/master/setup.rb)"
 RUN echo "alias parts='/.parts/autoparts/bin/parts'" > ~/.bashrc
 RUN echo 'source' | bash -l
