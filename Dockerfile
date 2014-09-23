@@ -25,10 +25,9 @@ RUN cd /cloud9 && sm install && make ace && make worker
 
 # ruby
 RUN curl https://raw.githubusercontent.com/fesplugas/rbenv-installer/master/bin/rbenv-installer | bash
-ENV PATH /.rbenv/bin:/.rbenv/shims:${PATH}
-ENV PATH /.rbenv/versions/2.1.2/bin/:/bin:${PATH}
 ENV RBENV_ROOT ${HOME}/.rbenv
 ENV PATH ${RBENV_ROOT}/bin:${PATH}
+RUN eval "$(rbenv init -)"
 RUN rbenv install 2.1.2
 RUN rbenv global 2.1.2 && rbenv rehash
 ENV GEM_PATH /lib/ruby/gems
