@@ -34,12 +34,8 @@ RUN rbenv global 2.1.2 && rbenv rehash
 RUN gem install rails
 RUN echo 'apt-get update; apt-get install -y libsqlite3-dev' | bash -l
 ENV PATH /.rbenv/versions/2.1.2/bin/:/bin:${PATH}
+RUN echo 'source' | bash -l
 
-# meteor
-ruby -e "$(curl -fsSL https://raw.github.com/nitrous-io/autoparts/master/setup.rb)"
-RUN echo "alias parts='/.parts/autoparts/bin/parts'" > ~/.bashrc
-RUN source ~/.bashrc
-RUN parts install meteor
 #RUN curl https://install.meteor.com | /bin/sh
 #RUN cd ~ && wget https://rawgit.com/rvmn/docker-dev-cloud9/master/c9-meteor.tar.gz
 #RUN tar -zxvf c9-meteor.tar.gz
@@ -49,6 +45,12 @@ RUN parts install meteor
 #ENV PATH /.meteor:/bin:${PATH}
 ENV BIND_IP $IP
 RUN mkdir -p /data/db && chmod -R 775 /data
+
+# meteor
+ruby -e "$(curl -fsSL https://raw.github.com/nitrous-io/autoparts/master/setup.rb)"
+RUN echo "alias parts='/.parts/autoparts/bin/parts'" > ~/.bashrc
+RUN echo 'source' | bash -l
+RUN parts install meteor
 
 # python
 RUN curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
