@@ -26,10 +26,6 @@ RUN cd /cloud9 && sm install && make ace && make worker
 # ruby
 RUN git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
 RUN git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
-RUN cd ~/.rbenv
-RUN git pull
-RUN cd plugins/ruby-build
-RUN git pull
 ENV RBENV_ROOT ${HOME}/.rbenv
 ENV PATH ${RBENV_ROOT}/bin:${PATH}
 RUN rbenv install 2.1.2
