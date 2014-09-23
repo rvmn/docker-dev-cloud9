@@ -24,7 +24,7 @@ RUN npm install -g forever
 RUN cd /cloud9 && sm install && make ace && make worker
 
 # ruby
-apt-get install rbenv ruby-build
+RUN apt-get install rbenv ruby-build
 ENV RBENV_ROOT ${HOME}/.rbenv
 ENV PATH ${RBENV_ROOT}/bin:${PATH}
 RUN rbenv install 2.1.2
