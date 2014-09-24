@@ -2,7 +2,7 @@ FROM ubuntu:14.04
 
 # install environment
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y build-essential g++ curl libssl-dev apache2-utils git libxml2-dev mercurial man tree lsof wget openssl supervisor nano python rbenv ruby-build
+RUN apt-get install -y build-essential g++ curl libssl-dev apache2-utils git libxml2-dev mercurial man tree lsof wget openssl supervisor nano python
 
 # install docker
 RUN apt-get update && apt-get install -yq apt-transport-https
@@ -24,16 +24,14 @@ RUN npm install -g forever
 RUN cd /cloud9 && sm install && make ace && make worker
 
 # ruby
-RUN git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
-RUN git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
-ENV RBENV_ROOT ${HOME}/.rbenv
-ENV PATH ${RBENV_ROOT}/bin:${PATH}
-RUN ~/.rbenv/bin/rbenv install 2.1.2
-RUN ~/.rbenv/bin/rbenv global 2.1.2 && ~/.rbenv/bin/rbenv rehash
-ENV GEM_PATH /lib/ruby/gems
+RUN git clone git://github.com/sstephenson/rbenv.git /.rbenv/
+ENV PATH /.rbenv/bin:/.rbenv/shims:${PATH}
+RUN cd /.rbenv && mkdir plugins && cd plugins && git clone git://github.com/sstephenson/ruby-build.git
+RUN rbenv install -l 
+RUN rbenv install 2.1.2 && rbenv global 2.1.2 && rbenv rehash
 RUN gem install rails
+ENV GEM_PATH /lib/ruby/gems
 RUN echo 'apt-get update; apt-get install -y libsqlite3-dev' | bash -l
-RUN echo 'source' | bash -l
 
 # meteor
 ENV BIND_IP $IP
