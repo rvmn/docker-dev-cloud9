@@ -29,6 +29,7 @@ ENV PATH /.rbenv/bin:/.rbenv/shims:${PATH}
 RUN cd /.rbenv && mkdir plugins && cd plugins && git clone git://github.com/sstephenson/ruby-build.git
 RUN rbenv install -l 
 RUN rbenv install 2.1.2 && rbenv global 2.1.2 && rbenv rehash
+RUn exec $SHELL -l
 RUN gem install rails
 ENV GEM_PATH /lib/ruby/gems
 RUN echo 'apt-get update; apt-get install -y libsqlite3-dev' | bash -l
