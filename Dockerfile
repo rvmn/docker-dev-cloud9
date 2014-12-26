@@ -18,11 +18,10 @@ RUN git clone https://github.com/ajaxorg/cloud9.git
 RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.16.1/install.sh | sh
 RUN var=$(nvm ls-remote | tail -1)
 RUN echo "var=$(nvm ls-remote | tail -1) && source ~/.nvm/nvm.sh && nvm install $var && nvm current" | bash -l
-RUN nvm current && var=$(nvm ls-remote | tail -1) && echo "/nvm/$var/bin:${PATH}" >> ~/.bashrc && echo "nvm current && nvm use $var" | bash -l
+RUN var=$(nvm ls-remote | tail -1) && echo "/nvm/$var/bin:${PATH}" >> ~/.bashrc && echo "nvm use $var && npm install -g sm && /nvm/$var/lib/node_modules/sm/bin/sm install" | bash -l
 RUN cat ~/.bashrc && source ~/.bashrc
 RUN echo 'source ~/.bashrc' | bash -l
 RUN node -v
-RUN echo "npm install -g sm && /nvm/$var/lib/node_modules/sm/bin/sm install" | bash -l
 RUN npm install -g forever
 RUN cd /cloud9 && sm install && make ace && make worker
 
