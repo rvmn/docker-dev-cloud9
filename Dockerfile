@@ -19,7 +19,7 @@ RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.16.1/install.sh | s
 RUN var=$(nvm ls-remote | tail -1)
 RUN echo "var=$(nvm ls-remote | tail -1) && source ~/.nvm/nvm.sh && nvm install $var" | bash -l
 RUN echo "/nvm/$var/bin:${PATH}" >> ~/.bashrc
-RUN echo 'cat ~/.bashrc' | bash -l
+RUN cat ~/.bashrc
 RUN echo 'var=$(nvm ls-remote | tail -1 ) && $(echo "nvm use $var")' | bash -l
 RUN echo 'source ~/.bashrc' | bash -l
 RUN node -v
