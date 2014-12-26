@@ -16,8 +16,8 @@ RUN git clone https://github.com/ajaxorg/cloud9.git
 
 # nvm
 RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.16.1/install.sh | sh
-RUN var=$(nvm ls-remote | tail -1 | cut -d'v' -f 2)
-RUN echo nvm ls-remote | tail -1 | echo "source ~/.nvm/nvm.sh && nvm install $var" | bash -l
+RUN var=$(nvm ls-remote | tail -1 | cut -d'v' -f 2) 
+RUN echo nvm ls-remote | tail -1 | echo "var=$(nvm ls-remote | tail -1 | cut -d'v' -f 2) && source ~/.nvm/nvm.sh && nvm install $var" | bash -l
 RUN echo nvm ls-remote | tail -1 | echo "/nvm/$var/bin:${PATH}" >> ~/.bashrc
 RUN cat ~/.bashrc
 RUN $(echo "nvm use $var")
