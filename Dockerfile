@@ -17,7 +17,6 @@ RUN git clone https://github.com/ajaxorg/cloud9.git
 # nvm
 RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.16.1/install.sh | sh
 RUN echo nvm ls-remote | tail -1 | echo 'source ~/.nvm/nvm.sh && nvm install "$1"' | bash -l
-RUN echo nvm ls-remote | tail -1 | echo 'nvm use "$1"' | bash -l
 RUN echo nvm ls-remote | tail -1 | echo "/nvm/${NODE_VERSION}/bin:${PATH}" >> .bashrc | bash -l
 RUN echo 'source .bashrc' | bash -l
 RUN echo 'node -v' | bash -l
