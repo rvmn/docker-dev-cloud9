@@ -16,10 +16,12 @@ RUN git clone https://github.com/ajaxorg/cloud9.git
 
 # nvm
 RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.16.1/install.sh | sh
-ENV NODE_VERSION v0.10.29
-RUN echo 'source ~/.nvm/nvm.sh && nvm install ${NODE_VERSION}' | bash -l
-ENV PATH /nvm/${NODE_VERSION}/bin:${PATH}
-RUN npm install -g sm && /nvm/${NODE_VERSION}/lib/node_modules/sm/bin/sm install
+RUN echo nvm ls-remote | tail -1 | echo 'source ~/.nvm/nvm.sh && nvm install "$1"' | bash -l
+RUN echo nvm ls-remote | tail -1 | echo 'nvm use "$1"' | bash -l
+RUN echo nvm ls-remote | tail -1 | echo "/nvm/${NODE_VERSION}/bin:${PATH}" >> .bashrc | bash -l
+RUN echo 'source .bashrc' | bash -l
+RUN echo 'node -v' | bash -l
+RUN echo nvm ls-remote | tail -1 | echo 'npm install -g sm && /nvm/"$1"/lib/node_modules/sm/bin/sm install' | bash -l
 RUN npm install -g forever
 RUN cd /cloud9 && sm install && make ace && make worker
 
