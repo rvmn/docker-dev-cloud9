@@ -22,11 +22,11 @@ Pre-requisites:
 Installation script:
 ----
 ```js
-wget https://rawgit.com/rvmn/docker-dev-cloud9/master/install.sh && chmod +x install.sh && ./install.sh 
+wget https://raw.githubusercontent.com/rvmn/docker-dev-cloud9/master/install.sh && chmod +x install.sh && ./install.sh 
 ```
 OR
 ```js
-curl https://rawgit.com/rvmn/docker-dev-cloud9/master/install.sh && chmod +x install.sh && ./install.sh 
+curl https://raw.githubusercontent.com/rvmn/docker-dev-cloud9/master/install.sh && chmod +x install.sh && ./install.sh 
 ```
 In order for meteor to work copy paste the mongo-url to your database after the previous command.
 
