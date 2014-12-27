@@ -3,7 +3,7 @@ FROM ubuntu:14.04
 # install environment
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y build-essential g++ curl libssl-dev apache2-utils git libxml2-dev mercurial man tree lsof wget openssl supervisor nano python npm
+RUN apt-get install -y build-essential g++ curl libssl-dev ruby-build apache2-utils git libxml2-dev mercurial man tree lsof wget openssl supervisor nano python npm
 
 # install docker
 RUN apt-get update && apt-get install -yq apt-transport-https
@@ -27,14 +27,14 @@ RUN npm install -g forever
 RUN cd /cloud9 && sm install && make ace && make worker
 
 # ruby
-RUN git clone git://github.com/sstephenson/rbenv.git /.rbenv/
-ENV PATH /.rbenv/bin:/.rbenv/shims:${PATH}
+#RUN git clone git://github.com/sstephenson/rbenv.git /.rbenv/
+#ENV PATH /.rbenv/bin:/.rbenv/shims:${PATH}
 RUN echo 'eval "$(rbenv init -)"' >> ~/.bashrc
-RUN exec $SHELL
-RUN cd /.rbenv && mkdir plugins && cd plugins && git clone git://github.com/sstephenson/ruby-build.git
-RUN echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
-ENV PATH $HOME/.rbenv/plugins/ruby-build/bin:${PATH}
-RUN exec $SHELL
+#RUN exec $SHELL
+#RUN cd /.rbenv && mkdir plugins && cd plugins && git clone git://github.com/sstephenson/ruby-build.git
+#RUN echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
+#ENV PATH $HOME/.rbenv/plugins/ruby-build/bin:${PATH}
+#RUN exec $SHELL
 RUN rbenv install 2.1.2 && rbenv global 2.1.2 && rbenv rehash
 RUN echo "gem: --no-ri --no-rdoc" > ~/.gemrc
 RUN gem install rails
