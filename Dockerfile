@@ -17,8 +17,8 @@ RUN git clone https://github.com/ajaxorg/cloud9.git
 
 # nvm
 RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.16.1/install.sh | sh
-RUN source ~/.nvm/nvm.sh && echo "source ~/.nvm/nvm.sh" >> ~/.bashrc && source ~/.bashrc && var=$(nvm ls-remote | tail -1 | cut -d'v' -f 2) && echo "var=$(nvm ls-remote | tail -1 | cut -d'v' -f 2)" >> ~/.bashrc && source ~/.bashrc && echo "~/.nvm/v${var}/bin:${PATH}" >> ~/.bashrc && echo "alias node='~/.nvm/v${var}/bin/node'" >> ~/.bashrc && cat ~/.bashrc && source ~/.bashrc && nvm install $var
-RUN source ~/.bashrc && node -v && npm -v && npm install -g sm && $(echo "~/.nvm/$var/lib/node_modules/sm/bin/sm install")
+RUN source ~/.nvm/nvm.sh && echo "source ~/.nvm/nvm.sh" >> ~/.bashrc && source ~/.bashrc && var=$(nvm ls-remote | tail -1 | cut -d'v' -f 2) && echo "var=$(nvm ls-remote | tail -1 | cut -d'v' -f 2)" >> ~/.bashrc && source ~/.bashrc && echo "~/.nvm/v${var}/bin:${PATH}" >> ~/.bashrc && echo "alias node='~/.nvm/v${var}/bin/node'" >> ~/.bashrc && cat ~/.bashrc && nvm install $var && source ~/.bashrc
+RUN source ~/.bashrc && var=$(nvm ls-remote | tail -1 | cut -d'v' -f 2) && $(echo "alias node='~/.nvm/v$var/bin/node'") && node -v && npm -v && npm install -g sm && $(echo "~/.nvm/$var/lib/node_modules/sm/bin/sm install")
 RUN npm install -g forever
 RUN cd /cloud9 && sm install && make ace && make worker
 
@@ -28,7 +28,7 @@ ENV PATH /.rbenv/bin:/.rbenv/shims:${PATH}
 RUN cd /.rbenv && mkdir plugins && cd plugins && git clone git://github.com/sstephenson/ruby-build.git
 RUN rbenv install -l 
 RUN rbenv install 2.1.2 && rbenv global 2.1.2 && rbenv rehash
-RUn exec $SHELL -l
+RUN exec $SHELL -l
 RUN gem install rails
 ENV GEM_PATH /lib/ruby/gems
 RUN echo 'apt-get update; apt-get install -y libsqlite3-dev' | bash -l
