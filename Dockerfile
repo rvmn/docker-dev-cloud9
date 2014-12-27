@@ -26,7 +26,8 @@ RUN git clone https://github.com/creationix/nvm.git
 ENV NODE_VERSION v0.10.29
 RUN echo 'source /nvm/nvm.sh && nvm install ${NODE_VERSION}' | bash -l
 ENV PATH /nvm/${NODE_VERSION}/bin:${PATH}
-RUN echo "${HOME}/nvm/${NODE_VERSION}/bin:${PATH}" >> ~/.bashrc && source ~/.bashrc && npm install -g sm && npm install -g forever && /nvm/${NODE_VERSION}/lib/node_modules/sm/bin/sm install-command && sm install-npm && cd /cloud9 && sm install && make ace && make worker
+RUN cd /cloud9 && npm install
+#RUN echo "${HOME}/nvm/${NODE_VERSION}/bin:${PATH}" >> ~/.bashrc && source ~/.bashrc && npm install -g sm && npm install -g forever && /nvm/${NODE_VERSION}/lib/node_modules/sm/bin/sm install-command && sm install-npm && cd /cloud9 && sm install && make ace && make worker
 
 # ruby
 RUN git clone git://github.com/sstephenson/rbenv.git /.rbenv/
