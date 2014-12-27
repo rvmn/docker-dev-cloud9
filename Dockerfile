@@ -3,7 +3,7 @@ FROM ubuntu:14.04
 # install environment
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y build-essential g++ curl libssl-dev ruby-build apache2-utils git libxml2-dev mercurial man tree lsof wget openssl supervisor nano python npm
+RUN apt-get install -y build-essential g++ curl libssl-dev npm ruby-build apache2-utils git libxml2-dev mercurial man tree lsof wget openssl supervisor nano python npm
 ENV SHELL /bin/bash
 ENV HOME /root
 ENV LANG en_US.UTF-8
@@ -26,8 +26,7 @@ RUN git clone https://github.com/creationix/nvm.git
 ENV NODE_VERSION v0.10.29
 RUN echo 'source /nvm/nvm.sh && nvm install ${NODE_VERSION}' | bash -l
 ENV PATH /nvm/${NODE_VERSION}/bin:${PATH}
-RUN npm install -g sm && /nvm/${NODE_VERSION}/lib/node_modules/sm/bin/sm install
-RUN npm install -g forever
+RUN echo "${HOME}/nvm/${NODE_VERSION}/bin:${PATH}" >> ~/.bashrc && source ~/.bashrc && npm install -g sm && npm install -g forever && /nvm/${NODE_VERSION}/lib/node_modules/sm/bin/sm install
 RUN cd /cloud9 && sm install && make ace && make worker
 
 # ruby
