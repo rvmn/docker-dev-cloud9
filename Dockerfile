@@ -34,7 +34,7 @@ RUN exec $SHELL
 RUN cd /.rbenv && mkdir plugins && cd plugins && git clone git://github.com/sstephenson/ruby-build.git
 RUN echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
 RUN exec $SHELL
-RUN rbenv install 2.1.2 && rbenv global 2.1.2 && rbenv -v
+RUN rbenv install 2.1.2 && rbenv global 2.1.2 && rbenv rehash
 RUN echo "gem: --no-ri --no-rdoc" > ~/.gemrc
 RUN gem install rails
 ENV GEM_PATH /lib/ruby/gems
