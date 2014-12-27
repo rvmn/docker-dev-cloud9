@@ -29,10 +29,13 @@ RUN cd /cloud9 && sm install && make ace && make worker
 # ruby
 RUN git clone git://github.com/sstephenson/rbenv.git /.rbenv/
 ENV PATH /.rbenv/bin:/.rbenv/shims:${PATH}
+RUN echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+RUN exec $SHELL
 RUN cd /.rbenv && mkdir plugins && cd plugins && git clone git://github.com/sstephenson/ruby-build.git
-RUN rbenv install -l 
-RUN rbenv install 2.1.2 && rbenv global 2.1.2 && rbenv rehash
-RUN exec $SHELL -l
+RUN echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
+RUN exec $SHELL
+RUN rbenv install 2.1.2 && rbenv global 2.1.2 && rbenv -v
+RUN echo "gem: --no-ri --no-rdoc" > ~/.gemrc
 RUN gem install rails
 ENV GEM_PATH /lib/ruby/gems
 RUN echo 'apt-get update; apt-get install -y libsqlite3-dev' | bash -l
@@ -73,12 +76,9 @@ RUN npm cache clean
 VOLUME /workspace
 VOLUME /var/lib/docker
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/QuickStart.md
-RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/install-meteor.sh 
-RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/install-rails.sh 
-RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/install-c9.sh 
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/metbp.sh 
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/README.md
-RUN chmod +x metbp.sh && chmod +x install-meteor.sh && chmod +x install-rails.sh && chmod +x install-c9.sh 
+RUN chmod +x metbp.sh
 RUN mkdir meteor-apps && mkdir rails-apps 
 EXPOSE 80:80
 EXPOSE 443:443
