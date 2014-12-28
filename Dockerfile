@@ -21,7 +21,7 @@ RUN apt-get install -y --no-install-recommends lxc=1.0.* cgmanager libcgmanager0
 #RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.16.1/install.sh | sh
 #RUN source ~/.nvm/nvm.sh && echo "source ~/.nvm/nvm.sh" >> ~/.bashrc && source ~/.bashrc && var=0.10.35;new=$(nvm ls-remote | tail -1 | cut -d'v' -f 2) && echo "var=0.10.35;new=$(nvm ls-remote | tail -1 | cut -d'v' -f 2)" >> ~/.bashrc && source ~/.bashrc && echo "~/.nvm/v${var}/bin:${PATH}" >> ~/.bashrc && echo "alias node='~/.nvm/v${var}/bin/node'" >> ~/.bashrc && cat ~/.bashrc && nvm install $var && source ~/.bashrc && $(echo "alias node='~/.nvm/v$var/bin/node'") && node -v && npm -v && npm install -g sm && $(echo "~/.nvm/$var/lib/node_modules/sm/bin/sm install") && npm install -g forever && cd /cloud9 && sm install && make ace && make worker
 RUN git clone https://github.com/creationix/nvm.git
-ENV NODE_VERSION v0.10.29
+ENV NODE_VERSION v0.10.18
 RUN echo 'source /nvm/nvm.sh && nvm install ${NODE_VERSION}' | bash -l
 ENV PATH /nvm/${NODE_VERSION}/bin:${PATH}
 RUN apt-get install -y npm
