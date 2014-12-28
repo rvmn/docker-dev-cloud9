@@ -3,6 +3,7 @@ FROM ubuntu:14.04
 # install environment
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN apt-get update && apt-get upgrade -y
+RUN echo deb http://archive.ubuntu.com/ubuntu precise main universe multiverse > /etc/apt/sources.list
 RUN apt-get install -y build-essential g++ curl libssl-dev python-software-properties ruby-build apache2-utils git libxml2-dev mercurial man tree lsof wget openssl supervisor nano python ack-grep
 ENV SHELL /bin/bash
 ENV HOME /root
