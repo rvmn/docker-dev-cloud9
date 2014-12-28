@@ -17,9 +17,6 @@ RUN echo deb https://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/
 RUN apt-get update && apt-get install -yq lxc-docker-1.1.1
 RUN apt-get install -y --no-install-recommends lxc=1.0.* cgmanager libcgmanager0
 
-# get cloud9
-RUN git clone https://github.com/ajaxorg/cloud9.git
-
 # nvm
 #RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.16.1/install.sh | sh
 #RUN source ~/.nvm/nvm.sh && echo "source ~/.nvm/nvm.sh" >> ~/.bashrc && source ~/.bashrc && var=0.10.35;new=$(nvm ls-remote | tail -1 | cut -d'v' -f 2) && echo "var=0.10.35;new=$(nvm ls-remote | tail -1 | cut -d'v' -f 2)" >> ~/.bashrc && source ~/.bashrc && echo "~/.nvm/v${var}/bin:${PATH}" >> ~/.bashrc && echo "alias node='~/.nvm/v${var}/bin/node'" >> ~/.bashrc && cat ~/.bashrc && nvm install $var && source ~/.bashrc && $(echo "alias node='~/.nvm/v$var/bin/node'") && node -v && npm -v && npm install -g sm && $(echo "~/.nvm/$var/lib/node_modules/sm/bin/sm install") && npm install -g forever && cd /cloud9 && sm install && make ace && make worker
@@ -28,8 +25,21 @@ ENV NODE_VERSION v0.10.29
 RUN echo 'source /nvm/nvm.sh && nvm install ${NODE_VERSION}' | bash -l
 ENV PATH /nvm/${NODE_VERSION}/bin:${PATH}
 RUN apt-get install -y npm
-RUN cd /cloud9 && npm install
 #RUN echo "${HOME}/nvm/${NODE_VERSION}/bin:${PATH}" >> ~/.bashrc && source ~/.bashrc && npm install -g sm && npm install -g forever && /nvm/${NODE_VERSION}/lib/node_modules/sm/bin/sm install-command && sm install-npm && cd /cloud9 && sm install && make ace && make worker
+
+# Install Cloud9
+RUN git clone https://github.com/ajaxorg/cloud9.git /cloud9
+WORKDIR /cloud9
+RUN npm install
+RUN npm install -g sm
+WORKDIR /cloud9/node_modules/ace
+RUN make clean build
+WORKDIR /cloud9/node_modules/packager
+RUN rm -rf node_modules
+RUN sm install
+WORKDIR /cloud9
+CMD ["make"]
+RUN node ./node_modules/mappings/scripts/postinstall-notice.js
 
 # ruby
 RUN git clone git://github.com/sstephenson/rbenv.git /.rbenv/
