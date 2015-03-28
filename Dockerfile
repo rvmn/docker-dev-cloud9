@@ -49,7 +49,7 @@ RUN git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-
 RUN echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
 RUN exec $SHELL
 RUN git clone https://github.com/sstephenson/rbenv-gem-rehash.git ~/.rbenv/plugins/rbenv-gem-rehash
-RUN rbenv install 2.2.1 && rbenv global 2.2.1 && ruby -v && rbenv rehash
+RUN rbenv install 2.2.1 && rbenv global 2.2.1 && rbenv rehash
 RUN echo "gem: --no-ri --no-rdoc" > ~/.gemrc
 RUN gem install bundler
 RUN gem install rails
