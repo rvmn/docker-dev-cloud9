@@ -57,7 +57,7 @@ ENV BIND_IP $IP
 RUN mkdir -p /data/db && chmod -R 775 /data
 ruby -e "$(curl -fsSL https://raw.github.com/nitrous-io/autoparts/master/setup.rb)"
 RUN echo "alias parts='/.parts/autoparts/bin/parts'" > ~/.bashrc
-RUN echo 'source' | bash -l
+RUN echo 'source ~/.basrc' | bash -l
 RUN parts install meteor
 
 # python
