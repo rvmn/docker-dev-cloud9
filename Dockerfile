@@ -42,7 +42,7 @@ RUN apt-get install -y npm
 
 # ruby
 RUN curl -sSL https://rvm.io/mpapis.asc | gpg --import -
-RUN echo 'source ~/.rvm/scripts/rvm' | bash -l
+RUN source ~/.rvm/scripts/rvm
 RUN rvm install 2.2.1
 RUN rvm use 2.2.1 --default
 RUN ruby -v
