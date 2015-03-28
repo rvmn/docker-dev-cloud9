@@ -41,7 +41,6 @@ RUN apt-get install -y npm
 #RUN node ./node_modules/mappings/scripts/postinstall-notice.js
 
 # ruby
-RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
 RUN curl -sSL https://get.rvm.io | sudo bash -s stable
 RUN source ~/.rvm/scripts/rvm
 RUN rvm install 2.2.1
