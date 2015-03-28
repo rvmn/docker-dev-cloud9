@@ -28,7 +28,7 @@ RUN apt-get install -y npm
 #RUN echo "${HOME}/nvm/${NODE_VERSION}/bin:${PATH}" >> ~/.bashrc && source ~/.bashrc && npm install -g sm && npm install -g forever && /nvm/${NODE_VERSION}/lib/node_modules/sm/bin/sm install-command && sm install-npm && cd /cloud9 && sm install && make ace && make worker
 
 # Install Cloud9
-RUN git clone https://github.com/ajaxorg/cloud9.git cloud9 && cd cloud9 && npm install && npm install -g bower sm && bower install && cd ..
+RUN git clone git@github.com:c9/core.git cloud9 && cd cloud9 && ./scripts/install-sdk.sh && npm install -g sm && cd ..
 #C9H RUN git clone https://github.com/AVGP/cloud9hub.git cloud9hub && cd cloud9hub && npm install
 #C9E
 
