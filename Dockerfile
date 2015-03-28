@@ -49,7 +49,7 @@ RUN /usr/local/rvm/bin/rvm use 2.2.1 --default
 RUN ruby -v
 RUN echo "gem: --no-ri --no-rdoc" > ~/.gemrc
 RUN gem install bundler
-RUN gem install rails -v 4.2.0
+#RUN gem install rails -v 4.2.0
 ENV GEM_PATH /lib/ruby/gems
 
 # meteor
