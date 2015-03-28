@@ -27,11 +27,6 @@ ENV PATH /nvm/${NODE_VERSION}/bin:${PATH}
 RUN apt-get install -y npm
 #RUN echo "${HOME}/nvm/${NODE_VERSION}/bin:${PATH}" >> ~/.bashrc && source ~/.bashrc && npm install -g sm && npm install -g forever && /nvm/${NODE_VERSION}/lib/node_modules/sm/bin/sm install-command && sm install-npm && cd /cloud9 && sm install && make ace && make worker
 
-# Install Cloud9
-RUN git clone https://github.com/c9/core cloud9 && cd cloud9 && ./scripts/install-sdk.sh && npm install -g sm && cd ..
-#C9H RUN git clone https://github.com/AVGP/cloud9hub.git cloud9hub && cd cloud9hub && npm install
-#C9E
-
 #RUN git clone https://github.com/ajaxorg/cloud9.git /cloud9
 #WORKDIR /cloud9
 #RUN npm install
@@ -73,6 +68,12 @@ RUN parts install meteor
 
 # python
 RUN curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+RUN pip install virtualenv
+
+# Install Cloud9
+RUN git clone https://github.com/c9/core cloud9 && cd cloud9 && ./scripts/install-sdk.sh && npm install -g sm && cd ..
+#C9H RUN git clone https://github.com/AVGP/cloud9hub.git cloud9hub && cd cloud9hub && npm install
+#C9E
 
 # julia
 RUN apt-get install -y julia 
