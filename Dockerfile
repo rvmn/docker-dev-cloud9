@@ -4,7 +4,7 @@ FROM ubuntu:14.04
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN apt-get update && apt-get upgrade -y
 RUN echo deb http://archive.ubuntu.com/ubuntu precise main universe multiverse >> /etc/apt/sources.list
-RUN apt-get install -y build-essential g++ libssl-dev python-software-properties ruby-build apache2-utils git libxml2-dev mercurial man tree lsof wget openssl supervisor nano python ack-grep git-core curl zlib1g-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev
+RUN apt-get install -y build-essential g++ libssl-dev python-software-properties ruby-build apache2-utils git libxml2-dev mercurial man tree lsof wget openssl supervisor nano python ack-grep git-core curl zlib1g-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev libgdbm-dev libncurses5-dev automake libtool bison 
 ENV SHELL /bin/bash
 ENV HOME /root
 ENV LANG en_US.UTF-8
@@ -41,22 +41,15 @@ RUN apt-get install -y npm
 #RUN node ./node_modules/mappings/scripts/postinstall-notice.js
 
 # ruby
-RUN git clone git://github.com/sstephenson/rbenv.git .rbenv
-RUN echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
-RUN echo 'eval "$(rbenv init -)"' >> ~/.bashrc
-RUN exec $SHELL
-RUN git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
-RUN echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
-RUN exec $SHELL
-RUN git clone https://github.com/sstephenson/rbenv-gem-rehash.git ~/.rbenv/plugins/rbenv-gem-rehash
-RUN rbenv install 2.2.1 
-RUN rbenv global 2.2.1
-RUN rbenv rehash
+RUN curl -L https://get.rvm.io | bash -s stable
+RUN echo 'source ~/.rvm/scripts/rvm' | bash -l
+RUN rvm install 2.2.1
+RUN rvm use 2.2.1 --default
+RUN ruby -v
 RUN echo "gem: --no-ri --no-rdoc" > ~/.gemrc
 RUN gem install bundler
 RUN gem install rails
 ENV GEM_PATH /lib/ruby/gems
-RUN echo 'apt-get update; apt-get install -y libsqlite3-dev' | bash -l
 
 # meteor
 ENV BIND_IP $IP
