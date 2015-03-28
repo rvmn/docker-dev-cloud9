@@ -43,7 +43,7 @@ RUN apt-get install -y npm
 # ruby
 RUN sudo gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
 RUN curl -sSL https://get.rvm.io | sudo bash -s stable
-RUN source ~/.rvm/scripts/rvm
+RUN echo 'source ~/.rvm/scripts/rvm' | bash -l
 RUN rvm install 2.2.1
 RUN rvm use 2.2.1 --default
 RUN ruby -v
