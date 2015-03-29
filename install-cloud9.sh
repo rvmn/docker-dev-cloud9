@@ -1,19 +1,3 @@
-Skip to content
- This repository
-Explore
-Gist
-Blog
-Help
-@rvmn rvmn
- 
- Watch 54
-  Star 262
-  Fork 73
-c9/core
- branch: master  core/scripts/install-sdk.sh
-@client4client4 10 days ago Update Install-sdk.sh so it doesn't fail
-3 contributors @nightwing @client4 @gergely-marko
-RawBlameHistory     Executable File  113 lines (93 sloc)  2.889 kb
 #!/bin/bash -e
 
 cd `dirname $0`/..
@@ -126,5 +110,3 @@ updateNodeModules
 
 echo "Success!"
 echo "run '${yellow}node server.js -p 8181 -l 0.0.0.0 -a :${resetColor}' to launch Cloud9"
-Status API Training Shop Blog About
-© 2015 GitHub, Inc. Terms Privacy Security Contact
