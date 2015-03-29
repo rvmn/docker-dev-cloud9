@@ -1,5 +1,4 @@
-#!/bin/bash
-#c9dev docker aliases
+# docker aliases
 alias dq='echo "search docker ecosystem">0;docker search'
 alias dl='echo "get latest container ID">0;docker ps -l -q'
 alias dp='echo "show running containers">0;docker ps'
@@ -27,8 +26,9 @@ alias dsav='echo "stop and save a container to an image">0;fdsav'
 alias dsavi='echo "stop, save a container to an image, and start it again">0;fdsavi'
 alias dprm='echo "remove all containers, except running ones">0;fdprm'
 alias drmi='echo "remove all images, except ones used">0;fdrmi'
-alias dbu='echo "dockerfile build">0;fdbu'
-alias dhelp='echo "show all aliases(this)">0;fdalias'
+alias dbu='echo "build dockerfile">0;fdbu'
+alias dalias='echo "add alias,e.g. dbalias name command-string">0;fdalias'
+alias dhelp='echo "show all aliases(this)">0;fdhelp'
 fds(){ docker start $(echo ${1-$(dl)}); }
 fdst(){ docker stop $(echo ${1-$(dl)}); }
 fdsh() { docker run -it $1 /bin/bash; }
@@ -42,9 +42,9 @@ fdsavs() { dsav $([ -z $2 ] && echo $(dl) || echo $1) $2; ds $([ -z $2 ] && echo
 fdsavi() { dst $1; dcm $(dl) $(din $()) ; }
 fdprm() { docker rm $(docker ps -a -q); }
 fdrmi() { docker rmi $(docker images -q); }
-fdbu() { docker build -t=$1; } # build image using a Dockerfile, e.g., $dbu tcnksm/test
-fdalias() { alias | grep 'docker' | sed 's/^\([^=]*\)=[^"]*"\([^"]*\)">0.*/\1                =>                \2/'| sed "s/['|\']//g" | sort; }
-brcadd(){ grep -q $1 ~/.bashrc && sed "s/$1.*/$1(){ $2 ; }/" -i ~/.bashrc || sed "$ a\\$1(){ $2 ; }" -i ~/.bashrc; source ~/.bashrc }
+fdbu() { docker build -t=$1; }
+fdhelp() { alias | grep 'alias d' | sed 's/^\([^=]*\)=[^"]*"\([^"]*\)">0.*/\1                =>                \2/'| sed "s/['|\']//g" | sort; }
+fdalias(){ grep -q $1 ~/.bashrc && sed "s/$1.*/$1(){ $2 ; }/" -i ~/.bashrc || sed "$ a\\$1(){ $2 ; }" -i ~/.bashrc; source ~/.bashrc }
 
 # make all fns with last container: [ -z $1 ] && echo '$(dl)' +  make chainable d - for args, last = id or imagenm, run each with name
 # add example commands to alias help
