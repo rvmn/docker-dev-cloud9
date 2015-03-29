@@ -4,7 +4,7 @@ FROM ubuntu:14.04
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN apt-get update && apt-get upgrade -y
 RUN echo deb http://archive.ubuntu.com/ubuntu precise main universe multiverse >> /etc/apt/sources.list
-RUN apt-get install -y build-essential g++ libssl-dev python-software-properties ruby-build apache2-utils git libxml2-dev mercurial man tree lsof wget openssl supervisor nano python ack-grep git-core curl zlib1g-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev libgdbm-dev libncurses5-dev automake libtool bison 
+RUN apt-get install -y build-essential g++ libssl-dev python-software-properties ruby-build apache2-utils git libxml2-dev mercurial man tree lsof wget openssl supervisor nano python ack-grep git-core curl zlib1g-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev  libffi-dev libgdbm-dev libncurses5-dev automake libtool bison python-pip python-dev 
 ENV SHELL /bin/bash
 ENV HOME /root
 ENV LANG en_US.UTF-8
