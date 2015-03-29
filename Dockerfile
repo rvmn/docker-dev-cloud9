@@ -83,7 +83,7 @@ RUN npm cache clean
 # set up workspace
 VOLUME /workspace
 VOLUME /var/lib/docker
-RUN cd /cloud9/ && ls -al
+RUN npm install -g forever
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/QuickStart.md
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/metbp.sh 
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/README.md
