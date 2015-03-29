@@ -25,20 +25,6 @@ ENV NODE_VERSION v0.10.31
 RUN echo 'source /nvm/nvm.sh && nvm install ${NODE_VERSION}' | bash -l
 ENV PATH /nvm/${NODE_VERSION}/bin:${PATH}
 RUN apt-get install -y npm
-#RUN echo "${HOME}/nvm/${NODE_VERSION}/bin:${PATH}" >> ~/.bashrc && source ~/.bashrc && npm install -g sm && npm install -g forever && /nvm/${NODE_VERSION}/lib/node_modules/sm/bin/sm install-command && sm install-npm && cd /cloud9 && sm install && make ace && make worker
-
-#RUN git clone https://github.com/ajaxorg/cloud9.git /cloud9
-#WORKDIR /cloud9
-#RUN npm install
-#RUN npm install -g sm
-#WORKDIR /cloud9/node_modules/ace
-#RUN make clean build
-#WORKDIR /cloud9/node_modules/packager
-#RUN rm -rf node_modules
-#RUN sm install
-#WORKDIR /cloud9
-#CMD ["make"]
-#RUN node ./node_modules/mappings/scripts/postinstall-notice.js
 
 # ruby
 RUN sudo gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
@@ -68,7 +54,8 @@ RUN eval "$(~/.pyenv/bin/pyenv virtualenv-init -)"
 RUN pip install virtualenv
 
 # Install Cloud9
-RUN git clone https://github.com/c9/core cloud9 && cd cloud9 && ./scripts/install-sdk.sh && npm install -g sm && cd ..
+RUN git clone https://github.com/c9/core cloud9
+RUN curl -L https://raw.githubusercontent.com/rvmn/docker-dev-cloud9/master/postinstall-cloud9.sh | bash
 #C9H RUN git clone https://github.com/AVGP/cloud9hub.git cloud9hub && cd cloud9hub && npm install
 #C9E
 
