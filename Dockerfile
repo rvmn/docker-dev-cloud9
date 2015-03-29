@@ -92,4 +92,4 @@ RUN mkdir meteor-apps && mkdir rails-apps
 EXPOSE 80:80
 EXPOSE 443:443
 EXPOSE 3131
-ENTRYPOINT ["forever","/cloud9/server.js","-w","/workspace","-l","0.0.0.0"]
+ENTRYPOINT ["forever","/cloud9/server.js","-p","3131","-w","/workspace","-l","0.0.0.0","-a"]
