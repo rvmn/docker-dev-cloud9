@@ -57,7 +57,7 @@ ENV BIND_IP $IP
 RUN mkdir -p /data/db && chmod -R 775 /data
 ruby -e "$(curl -fsSL https://raw.github.com/nitrous-io/autoparts/master/setup.rb)"
 RUN echo "alias parts='/.parts/autoparts/bin/parts'" > ~/.bashrc
-RUN source ~/.bashrc
+RUN echo 'source ~/.bashrc' | bash -l
 RUN parts install meteor
 
 # python
@@ -81,7 +81,7 @@ RUN echo "var exec = require('child_process').exec,child=exec('/usr/bin/supervis
 
 # alias and extra functions
 RUN curl -fsSL https://rawgit.com/rvmn/docker-dev-cloud9/master/docker-alias.sh >> ~/.bashrc
-RUN source ~/.bashrc
+RUN echo 'source ~/.bashrc' | bash -l
 
 # clean cache
 RUN apt-get autoremove -y
