@@ -83,8 +83,7 @@ RUN npm cache clean
 # set up workspace
 VOLUME /workspace
 VOLUME /var/lib/docker
-RUN ls -al
-RUN cat /cloud9/
+RUN cd /cloud9/ && ls -al
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/QuickStart.md
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/metbp.sh 
 RUN wget https://rawgit.com/rvmn/docker-dev-cloud9/master/README.md
@@ -93,4 +92,4 @@ RUN mkdir meteor-apps && mkdir rails-apps
 EXPOSE 80:80
 EXPOSE 443:443
 EXPOSE 3131
-ENTRYPOINT ["forever","~/cloud9/server.js","-w","/workspace","-l","0.0.0.0"]
+ENTRYPOINT ["forever","/cloud9/server.js","-w","/workspace","-l","0.0.0.0"]
