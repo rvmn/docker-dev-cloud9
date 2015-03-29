@@ -55,7 +55,7 @@ RUN pip install virtualenv
 
 # Install Cloud9
 RUN git clone https://github.com/c9/core cloud9
-RUN curl -L https://raw.githubusercontent.com/rvmn/docker-dev-cloud9/master/postinstall-cloud9.sh | bash
+RUN curl -L https://raw.githubusercontent.com/rvmn/docker-dev-cloud9/master/install-cloud9.sh | bash
 #C9H RUN git clone https://github.com/AVGP/cloud9hub.git cloud9hub && cd cloud9hub && npm install
 #C9E
 
