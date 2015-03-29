@@ -55,10 +55,10 @@ ENV GEM_PATH /lib/ruby/gems
 # meteor
 ENV BIND_IP $IP
 RUN mkdir -p /data/db && chmod -R 775 /data
-ruby -e "$(curl -fsSL https://raw.github.com/nitrous-io/autoparts/master/setup.rb)"
+RUN ruby -e "$(curl -fsSL https://raw.github.com/nitrous-io/autoparts/master/setup.rb)"
 RUN echo "alias parts='/.parts/autoparts/bin/parts'" > ~/.bashrc
 RUN echo 'source ~/.bashrc' | bash -l
-RUN /.parts/autoparts/bin/parts install meteor
+RUN parts install meteor
 
 # python
 RUN curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
