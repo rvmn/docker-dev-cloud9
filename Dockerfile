@@ -62,6 +62,9 @@ RUN ~/.parts/autoparts/bin/parts install meteor
 
 # python
 RUN curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+RUN export PATH="$HOME/.pyenv/bin:$PATH"
+RUN eval "$(pyenv init -)"
+RUN eval "$(pyenv virtualenv-init -)"
 RUN pip install virtualenv
 
 # Install Cloud9
