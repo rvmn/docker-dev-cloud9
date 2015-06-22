@@ -69,7 +69,7 @@ RUN git clone https://github.com/TAKEALOT/nodervisor ~/nodervisor && cd ~/noderv
 RUN sed -i -e 's_127.0.0.1_0.0.0.0_g' /cloud9/configs/standalone.js 
 
 # Add supervisord conf
-ADD supervisor.conf /etc/supervisor/conf.d/
+ADD supervisord.conf /etc/supervisor/conf.d/
 
 # ------------------------------------------------------------------------------
 # Add volumes
