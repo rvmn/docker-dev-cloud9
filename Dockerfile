@@ -63,6 +63,8 @@ VOLUME /var/lib/docker
 # Install Meteor
 RUN curl https://install.meteor.com/ | sh
 
+RUN rvm install ruby --latest
+
 # install parts
 RUN ruby -e "$(curl -fsSL https://raw.github.com/nitrous-io/autoparts/master/setup.rb)"
 
