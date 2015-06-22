@@ -67,7 +67,13 @@ RUN ruby -e "$(curl -fsSL https://raw.github.com/nitrous-io/autoparts/master/set
 
 # Install noVNC
 ADD startvnc.sh /startvnc.sh
-RUN apt-get install -y x11vnc python python-numpy unzip Xvfb firefox openbox geany menu && \
+RUN apt-get update \
+    && apt-get install -y --force-yes --no-install-recommends supervisor \
+        sudo vim-tiny \
+        net-tools \
+        lxde x11vnc xvfb python python-numpy unzip geany menu\
+        gtk2-engines-murrine ttf-ubuntu-font-family \
+        libreoffice firefox &&\
     cd /root && git clone https://github.com/kanaka/noVNC.git && \
     cd noVNC/utils && git clone https://github.com/kanaka/websockify websockify && \
     cd /root && \
