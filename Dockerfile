@@ -75,7 +75,7 @@ RUN /bin/bash -l -c "gem install bundler --no-ri --no-rdoc"
 RUN npm install -g forever
 
 # install parts
-RUN ruby -e "$(curl -fsSL https://raw.github.com/nitrous-io/autoparts/master/setup.rb)"
+RUN /bin/bash -l -c 'ruby -e "$(curl -fsSL https://raw.github.com/nitrous-io/autoparts/master/setup.rb)"'
 
 # Install VNC
 #ADD startvnc.sh /startvnc.sh
