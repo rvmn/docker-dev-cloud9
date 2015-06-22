@@ -62,15 +62,15 @@ RUN curl https://install.meteor.com/ | sh
 # Install Ruby and Rails
 RUN apt-get install -y patch gawk gcc make libc6-dev patch libreadline6-dev zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 autoconf libgdbm-dev libncurses5-dev automake libtool bison pkg-config libffi-dev
 RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
-RUN /bin/bash -c "curl -L get.rvm.io | bash -s stable"
+RUN /bin/bash -l -c "curl -L get.rvm.io | bash -s stable"
 RUN /bin/bash -c "source /etc/profile.d/rvm.sh"
-RUN /bin/bash -c "rvm requirements"
-RUN /bin/bash -c "rvm install ruby"
-RUN /bin/bash -c "rvm use ruby --default"
-RUN /bin/bash -c "rvm rubygems current"
-RUN /bin/bash -c "gem install rails"
-RUN /bin/bash -c "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
-RUN /bin/bash -c "gem install bundler --no-ri --no-rdoc"
+RUN /bin/bash -l -c "rvm requirements"
+RUN /bin/bash -l -c "rvm install ruby"
+RUN /bin/bash -l -c "rvm use ruby --default"
+RUN /bin/bash -l -c "rvm rubygems current"
+RUN /bin/bash -l -c "gem install rails"
+RUN /bin/bash -l -c "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
+RUN /bin/bash -l -c "gem install bundler --no-ri --no-rdoc"
 
 RUN npm install -g forever
 
