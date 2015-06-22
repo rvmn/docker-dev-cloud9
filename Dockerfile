@@ -11,7 +11,7 @@ RUN apt-get update
 RUN apt-get install -y build-essential g++ curl libssl-dev apache2-utils git libxml2-dev sshfs wget nano ruby ruby-dev ruby-bundler
 
 # Install rails
-RUN gem install rails -v 4.2.1
+RUN /bin/bash -c 'gem install rails -v 4.2.1'
 
 # ------------------------------------------------------------------------------
 # Install Node.js
