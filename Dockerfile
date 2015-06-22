@@ -60,7 +60,7 @@ RUN git clone https://github.com/TAKEALOT/nodervisor ~/nodervisor && cd ~/noderv
 RUN curl https://install.meteor.com/ | sh
 
 # install parts
-RUN ruby -e "$(curl -fsSL https://raw.github.com/nitrous-io/autoparts/master/setup.rb)" && exec $SHELL -l
+RUN ruby -e "$(curl -fsSL https://raw.github.com/nitrous-io/autoparts/master/setup.rb)"
 
 # Install noVNC
 ADD startup.sh /startup.sh
