@@ -10,10 +10,6 @@ MAINTAINER Roberto van Maanen <roberto.vanmaanen@gmail.com>
 RUN apt-get update
 RUN apt-get install -y build-essential g++ curl libssl-dev apache2-utils git libxml2-dev sshfs wget nano
 
-# Install Ruby and rails
-RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
-RUN curl -sSL https://get.rvm.io | bash -s stable --rails
-
 # ------------------------------------------------------------------------------
 # Install Node.js
 RUN curl -sL https://deb.nodesource.com/setup | bash -
@@ -63,12 +59,19 @@ VOLUME /var/lib/docker
 # Install Meteor
 RUN curl https://install.meteor.com/ | sh
 
-RUN rvm install ruby --latest
+# Install Ruby and Rails
+RUN apt-get install -y patch gawk gcc make libc6-dev patch libreadline6-dev zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 autoconf libgdbm-dev libncurses5-dev automake libtool bison pkg-config libffi-dev
+RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
+RUN /bin/bash -l -c "curl -L get.rvm.io | bash -s stable --rails"
+RUN /bin/bash -l -c "rvm install 2.1"
+RUN /bin/bash -l -c "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
+RUN /bin/bash -l -c "gem install bundler --no-ri --no-rdoc"
+RUN /bin/bash -l -c "source /home/$USER/.rvm/scripts/rvm"
 
 # install parts
 RUN ruby -e "$(curl -fsSL https://raw.github.com/nitrous-io/autoparts/master/setup.rb)"
 
-# Install noVNC
+# Install VNC
 #ADD startvnc.sh /startvnc.sh
 RUN \
   apt-get update && \
