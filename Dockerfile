@@ -66,7 +66,7 @@ RUN curl https://install.meteor.com/ | sh
 RUN ruby -e "$(curl -fsSL https://raw.github.com/nitrous-io/autoparts/master/setup.rb)"
 
 # Install noVNC
-ADD startvnc.sh /startvnc.sh
+#ADD startvnc.sh /startvnc.sh
 RUN \
   apt-get update && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y lxde-core lxterminal tightvncserver && \
