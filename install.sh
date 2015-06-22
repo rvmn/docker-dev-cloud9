@@ -19,8 +19,8 @@ EOF
 read -t 7
 
 # add aliases to bashrc of host system
-[ -z $( grep '#docker aliases' ~/.bashrc) ] && curl -fsSL https://raw.githubusercontent.com/rvmn/docker-dev-cloud9/master/docker-alias.sh >> ~/.bashrc && source ~/.bashrc
-brcadd dcset 'brcadd dcrun "docker run --privileged -d -v $(pwd):/workspace -p 3000:3000 -p 4000:4000 -p 5000:5000 -p 8181:8181 -p 6080:6080 $3 $4 cloud9 --username $1 --password $2"'
+[ -z $( grep '# docker aliases' ~/.bashrc) ] && curl -fsSL https://raw.githubusercontent.com/rvmn/docker-dev-cloud9/master/docker-alias.sh >> ~/.bashrc && source ~/.bashrc
+brcadd dcset 'brcadd dcrun "docker run --privileged -d -v $(pwd):/workspace -p 3000:3000 -p 4000:4000 -p 5000:5000 -p 8181:8181 -p 5901:5901 $3 $4 cloud9 --username $1 --password $2"'
 
 #build!
 docker build -t cloud9 .
