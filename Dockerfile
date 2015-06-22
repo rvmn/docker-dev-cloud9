@@ -68,6 +68,9 @@ RUN git clone https://github.com/TAKEALOT/nodervisor ~/nodervisor && cd ~/noderv
 # Install Meteor
 RUN curl https://install.meteor.com/ | sh
 
+# Install Docker from Docker Inc. repositories.
+RUN curl -sSL https://get.docker.com/ubuntu/ | sh
+
 # Tweak standlone.js conf
 RUN sed -i -e 's_127.0.0.1_0.0.0.0_g' /cloud9/configs/standalone.js 
 
