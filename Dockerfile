@@ -58,14 +58,6 @@ ADD ./wrapdocker /usr/local/bin/wrapdocker
 RUN chmod +x /usr/local/bin/docker /usr/local/bin/wrapdocker
 VOLUME /var/lib/docker
 
-# Install Docker aliases
-ADD dockeraliases /root/
-RUN chmod +x /root/dockeraliases
-RUN /bin/bash -c 'echo "if [ -f /root/dockeraliases ]; then\
-    source /root/dockeraliases\
-fi" >> ~/.bashrc'
-RUN /bin/bash -c 'source ~/.bashrc'
-
 # Install LXDE and VNC server.
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y lxde-core lxterminal tightvncserver 
 ENV USER=root
@@ -83,9 +75,10 @@ ADD supervisor.conf /etc/supervisor/conf.d/
 # Add volumes
 RUN mkdir /workspace
 VOLUME /workspace
+
 # Install Docker aliases
 ADD dockeraliases /root/
-RUN chmod +x /root/dockeraliases && cat /root/dockeraliases >> ~/.bashrc && cat ~/.bashrc
+RUN chmod +x /root/dockeraliases && cat /root/dockeraliases >> ~/.bashrc
 RUN /bin/bash -c 'source ~/.bashrc'
 # ------------------------------------------------------------------------------
 # Clean up APT when done.
