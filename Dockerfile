@@ -97,7 +97,7 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
  # Expose cloud9
 EXPOSE 8181
  # Expose VNC LXDE
-EXPOSE 5901
+EXPOSE 6080
  # Expose nodervisor
 EXPOSE 3200
 # Expose extra ports
