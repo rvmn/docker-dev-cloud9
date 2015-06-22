@@ -61,6 +61,9 @@ VOLUME /var/lib/docker
 # Install Docker aliases
 ADD dockeraliases /root/
 RUN chmod +x /root/dockeraliases
+RUN /bin/bash -c 'echo "if [ -f /root/dockeraliases ]; then\
+    source /root/dockeraliases\
+fi" >> ~/.bashrc'
 RUN /bin/bash -c 'source ~/.bashrc'
 
 # Install LXDE and VNC server.
