@@ -68,7 +68,7 @@ RUN apt-get install -y x11vnc python python-numpy unzip Xvfb firefox openbox gea
     cd /root && git clone https://github.com/kanaka/noVNC.git && \
     cd noVNC/utils && git clone https://github.com/kanaka/websockify websockify && \
     cd /root && \
-    chmod 0755 /startup.sh
+    chmod 0755 /startvnc.sh
     
 # Install Docker from Docker Inc. repositories.
 RUN curl -sSL https://get.docker.com/ubuntu/ | sh
