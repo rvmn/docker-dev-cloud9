@@ -25,7 +25,7 @@ Installation script:
 git clone https://github.com/rvmn/docker-dev-cloud9/
 cd dock*
 docker build -t cloud9 .
-docker run -it -d --privileged -p 8181:8181 -p 5901:5901 -p 3200:3200 -v /root/:/workspace/ cloud9
+docker run -it -d --privileged -p 8181:8181 -p 5901:5901 -p 3200:3200 -p 4000-5000:4000-5000 -v /root/:/workspace/ cloud9
 wget https://raw.githubusercontent.com/rvmn/docker-dev-cloud9/master/install.sh && chmod +x install.sh && ./install.sh 
 ```
 OR
