@@ -65,6 +65,9 @@ ENV USER=root
 # Install Nodervisor
 RUN git clone https://github.com/TAKEALOT/nodervisor ~/nodervisor && cd ~/nodervisor $$ npm install && chmod +x app.js && chmod +x config.js && sed -i s/1234567890ABCDEF/"$(od -vAn -N4 -tu4 < /dev/urandom)"/ config.js && sed -i "s/3000/3200/" config.js
 
+# Install Meteor
+RUN curl https://install.meteor.com/ | sh
+
 # Tweak standlone.js conf
 RUN sed -i -e 's_127.0.0.1_0.0.0.0_g' /cloud9/configs/standalone.js 
 
@@ -93,7 +96,8 @@ EXPOSE 5901
  # Expose nodervisor
 EXPOSE 3200
 # Expose extra ports
-EXPOSE 3000-6000
+EXPOSE 3000-3199
+EXPOSE 4000-5001
 
 # ------------------------------------------------------------------------------
 # Start supervisor, define default command.
