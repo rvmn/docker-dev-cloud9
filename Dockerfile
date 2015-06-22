@@ -63,7 +63,7 @@ RUN curl https://install.meteor.com/ | sh
 RUN ruby -e "$(curl -fsSL https://raw.github.com/nitrous-io/autoparts/master/setup.rb)"
 
 # Install noVNC
-ADD startup.sh /startup.sh
+ADD startvnc.sh /startvnc.sh
 RUN apt-get install -y x11vnc python python-numpy unzip Xvfb firefox openbox geany menu && \
     cd /root && git clone https://github.com/kanaka/noVNC.git && \
     cd noVNC/utils && git clone https://github.com/kanaka/websockify websockify && \
