@@ -130,4 +130,4 @@ EXPOSE 4000-5001
 # ------------------------------------------------------------------------------
 # Start supervisor, define default command.
 CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
-ENTRYPOINT ["forever", "/cloud9/server.js", "-w", "/workspace", "-l", "0.0.0.0"]
+ENTRYPOINT ["forever", "/cloud9/server.js", "-w", "/workspace", "-l", "0.0.0.0", "-p", "8181"]
