@@ -63,7 +63,7 @@ RUN curl https://install.meteor.com/ | sh
 RUN apt-get install -y patch gawk gcc make libc6-dev patch libreadline6-dev zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 autoconf libgdbm-dev libncurses5-dev automake libtool bison pkg-config libffi-dev
 RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
 RUN /bin/bash -l -c "curl -L get.rvm.io | bash -s stable"
-RUN /bin/bash -l -c "source ~/.rvm/scripts/rvm"
+RUN /bin/bash -c "source ~/.rvm/scripts/rvm"
 RUN /bin/bash -l -c "rvm requirements"
 RUN /bin/bash -l -c "rvm install ruby"
 RUN /bin/bash -l -c "rvm use ruby --default"
