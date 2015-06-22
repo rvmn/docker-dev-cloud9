@@ -8,10 +8,10 @@ MAINTAINER Roberto van Maanen <roberto.vanmaanen@gmail.com>
 # ------------------------------------------------------------------------------
 # Install base
 RUN apt-get update
-RUN apt-get install -y build-essential g++ curl libssl-dev apache2-utils git libxml2-dev sshfs wget nano ruby ruby-dev ruby-bundler rubygems
+RUN apt-get install -y build-essential g++ curl libssl-dev apache2-utils git libxml2-dev sshfs wget nano
 
-# Install rails
-RUN /bin/bash -c 'gem install rails -v 4.2.1'
+# Install Ruby and rails
+RUN curl -sSL https://get.rvm.io | bash -s stable --rails
 
 # ------------------------------------------------------------------------------
 # Install Node.js
@@ -67,17 +67,21 @@ RUN ruby -e "$(curl -fsSL https://raw.github.com/nitrous-io/autoparts/master/set
 
 # Install noVNC
 ADD startvnc.sh /startvnc.sh
-RUN apt-get update \
-    && apt-get install -y --force-yes --no-install-recommends supervisor \
-        sudo vim-tiny \
-        net-tools \
-        lxde x11vnc xvfb python python-numpy unzip geany menu\
-        gtk2-engines-murrine ttf-ubuntu-font-family \
-        libreoffice firefox &&\
-    cd /root && git clone https://github.com/kanaka/noVNC.git && \
-    cd noVNC/utils && git clone https://github.com/kanaka/websockify websockify && \
-    cd /root && \
-    chmod 0755 /startvnc.sh
+RUN \
+  apt-get update && \
+  DEBIAN_FRONTEND=noninteractive apt-get install -y lxde-core lxterminal tightvncserver && \
+  rm -rf /var/lib/apt/lists/*
+#apt-get update \
+#    && apt-get install -y --force-yes --no-install-recommends supervisor \
+#        sudo vim-tiny \
+#        net-tools \
+#        lxde x11vnc xvfb python python-numpy unzip geany menu\
+#        gtk2-engines-murrine ttf-ubuntu-font-family \
+#        libreoffice firefox &&\
+#    cd /root && git clone https://github.com/kanaka/noVNC.git && \
+#    cd noVNC/utils && git clone https://github.com/kanaka/websockify websockify && \
+#    cd /root && \
+#    chmod 0755 /startvnc.sh
     
 # Install Docker from Docker Inc. repositories.
 RUN curl -sSL https://get.docker.com/ubuntu/ | sh
@@ -106,9 +110,7 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
  # Expose cloud9
 EXPOSE 8181
  # Expose VNC LXDE
-EXPOSE 6080
- # Expose nodervisor
-EXPOSE 3200
+EXPOSE 5901
 # Expose extra ports
 EXPOSE 3000-3199
 EXPOSE 4000-5001
