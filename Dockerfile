@@ -62,11 +62,17 @@ RUN curl https://install.meteor.com/ | sh
 # Install Ruby and Rails
 RUN apt-get install -y patch gawk gcc make libc6-dev patch libreadline6-dev zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 autoconf libgdbm-dev libncurses5-dev automake libtool bison pkg-config libffi-dev
 RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
-RUN /bin/bash -l -c "curl -L get.rvm.io | bash -s stable --rails"
-#RUN /bin/bash -l -c "rvm install 2.1"
+RUN /bin/bash -l -c "curl -L get.rvm.io | bash -s stable"
+RUN /bin/bash -l -c "source ~/.rvm/scripts/rvm"
+RUN /bin/bash -l -c "rvm requirements"
+RUN /bin/bash -l -c "rvm install ruby"
+RUN /bin/bash -l -c "rvm use ruby --default"
+RUN /bin/bash -l -c "rvm rubygems current"
+RUN /bin/bash -l -c "gem install rails"
 RUN /bin/bash -l -c "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
 RUN /bin/bash -l -c "gem install bundler --no-ri --no-rdoc"
-RUN /bin/bash -l -c "source /home/$USER/.rvm/scripts/rvm"
+
+RUN npm install -g forever
 
 # install parts
 RUN ruby -e "$(curl -fsSL https://raw.github.com/nitrous-io/autoparts/master/setup.rb)"
@@ -124,3 +130,4 @@ EXPOSE 4000-5001
 # ------------------------------------------------------------------------------
 # Start supervisor, define default command.
 CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+ENTRYPOINT ["forever", "/cloud9/server.js", "-w", "/workspace", "-l", "0.0.0.0"]
