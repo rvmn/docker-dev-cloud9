@@ -8,7 +8,7 @@ MAINTAINER Roberto van Maanen <roberto.vanmaanen@gmail.com>
 # ------------------------------------------------------------------------------
 # Install base
 RUN apt-get update
-RUN apt-get install -y build-essential g++ curl libssl-dev apache2-utils git libxml2-dev sshfs wget nano
+RUN apt-get install -y build-essential g++ curl libssl-dev apache2-utils git libxml2-dev sshfs wget nano ruby ruby-dev ruby-bundler
 
 # ------------------------------------------------------------------------------
 # Install Node.js
@@ -20,11 +20,6 @@ RUN apt-get install -y nodejs
 RUN git clone https://github.com/c9/core.git /cloud9
 WORKDIR /cloud9
 RUN scripts/install-sdk.sh
-
-# ruby
-RUN git clone git://github.com/sstephenson/rbenv.git /.rbenv/
-ENV PATH /.rbenv/bin:/.rbenv/shims:${PATH}
-RUN cd /.rbenv && mkdir plugins && cd plugins && git clone git://github.com/sstephenson/ruby-build.git
 
 #Install Java & Maven
 RUN wget --no-verbose -O /tmp/apache-maven-3.2.2.tar.gz http://archive.apache.org/dist/maven/maven-3/3.2.2/binaries/apache-maven-3.2.2-bin.tar.gz
@@ -64,6 +59,17 @@ RUN git clone https://github.com/TAKEALOT/nodervisor ~/nodervisor && cd ~/noderv
 # Install Meteor
 RUN curl https://install.meteor.com/ | sh
 
+# install parts
+RUN ruby -e "$(curl -fsSL https://raw.github.com/nitrous-io/autoparts/master/setup.rb)" && exec $SHELL -l
+
+# Install noVNC
+ADD startup.sh /startup.sh
+RUN apt-get install -y x11vnc python python-numpy unzip Xvfb firefox openbox geany menu && \
+    cd /root && git clone https://github.com/kanaka/noVNC.git && \
+    cd noVNC/utils && git clone https://github.com/kanaka/websockify websockify && \
+    cd /root && \
+    chmod 0755 /startup.sh
+    
 # Install Docker from Docker Inc. repositories.
 RUN curl -sSL https://get.docker.com/ubuntu/ | sh
 
