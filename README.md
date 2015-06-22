@@ -22,6 +22,10 @@ Pre-requisites:
 Installation script:
 ----
 ```js
+git clone https://github.com/rvmn/docker-dev-cloud9/
+cd dock*
+docker build -t cloud9 .
+docker run -it -d --privileged -p 8181:8181 -v /root/:/workspace/ cloud9
 wget https://raw.githubusercontent.com/rvmn/docker-dev-cloud9/master/install.sh && chmod +x install.sh && ./install.sh 
 ```
 OR
