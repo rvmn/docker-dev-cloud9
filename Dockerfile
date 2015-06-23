@@ -68,9 +68,10 @@ RUN /bin/bash -l -c "rvm requirements"
 RUN /bin/bash -l -c "rvm install ruby"
 RUN /bin/bash -l -c "rvm use ruby --default"
 RUN /bin/bash -l -c "rvm rubygems current"
-RUN /bin/bash -l -c "gem install rails"
 RUN /bin/bash -l -c "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
 RUN /bin/bash -l -c "gem install bundler --no-ri --no-rdoc"
+RUN /bin/bash -l -c "gem install rails"
+
 
 RUN npm install -g forever
 
