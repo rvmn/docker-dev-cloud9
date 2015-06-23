@@ -8,7 +8,7 @@ MAINTAINER Roberto van Maanen <roberto.vanmaanen@gmail.com>
 # ------------------------------------------------------------------------------
 # Install base
 RUN apt-get update
-RUN apt-get install -y build-essential g++ curl libssl-dev apache2-utils git libxml2-dev sshfs wget nano
+RUN apt-get install -y build-essential g++ curl libssl-dev apache2-utils git libxml2-dev sshfs wget nano ruby ruby-dev ruby-bundle
 
 # ------------------------------------------------------------------------------
 # Install Node.js
@@ -65,12 +65,12 @@ RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
 RUN /bin/bash -l -c "curl -L get.rvm.io | bash -s stable"
 RUN /bin/bash -c "source /etc/profile.d/rvm.sh"
 RUN /bin/bash -l -c "rvm requirements"
-RUN /bin/bash -l -c "rvm install ruby"
-RUN /bin/bash -l -c "rvm use ruby --default"
+#RUN /bin/bash -l -c "rvm install ruby"
+RUN /bin/bash -l -c "rvm use ruby --system"
 RUN /bin/bash -l -c "rvm rubygems current"
 RUN /bin/bash -l -c "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
 RUN /bin/bash -l -c "gem install bundler --no-ri --no-rdoc"
-RUN /bin/bash -l -c "gem install rails"
+#RUN /bin/bash -l -c "gem install rails"
 
 
 RUN npm install -g forever
