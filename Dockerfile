@@ -21,32 +21,22 @@ RUN git clone https://github.com/c9/core.git /cloud9
 WORKDIR /cloud9
 RUN scripts/install-sdk.sh
 
-#Install Java & Maven
-RUN wget --no-verbose -O /tmp/apache-maven-3.2.2.tar.gz http://archive.apache.org/dist/maven/maven-3/3.2.2/binaries/apache-maven-3.2.2-bin.tar.gz
-RUN echo "87e5cc81bc4ab9b83986b3e77e6b3095 /tmp/apache-maven-3.2.2.tar.gz" | md5sum -c
-# install maven
-RUN tar xzf /tmp/apache-maven-3.2.2.tar.gz -C /opt/
-RUN ln -s /opt/apache-maven-3.2.2 /opt/maven
-RUN ln -s /opt/maven/bin/mvn /usr/local/bin
-RUN rm -f /tmp/apache-maven-3.2.2.tar.gz
-ENV MAVEN_HOME /opt/maven
-
-# set shell variables for java installation
-ENV java_version 1.8.0_11
-ENV filename jdk-8u11-linux-x64.tar.gz
-ENV downloadlink http://download.oracle.com/otn-pub/java/jdk/8u11-b12/$filename
-
-# download java, accepting the license agreement
-RUN wget --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" -O /tmp/$filename $downloadlink 
-
-# unpack java
-RUN mkdir /opt/java-oracle && tar -zxf /tmp/$filename -C /opt/java-oracle/
-ENV JAVA_HOME /opt/java-oracle/jdk$java_version
-ENV PATH $JAVA_HOME/bin:$PATH
-
-# configure symbolic links for the java and javac executables
-RUN update-alternatives --install /usr/bin/java java $JAVA_HOME/bin/java 20000 && update-alternatives --install /usr/bin/javac javac $JAVA_HOME/bin/javac 20000
-
+# Install Java 8 & Maven
+RUN \
+  echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
+  add-apt-repository -y ppa:webupd8team/java && \
+  apt-get update && \
+  apt-get install -y oracle-java8-installer && \
+  rm -rf /var/lib/apt/lists/* && \
+  rm -rf /var/cache/oracle-jdk8-installer
+ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+RUN  \
+  export DEBIAN_FRONTEND=noninteractive && \
+  sed -i 's/# \(.*multiverse$\)/\1/g' /etc/apt/sources.list && \
+  apt-get update && \
+  apt-get -y upgrade && \
+  apt-get install -y maven
+  
 # Docker
 ADD https://get.docker.io/builds/Linux/x86_64/docker-latest /usr/local/bin/docker
 ADD ./wrapdocker /usr/local/bin/wrapdocker
