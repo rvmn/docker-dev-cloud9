@@ -9,28 +9,26 @@ if [ "$conf" == "Y" ]; then
   echo "Enter a password:"
   read pass
   echo "
-  [program:cloud9]
-  command = node /cloud9/server.js --listen 0.0.0.0 --port 8181 -w /workspace --auth $user:$pass
-  directory = /cloud9
-  user = root
-  autostart = true
-  autorestart = true
-  stdout_logfile = /var/log/supervisor/cloud9.log
-  stderr_logfile = /var/log/supervisor/cloud9_errors.log
-  environment = NODE_ENV='production'
-  " >> supervisord.conf
+[program:cloud9]
+command = node /cloud9/server.js --listen 0.0.0.0 --port 8181 -w /workspace --auth $user:$pass
+directory = /cloud9
+user = root
+autostart = true
+autorestart = true
+stdout_logfile = /var/log/supervisor/cloud9.log
+stderr_logfile = /var/log/supervisor/cloud9_errors.log
+environment = NODE_ENV='production'" >> supervisord.conf
 else
   echo "
-  [program:cloud9]
-  command = node /cloud9/server.js --listen 0.0.0.0 --port 8181 -w /workspace 
-  directory = /cloud9
-  user = root
-  autostart = true
-  autorestart = true
-  stdout_logfile = /var/log/supervisor/cloud9.log
-  stderr_logfile = /var/log/supervisor/cloud9_errors.log
-  environment = NODE_ENV='production'
-  " >> supervisord.conf
+[program:cloud9]
+command = node /cloud9/server.js --listen 0.0.0.0 --port 8181 -w /workspace 
+directory = /cloud9
+user = root
+autostart = true
+autorestart = true
+stdout_logfile = /var/log/supervisor/cloud9.log
+stderr_logfile = /var/log/supervisor/cloud9_errors.log
+environment = NODE_ENV='production'" >> supervisord.conf
 fi
 cat supervisord.conf
 cat <<EOF  
