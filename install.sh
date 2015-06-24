@@ -32,7 +32,7 @@ else
   environment = NODE_ENV='production'
   " >> supervisord.conf
 fi
-  
+cat supervisord.conf
 cat <<EOF  
 ---------------------------------------------------------------------------------------------
 
