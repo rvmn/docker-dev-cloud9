@@ -61,16 +61,16 @@ RUN /bin/bash -l -c "gem install bundler --no-ri --no-rdoc"
 RUN /bin/bash -l -c 'ruby -e "$(curl -fsSL https://raw.github.com/nitrous-io/autoparts/master/setup.rb)"'
 
 # Install noVNC
-ADD startvnc.sh /root/startvnc.sh
-RUN apt-get update -y && \
-    apt-get install -y git x11vnc wget python python-numpy unzip Xvfb firefox openbox geany menu && \
-    cd /root && git clone https://github.com/kanaka/noVNC.git && \
-    cd noVNC/utils && git clone https://github.com/kanaka/websockify websockify && \
-    cd /root && \
-    chmod 0755 /root/startvnc.sh && \
-    apt-get autoclean && \
-    apt-get autoremove && \
-    rm -rf /var/lib/apt/lists/*
+#ADD startvnc.sh /root/startvnc.sh
+#RUN apt-get update -y && \
+#    apt-get install -y git x11vnc wget python python-numpy unzip Xvfb firefox openbox geany menu && \
+#    cd /root && git clone https://github.com/kanaka/noVNC.git && \
+#    cd noVNC/utils && git clone https://github.com/kanaka/websockify websockify && \
+#    cd /root && \
+#    chmod 0755 /root/startvnc.sh && \
+#    apt-get autoclean && \
+#    apt-get autoremove && \
+#    rm -rf /var/lib/apt/lists/*
 
 # Install Docker from Docker Inc. repositories.
 RUN curl -sSL https://get.docker.com/ubuntu/ | sh
@@ -99,7 +99,7 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
  # Expose cloud9
 EXPOSE 8181
  # Expose VNC LXDE
-EXPOSE 6080
+#EXPOSE 6080
 # Expose extra ports
 EXPOSE 3000
 EXPOSE 4000
