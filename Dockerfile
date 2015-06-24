@@ -1,6 +1,3 @@
-# ------------------------------------------------------------------------------
-# Based on a work at https://github.com/docker/docker.
-# ------------------------------------------------------------------------------
 # Pull base image.
 FROM kdelfour/supervisor-docker
 MAINTAINER Roberto van Maanen <roberto.vanmaanen@gmail.com>
@@ -38,9 +35,6 @@ ADD ./wrapdocker /usr/local/bin/wrapdocker
 RUN chmod +x /usr/local/bin/docker /usr/local/bin/wrapdocker
 VOLUME /var/lib/docker
 
-# Install Nodervisor
-#RUN git clone https://github.com/TAKEALOT/nodervisor ~/nodervisor && cd ~/nodervisor && npm install && chmod +x app.js && chmod +x config.js && sed -i s/1234567890ABCDEF/"$(od -vAn -N4 -tu4 < /dev/urandom)"/ config.js && sed -i "s/3000/3200/" config.js
-
 # Install Meteor
 RUN curl https://install.meteor.com/ | sh
 
@@ -55,22 +49,16 @@ RUN /bin/bash -l -c "rvm use ruby --default"
 RUN /bin/bash -l -c "rvm rubygems current"
 RUN /bin/bash -l -c "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
 RUN /bin/bash -l -c "gem install bundler --no-ri --no-rdoc"
-#RUN /bin/bash -l -c "gem install rails"
 
-# install autoparts
+# install parts
 RUN /bin/bash -l -c 'ruby -e "$(curl -fsSL https://raw.github.com/nitrous-io/autoparts/master/setup.rb)"'
 
-# Install noVNC
-#ADD startvnc.sh /root/startvnc.sh
-#RUN apt-get update -y && \
-#    apt-get install -y git x11vnc wget python python-numpy unzip Xvfb firefox openbox geany menu && \
-#    cd /root && git clone https://github.com/kanaka/noVNC.git && \
-#    cd noVNC/utils && git clone https://github.com/kanaka/websockify websockify && \
-#    cd /root && \
-#    chmod 0755 /root/startvnc.sh && \
-#    apt-get autoclean && \
-#    apt-get autoremove && \
-#    rm -rf /var/lib/apt/lists/*
+# Install VNC
+#ADD startvnc.sh /startvnc.sh
+RUN \
+  apt-get update && \
+  DEBIAN_FRONTEND=noninteractive apt-get install -y lxde-core lxterminal tightvncserver && \
+  rm -rf /var/lib/apt/lists/*
 
 # Install Docker from Docker Inc. repositories.
 RUN curl -sSL https://get.docker.com/ubuntu/ | sh
@@ -99,11 +87,10 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
  # Expose cloud9
 EXPOSE 8181
  # Expose VNC LXDE
-#EXPOSE 6080
+EXPOSE 5901
 # Expose extra ports
-EXPOSE 3000
-EXPOSE 4000
-EXPOSE 5000
+EXPOSE 3000-3199
+EXPOSE 4000-5001
 
 # ------------------------------------------------------------------------------
 # Start supervisor, define default command.
