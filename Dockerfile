@@ -101,7 +101,7 @@ EXPOSE 8181
  # Expose VNC LXDE
 EXPOSE 6080
 # Expose extra ports
-EXPOSE 3000-6001
+EXPOSE 3000-6000
 
 # ------------------------------------------------------------------------------
 # Start supervisor, define default command.
