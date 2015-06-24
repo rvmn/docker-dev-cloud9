@@ -1,14 +1,7 @@
 #!/bin/bash
-
-USER=${USER:-ubuntu}
-XWIDTH=${WIDTH:-1024}
-XHEIGHT=${HEIGHT:-768}
-XHEIGHT=$((XHEIGHT - 36))
-
-useradd --create-home --shell /bin/bash --user-group --groups adm,sudo $USER
-echo "$USER:$USER" | chpasswd
-chown $USER /home/$USER
-sed -i -e "s/USER/$USER/" -e "s/XWIDTH/$XWIDTH/" -e "s/XHEIGHT/$XHEIGHT/" /etc/supervisor/conf.d/supervisord.conf
-cat >> /etc/sudoers <<EOF
-${USER} ALL=NOPASSWD: ALL
-EOF
+export DISPLAY=:1
+Xvfb :1 -screen 0 1600x900x16 &
+sleep 5
+openbox-session&
+x11vnc -display :1 -nopw -listen localhost -xkb -ncache 10 -ncache_cr -forever &
+cd /root/noVNC && ln -s vnc_auto.html index.html && ./utils/launch.sh --vnc localhost:5900
