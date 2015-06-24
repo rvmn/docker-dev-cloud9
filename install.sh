@@ -10,7 +10,7 @@ if [ "$conf" == "Y" ]; then
   read pass
   echo "
   [program:cloud9]
-  command = node /cloud9/server.js --listen 0.0.0.0 --port 8181 -w /workspace --username $user --password $pass
+  command = node /cloud9/server.js --listen 0.0.0.0 --port 8181 -w /workspace --auth $user:$pass
   directory = /cloud9
   user = root
   autostart = true
