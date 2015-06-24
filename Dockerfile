@@ -8,7 +8,7 @@ MAINTAINER Roberto van Maanen <roberto.vanmaanen@gmail.com>
 # ------------------------------------------------------------------------------
 # Install base
 RUN apt-get update
-RUN apt-get install -y build-essential g++ curl libssl-dev apache2-utils git libxml2-dev sshfs wget nano ruby ruby-dev ruby-bundle
+RUN apt-get install -y build-essential g++ curl libssl-dev apache2-utils git libxml2-dev sshfs wget nano ruby ruby-dev ruby-bundler
 
 # ------------------------------------------------------------------------------
 # Install Node.js
