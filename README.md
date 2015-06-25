@@ -6,7 +6,7 @@ Setup uses an Ubuntu 14.04 (Trusty) base image and also installs Docker so you c
 fill them with your apps and push them to your other production server later. 
 
 Opened ports are 3000,4000 and 5000, free for anything to run.
-You can add any extra ports by trailing the ```dcset``` command described beneath with -p <PORT>:<PORT> (if needed multiple times; eg -p x:x -p y:y ).
+You can add any extra ports by trailing the ```dcrun``` command described beneath with -p <PORT>:<PORT> (if needed multiple ports; eg -p x:x -p y:y ).
 
 Many thanks to Ajax.org for making this great JS IDE, Cloud9 is great.
 
@@ -28,8 +28,7 @@ wget https://raw.githubusercontent.com/rvmn/docker-dev-cloud9/master/install.sh 
 
 After installation
 ------
-Set the server creds using a newly created ``` dcset ``` alias, open extra ports using ``` dcset -p 3050:3050 ```.
-Run the server with ``` dcrun ``` and if needed close using ``` dst ``` (closes last run docker), . 
+Run the server with ``` dcrun ```, later if needed close using ``` dst ``` (closes last run docker container). 
 Use ``` dhelp ``` to see all docker shortcuts. 
 Open Cloud9 IDE by going to your server-ip:8181, and refresh the page after first time loading it.
 Enjoy and create nice stuff!
@@ -49,7 +48,7 @@ A new rails app:
 											        
 To use root access:									    
 ```												      
-/bin/bash -c "command to run"				     				
+echo "command to run" | bash -l			     				
 ```													  
 
 
