@@ -7,18 +7,11 @@ MAINTAINER Roberto van Maanen <roberto.vanmaanen@gmail.com>
 RUN apt-get update
 RUN apt-get install -y build-essential g++ curl libssl-dev apache2-utils git libxml2-dev sshfs wget nano ruby ruby-dev ruby-bundler
 
-# ------------------------------------------------------------------------------
 # Install Node.js
 RUN curl -sL https://deb.nodesource.com/setup | bash -
-RUN apt-get install -y nodejs software-properties-common htop
-    
-# ------------------------------------------------------------------------------
-# Install Cloud9
-RUN git clone https://github.com/c9/core.git /cloud9
-WORKDIR /cloud9
-RUN scripts/install-sdk.sh
+RUN apt-get install -y nodejs
 
-# Install Java 8 & Maven
+ # Install Java 8 & Maven
 RUN add-apt-repository ppa:webupd8team/java
 RUN apt-get -y -q update
 RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
@@ -91,6 +84,10 @@ EXPOSE 5901
 # Expose extra ports
 EXPOSE 3000-3199
 EXPOSE 4000-5001
+
+# ------------------------------------------------------------------------------
+# Start supervisor, define default command.
+CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
 
 # ------------------------------------------------------------------------------
 # Start supervisor, define default command.
