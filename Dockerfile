@@ -1,6 +1,6 @@
 # Pull base image.
 FROM kdelfour/supervisor-docker
-MAINTAINER Roberto van Maanen <roberto.vanmaanen@gmail.com>
+MAINTAINER Roberto van Maanen <roberto.vanmaanen@outlook.com>
 
 # ------------------------------------------------------------------------------
 # Install base
@@ -11,17 +11,32 @@ RUN apt-get install -y build-essential g++ curl libssl-dev apache2-utils git lib
 RUN curl -sL https://deb.nodesource.com/setup | bash -
 RUN apt-get install -y nodejs software-properties-common htop
 
- # Install Java 8 & Maven
-RUN add-apt-repository ppa:webupd8team/java
+# Install c9launcher
+RUN git clone https://github.com/sirhypernova/c9launcher.git
+RUN cd c9launcher
+RUN cp config-example.json config.json
+
+RUN read -p "c9launcher crypto phrase:"
+RUN sed -i -e 's_"crypto": "a secret to encrypt workspace passwords"_"crypto": "$REPLY"_g' config.json 
+RUN npm install
+
+# Install Java 8 & Maven
+RUN read -p "Install Java JDK? [y/N]" -n 1 -r
+RUN echo    # (optional) move to a new line
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+#RUN add-apt-repository ppa:webupd8team/java
 RUN apt-get -y -q update
-RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
-RUN  \
-  export DEBIAN_FRONTEND=noninteractive && \
-  sed -i 's/# \(.*multiverse$\)/\1/g' /etc/apt/sources.list && \
-  apt-get update && \
-  apt-get -y upgrade && \
-  apt-get install -y oracle-java8-installer maven
-  
+#RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
+#RUN  \
+#  export DEBIAN_FRONTEND=noninteractive && \
+#  sed -i 's/# \(.*multiverse$\)/\1/g' /etc/apt/sources.list && \
+#  apt-get update && \
+#  apt-get -y upgrade && \
+#  apt-get install -y oracle-java8-installer maven
+RUN apt-get install openjdk-11-jdk
+fi
+
 # Docker
 ADD https://get.docker.io/builds/Linux/x86_64/docker-latest /usr/local/bin/docker
 ADD ./wrapdocker /usr/local/bin/wrapdocker
@@ -29,7 +44,12 @@ RUN chmod +x /usr/local/bin/docker /usr/local/bin/wrapdocker
 VOLUME /var/lib/docker
 
 # Install Meteor
+RUN read -p "Install Meteor? [y/N]" -n 1 -r
+RUN echo    # (optional) move to a new line
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
 RUN curl https://install.meteor.com/ | sh
+fi
 
 # Install Ruby and Rails
 RUN apt-get install -y patch gawk gcc make libc6-dev patch libreadline6-dev zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 autoconf libgdbm-dev libncurses5-dev automake libtool bison pkg-config libffi-dev
