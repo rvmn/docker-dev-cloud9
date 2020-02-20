@@ -1,9 +1,31 @@
 #!/bin/bash
 rm -rf docker-dev-cloud9 && apt-get install -y curl wget git && git clone https://raw.githubusercontent.com/rvmn/docker-dev-cloud9 && cd docker-dev-cloud9
 [ ! -z $1 ] && echo "ENV MONGO_URL $1" >> Dockerfile
-echo "Use a user:pass for Cloud9 [Y/n]:"
+
+[ -d "/c9launcher" ] && echo "
+[program:c9launcher]
+command = node /c9launcher/index.js
+directory = /c9launcher
+user = root
+autostart = true
+autorestart = true
+stdout_logfile = /var/log/supervisor/c9launcher.log
+stderr_logfile = /var/log/supervisor/c9launcher_errors.log
+environment = NODE_ENV='production'" >> supervisord.conf
+echo "Use a user:pass for Cloud9 [y/N]:"
 read conf
-if [ "$conf" == "Y" ]; then
+if [ "$conf" != "Yy" ]; then
+  echo "
+[program:cloud9]
+command = node /cloud9/server.js --listen 0.0.0.0 --port 8181 -w /workspace 
+directory = /cloud9
+user = root
+autostart = true
+autorestart = true
+stdout_logfile = /var/log/supervisor/cloud9.log
+stderr_logfile = /var/log/supervisor/cloud9_errors.log
+environment = NODE_ENV='production'" >> supervisord.conf
+else
   echo "Enter a username:"
   read user
   echo "Enter a password:"
@@ -18,17 +40,7 @@ autorestart = true
 stdout_logfile = /var/log/supervisor/cloud9.log
 stderr_logfile = /var/log/supervisor/cloud9_errors.log
 environment = NODE_ENV='production'" >> supervisord.conf
-else
-  echo "
-[program:cloud9]
-command = node /cloud9/server.js --listen 0.0.0.0 --port 8181 -w /workspace 
-directory = /cloud9
-user = root
-autostart = true
-autorestart = true
-stdout_logfile = /var/log/supervisor/cloud9.log
-stderr_logfile = /var/log/supervisor/cloud9_errors.log
-environment = NODE_ENV='production'" >> supervisord.conf
+
 fi
 cat supervisord.conf
 cat <<EOF  
