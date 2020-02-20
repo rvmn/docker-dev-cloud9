@@ -12,6 +12,10 @@ RUN curl -sL https://deb.nodesource.com/setup | bash -
 RUN apt-get install -y nodejs software-properties-common htop
 
 # Install c9launcher
+RUN read -p "Install c9launcher? [y/N]" -n 1 -r
+RUN echo    # (optional) move to a new line
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
 RUN git clone https://github.com/sirhypernova/c9launcher.git
 RUN cd c9launcher
 RUN cp config-example.json config.json
@@ -19,7 +23,10 @@ RUN cp config-example.json config.json
 RUN read -p "c9launcher crypto phrase:"
 RUN sed -i -e 's_"crypto": "a secret to encrypt workspace passwords"_"crypto": "$REPLY"_g' config.json 
 RUN npm install
-
+RUN cd ..
+ # Expose c9launcher
+EXPOSE 8080
+fi
 # Install Java 8 & Maven
 RUN read -p "Install Java JDK? [y/N]" -n 1 -r
 RUN echo    # (optional) move to a new line
