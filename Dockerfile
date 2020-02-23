@@ -8,7 +8,7 @@ RUN apt-get update
 RUN apt-get install -y build-essential g++ curl libssl-dev apache2-utils git libxml2-dev sshfs wget nano ruby ruby-dev ruby-bundler
 
 # Install Node.js
-RUN curl -sL https://deb.nodesource.com/setup | bash -
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
 RUN apt-get install -y nodejs software-properties-common htop
 
 # Install c9launcher
