@@ -1,5 +1,5 @@
 #!/bin/bash
-rm -rf docker-dev-cloud9 && apt-get install -y curl wget git && git clone https://raw.githubusercontent.com/rvmn/docker-dev-cloud9 && cd docker-dev-cloud9
+rm -rf docker-dev-cloud9 && apt-get install -y curl wget git && git clone https://www.github.com/rvmn/docker-dev-cloud9 && cd docker-dev-cloud9
 [ ! -z $1 ] && echo "ENV MONGO_URL $1" >> Dockerfile
 
 read -p "Install c9launcher? [Y/n]" -n 1 -r
