@@ -12,24 +12,18 @@ RUN curl -sL https://deb.nodesource.com/setup | bash -
 RUN apt-get install -y nodejs software-properties-common htop
 
 # Install c9launcher
-RUN read -p "Install c9launcher? [y/N]" -n 1 -r
-RUN echo    # (optional) move to a new line
-RUN if [[ $REPLY =~ ^[Yy]$ ]]; then
+
 RUN git clone https://github.com/sirhypernova/c9launcher.git
 RUN cd c9launcher
 RUN cp config-example.json config.json
-
 RUN read -p "c9launcher crypto phrase:"
 RUN sed -i -e 's_"crypto": "a secret to encrypt workspace passwords"_"crypto": "$REPLY"_g' config.json 
 RUN npm install
 RUN cd ..
  # Expose c9launcher
 EXPOSE 8080
-RUN fi
+
 # Install Java 8 & Maven
-RUN read -p "Install Java JDK? [y/N]" -n 1 -r
-RUN echo    # (optional) move to a new line
-RUN if [[ $REPLY =~ ^[Yy]$ ]]; then
 #RUN add-apt-repository ppa:webupd8team/java
 RUN apt-get -y -q update
 #RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
@@ -40,7 +34,6 @@ RUN apt-get -y -q update
 #  apt-get -y upgrade && \
 #  apt-get install -y oracle-java8-installer maven
 RUN apt-get install openjdk-11-jdk
-RUN fi
 
 # Docker
 ADD https://get.docker.io/builds/Linux/x86_64/docker-latest /usr/local/bin/docker
@@ -49,11 +42,7 @@ RUN chmod +x /usr/local/bin/docker /usr/local/bin/wrapdocker
 VOLUME /var/lib/docker
 
 # Install Meteor
-RUN read -p "Install Meteor? [y/N]" -n 1 -r
-RUN echo    # (optional) move to a new line
-RUN if [[ $REPLY =~ ^[Yy]$ ]];then
 RUN curl https://install.meteor.com/ | sh
-RUN fi
 
 # Install Ruby and Rails
 RUN apt-get install -y patch gawk gcc make libc6-dev patch libreadline6-dev zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 autoconf libgdbm-dev libncurses5-dev automake libtool bison pkg-config libffi-dev
