@@ -12,7 +12,7 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
 RUN apt-get install -y nodejs software-properties-common htop
 
 # Install c9launcher
-
+RUN export TERM=xterm
 RUN git clone https://github.com/sirhypernova/c9launcher.git
 RUN cd c9launcher
 RUN cp config-example.json config.json
