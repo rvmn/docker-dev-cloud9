@@ -2,7 +2,11 @@
 rm -rf docker-dev-cloud9 && apt-get install -y curl wget git && git clone https://raw.githubusercontent.com/rvmn/docker-dev-cloud9 && cd docker-dev-cloud9
 [ ! -z $1 ] && echo "ENV MONGO_URL $1" >> Dockerfile
 
-[ -d "/c9launcher" ] && echo "
+read -p "Install c9launcher? [Y/n]" -n 1 -r
+echo    # (optional) move to a new line
+if [[ ! $REPLY =~ ^[Nn]$ ]]
+then
+    echo "
 [program:c9launcher]
 command = node /c9launcher/index.js
 directory = /c9launcher
@@ -12,9 +16,11 @@ autorestart = true
 stdout_logfile = /var/log/supervisor/c9launcher.log
 stderr_logfile = /var/log/supervisor/c9launcher_errors.log
 environment = NODE_ENV='production'" >> supervisord.conf
-echo "Use a user:pass for Cloud9 [y/N]:"
-read conf
-if [ "$conf" != "Yy" ]; then
+fi
+read -p "Use a user:pass for Cloud9 [Y/n]:"  -n 1 -r
+echo    # (optional) move to a new line
+if [[ $REPLY =~ ^[Nn]$ ]]
+then
   echo "
 [program:cloud9]
 command = node /cloud9/server.js --listen 0.0.0.0 --port 8181 -w /workspace 
@@ -26,10 +32,8 @@ stdout_logfile = /var/log/supervisor/cloud9.log
 stderr_logfile = /var/log/supervisor/cloud9_errors.log
 environment = NODE_ENV='production'" >> supervisord.conf
 else
-  echo "Enter a username:"
-  read user
-  echo "Enter a password:"
-  read pass
+  read -p "Enter a username:" user
+  read -p "Enter a password:" pass
   echo "
 [program:cloud9]
 command = node /cloud9/server.js --listen 0.0.0.0 --port 8181 -w /workspace --auth $user:$pass
