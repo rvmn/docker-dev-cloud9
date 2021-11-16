@@ -1,11 +1,11 @@
-docker-dev-cloud9
+docker-dev-cloud9 (updated, 2021 version)
 =================
 
-A Docker Live development container with pre-installed Cloud9 IDE with Docker, and out-of-the-box support for: Ruby, Meteor, Nodejs, Python, Java/Maven.
-Setup uses an Ubuntu 14.04 (Trusty) base image and also installs Docker so you can relax and install docker containers from within Cloud9, 
+A Docker Live development container with pre-installed Cloud9 IDE with Docker, and out-of-the-box preinstalled: PHP7.4 (composer), Nodejs (nvm), Python3.
+Setup uses an Ubuntu 18.04 (Xenial) base image and also installs Docker in Docker so you can relax and install docker containers from within Cloud9, 
 fill them with your apps and push them to your other production server later. 
 
-Opened ports are 3000,4000 and 5000, free for anything to run.
+Opened ports are 3000-5000, free for anything to run.
 You can add any extra ports by trailing the ```dcrun``` command described beneath with -p <PORT>:<PORT> (if needed multiple ports; eg -p x:x -p y:y ).
 
 Many thanks to Ajax.org for making this great JS IDE, Cloud9 is great.
