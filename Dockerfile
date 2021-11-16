@@ -1,84 +1,81 @@
 # Pull base image.
-FROM kdelfour/supervisor-docker
+FROM dcagatay/ubuntu-dind
 MAINTAINER Roberto van Maanen <roberto.vanmaanen@outlook.com>
+
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TERM=xterm
+
+# replace shell with bash so we can source files
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+
+ENV TZ=Europe/Amsterdam
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive TZ="Europe/Amsterdam" apt-get install -y tzdata
 
 # ------------------------------------------------------------------------------
 # Install base
 RUN apt-get update
-RUN apt-get install -y build-essential g++ curl libssl-dev apache2-utils git libxml2-dev sshfs wget nano ruby ruby-dev ruby-bundler
+RUN apt-get install -y build-essential g++ curl libssl-dev apache2-utils git libxml2-dev wget nano
+
+# Install dependencies:
+RUN apt-get update && apt-get install -y ca-certificates openssh-client \
+    wget curl iptables locales \
+    && rm -rf /var/lib/apt/list/* \
+    && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
+ && locale-gen en_US.UTF-8 \
+ && dpkg-reconfigure locales \
+ && /usr/sbin/update-locale LANG=en_US.UTF-8
+
 
 # Install Node.js
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
-RUN apt-get install -y nodejs software-properties-common htop
-
-# Install c9launcher
+RUN mkdir /root/.nvm
+ENV NVM_DIR /root/.nvm
+RUN apt-get update \
+  && apt-get install -y openssh-server git bash openssl g++ make curl wget python gnupg apache2-utils \
+  && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash \
+  && source $NVM_DIR/nvm.sh \
+  && nvm install 8 \
+  && npm i -g forever yarn
 RUN export TERM=xterm
-RUN git clone https://github.com/sirhypernova/c9launcher.git
-RUN cd c9launcher
-RUN cp config-example.json config.json
-RUN read -p "c9launcher crypto phrase:"
-RUN sed -i -e 's_"crypto": "a secret to encrypt workspace passwords"_"crypto": "$REPLY"_g' config.json 
-RUN npm install
-RUN cd ..
- # Expose c9launcher
-EXPOSE 8080
 
-# Install Java 8 & Maven
-#RUN add-apt-repository ppa:webupd8team/java
-RUN apt-get -y -q update
-#RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
-#RUN  \
-#  export DEBIAN_FRONTEND=noninteractive && \
-#  sed -i 's/# \(.*multiverse$\)/\1/g' /etc/apt/sources.list && \
-#  apt-get update && \
-#  apt-get -y upgrade && \
-#  apt-get install -y oracle-java8-installer maven
-RUN apt-get install openjdk-11-jdk
+# Install php 7.4 and composer
+RUN apt update && apt install -y software-properties-common && LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php \
+   && apt update && apt-cache search php && apt install -y php7.4 php7.4-mbstring php7.4-dom php7.4-mysql \
+   && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+   && php composer-setup.php  --install-dir=/usr/local/bin --filename=composer \
+   && php -r "unlink('composer-setup.php');"
 
 # Docker
-ADD https://get.docker.io/builds/Linux/x86_64/docker-latest /usr/local/bin/docker
-ADD ./wrapdocker /usr/local/bin/wrapdocker
-RUN chmod +x /usr/local/bin/docker /usr/local/bin/wrapdocker
-VOLUME /var/lib/docker
+#RUN apt-get install -y \
+#    apt-transport-https \
+#    ca-certificates \
+#    curl \
+#    gnupg \
+#    lsb-release \
+#    lxc \
+#    iptables
+#RUN  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg    
+#RUN echo \
+#  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+#  $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+#RUN  apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io
 
-# Install Meteor
-RUN curl https://install.meteor.com/ | sh
-
-# Install Ruby and Rails
-RUN apt-get install -y patch gawk gcc make libc6-dev patch libreadline6-dev zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 autoconf libgdbm-dev libncurses5-dev automake libtool bison pkg-config libffi-dev
-RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
-RUN /bin/bash -l -c "curl -L get.rvm.io | bash -s stable"
-RUN /bin/bash -c "source /etc/profile.d/rvm.sh"
-RUN /bin/bash -l -c "rvm requirements"
-RUN /bin/bash -l -c "rvm install ruby"
-RUN /bin/bash -l -c "rvm use ruby --default"
-RUN /bin/bash -l -c "rvm rubygems current"
-RUN /bin/bash -l -c "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
-RUN /bin/bash -l -c "gem install bundler --no-ri --no-rdoc"
-
-# install parts
-RUN /bin/bash -l -c 'ruby -e "$(curl -fsSL https://raw.github.com/nitrous-io/autoparts/master/setup.rb)"'
-
-# Install VNC
-#ADD startvnc.sh /startvnc.sh
-RUN \
-  apt-get update && \
-  DEBIAN_FRONTEND=noninteractive apt-get install -y lxde-core lxterminal tightvncserver && \
-  rm -rf /var/lib/apt/lists/*
-
-# Install Docker from Docker Inc. repositories.
-RUN curl -sSL https://get.docker.com/ubuntu/ | sh
+# Install the magic wrapper.
+#ADD ./wrapdocker /usr/local/bin/wrapdocker
+#RUN chmod +x /usr/local/bin/wrapdocker
 
 # Install Cloud9
 RUN git clone https://github.com/c9/core.git /cloud9
 WORKDIR /cloud9
 RUN scripts/install-sdk.sh
 
-# Tweak standlone.js conf
-RUN sed -i -e 's_127.0.0.1_0.0.0.0_g' /cloud9/configs/standalone.js 
+ADD run.sh /
+RUN chmod +x /run.sh
 
-# Add supervisord conf
-ADD supervisord.conf /etc/supervisor/conf.d/
+# Tweak standlone.js conf
+ADD standalone.js /cloud9/plugins/c9.vfs.standalone/
+RUN sed -i -e 's_127.0.0.1_0.0.0.0_g' /cloud9/configs/standalone.js
+
 
 # ------------------------------------------------------------------------------
 # Add volumes
@@ -89,6 +86,7 @@ VOLUME /workspace
 ADD dockeraliases /root/
 RUN chmod +x /root/dockeraliases && cat /root/dockeraliases >> ~/.bashrc
 RUN /bin/bash -c 'source ~/.bashrc'
+
 # ------------------------------------------------------------------------------
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -97,12 +95,8 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 # Expose ports.
  # Expose cloud9
 EXPOSE 8181
- # Expose VNC LXDE
-EXPOSE 5901
-# Expose extra ports
-EXPOSE 3000-3199
-EXPOSE 4000-5001
-
+EXPOSE 3000-5001
+ENTRYPOINT ["/run.sh"]
 # ------------------------------------------------------------------------------
 # Start supervisor, define default command.
-CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+CMD ["--auth",":"]
