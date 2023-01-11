@@ -31,7 +31,7 @@ RUN apt-get update && apt-get install -y ca-certificates openssh-client \
 RUN mkdir /root/.nvm
 ENV NVM_DIR /root/.nvm
 RUN apt-get update \
-  && apt-get install -y openssh-server git bash openssl g++ make curl wget python2 python-is-python2 gnupg apache2-utils \
+  && apt-get install -y openssh-server git bash openssl g++ make curl wget python2 gnupg apache2-utils \
   && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash \
   && source $NVM_DIR/nvm.sh \
   && nvm install 8 \
