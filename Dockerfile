@@ -1,12 +1,6 @@
-# Pull base image.
-FROM dcagatay/ubuntu-dind
-MAINTAINER Roberto van Maanen <roberto.vanmaanen@outlook.com>
-
+FROM nestybox/ubuntu-focal-systemd-docker:latest
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TERM=xterm
-
-# replace shell with bash so we can source files
-RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 ENV TZ=Europe/Amsterdam
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -22,10 +16,12 @@ RUN apt-get update && apt-get install -y ca-certificates openssh-client \
     wget curl iptables locales \
     && rm -rf /var/lib/apt/list/* \
     && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
- && locale-gen en_US.UTF-8 \
- && dpkg-reconfigure locales \
+    && locale-gen en_US.UTF-8 \
+    && dpkg-reconfigure locales \
  && /usr/sbin/update-locale LANG=en_US.UTF-8
 
+# replace shell with bash so we can source files
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 # Install Node.js
 RUN mkdir /root/.nvm
@@ -34,54 +30,67 @@ RUN apt-get update \
   && apt-get install -y openssh-server git bash openssl g++ make curl wget python2 gnupg apache2-utils \
   && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash \
   && source $NVM_DIR/nvm.sh \
-  && nvm install 8 \
-  && npm i -g forever yarn
-RUN export TERM=xterm
+  && nvm install 10 \
+  && npm i -g forever yarn \
+  && git clone https://github.com/sirhypernova/c9launcher && cd c9launcher && cp config-example.json config.json && yarn install && cd ..
+ # Expose c9launcher
+EXPOSE 8080
 
-# Install php 7.4 and composer
-RUN apt update && apt install -y software-properties-common && LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php \
-   && apt update && apt-cache search php && apt install -y php7.4 php7.4-mbstring php7.4-dom php7.4-mysql \
-   && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-   && php composer-setup.php  --install-dir=/usr/local/bin --filename=composer \
-   && php -r "unlink('composer-setup.php');"
-
-# Docker
-#RUN apt-get install -y \
-#    apt-transport-https \
-#    ca-certificates \
-#    curl \
-#    gnupg \
-#    lsb-release \
-#    lxc \
-#    iptables
-#RUN  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg    
-#RUN echo \
-#  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-#  $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-#RUN  apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io
-
-# Install the magic wrapper.
-#ADD ./wrapdocker /usr/local/bin/wrapdocker
-#RUN chmod +x /usr/local/bin/wrapdocker
+# Install VNC
+ADD startvnc.sh /startvnc.sh
+ENV USER root
+RUN \
+  apt-get update && \
+  DEBIAN_FRONTEND=noninteractive apt-get install -y lxde-core lxterminal tightvncserver xfce4 xfce4-goodies && \
+  rm -rf /var/lib/apt/lists/*
+EXPOSE 5901
+#RUN mkdir  ~/.vnc && echo "#!/bin/sh\
+#xrdb "$HOME/.Xresources"\
+#xsetroot -solid grey\
+#export XKL_XMODMAP_DISABLE=1\
+#/etc/X11/Xsession\
+#startxfce4\
+#" > ~/.vnc/xstartup
 
 # Install Cloud9
 RUN git clone https://github.com/c9/core.git /cloud9
 WORKDIR /cloud9
 RUN scripts/install-sdk.sh
 
-ADD run.sh /
-RUN chmod +x /run.sh
-
 # Tweak standlone.js conf
-ADD standalone.js /cloud9/plugins/c9.vfs.standalone/
+#ADD standalone.js /cloud9/plugins/c9.vfs.standalone/
 RUN sed -i -e 's_127.0.0.1_0.0.0.0_g' /cloud9/configs/standalone.js
 
+#ADD run.sh /
+#RUN chmod +x /run.sh
 
+# Install snap
+ENV container docker
+ENV PATH "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+ENV LANG C.UTF-8
+ENV LC_ALL C.UTF-8
+RUN apt-get update &&\
+ DEBIAN_FRONTEND=noninteractive\
+ apt-get install -y fuse snapd snap-confine squashfuse sudo init &&\
+ apt-get clean &&\
+ dpkg-divert --local --rename --add /sbin/udevadm &&\
+ ln -s /bin/true /sbin/udevadm
+VOLUME ["/sys/fs/cgroup"]
+VOLUME ["/lib/modules"]
+STOPSIGNAL SIGRTMIN+3
+
+RUN systemctl enable snapd
+
+# Example of a systemd service created to showcase a custom entry-point.
+COPY start.sh /usr/bin/
+COPY start.service /lib/systemd/system/
+RUN chmod +x /usr/bin/start.sh &&                               \
+    ln -sf /lib/systemd/system/start.service                    \
+       /etc/systemd/system/multi-user.target.wants/start.service
 # ------------------------------------------------------------------------------
 # Add volumes
 RUN mkdir /workspace
 VOLUME /workspace
-
 # Install Docker aliases
 ADD dockeraliases /root/
 RUN chmod +x /root/dockeraliases && cat /root/dockeraliases >> ~/.bashrc
@@ -95,8 +104,14 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 # Expose ports.
  # Expose cloud9
 EXPOSE 8181
-EXPOSE 3000-5001
-ENTRYPOINT ["/run.sh"]
+EXPOSE 3000
+EXPOSE 4000
+EXPOSE 5000
+#ENTRYPOINT [ "/usr/bin/start.sh" ]
 # ------------------------------------------------------------------------------
 # Start supervisor, define default command.
-CMD ["--auth",":"]
+CMD ["/sbin/init"]
+#CMD ["--auth",":"]
+#CMD ["/lib/systemd/systemd"]
+# Set systemd as entrypoint.
+#ENTRYPOINT [ "/sbin/init", "--log-level=err" ]
